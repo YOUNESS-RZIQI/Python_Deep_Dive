@@ -1,0 +1,15 @@
+1) Polymorphism :
+
+        1* function overloading
+        2* operator overloading
+        3* function overriding
+
+2)  Abstract Calss:
+
+        1* to inforce "sertant methods" to exist by "the way i want".
+            it infoce to do overriding to sertent things.
+
+        2* in the ABC there is just interface of the methods
+        
+        3* can not creat obj from ABC
+ 
