@@ -77,7 +77,6 @@ class SensorStream(DataStream):
             new_list += [criteria]
             return new_list
         except Exception as e:
-            print(e)
             return [False]
 
     def process_batch(self, data_batch: List[Any]) -> str:
@@ -197,9 +196,13 @@ class TransactionStream(DataStream):
 
             self.data_batch = data_batch
 
+
             self.operations = len(self.transaction_batch_list)
 
             self.net_flow = self.buys - self.sells
+
+            if self.net_flow > 20:
+                self.large_transaction += 1
 
             sign = "+" if self.net_flow > 0 else ""
             return (f"{self.operations} operation(s) processed, net flow: {sign}{self.net_flow} {self.criteria}")
@@ -367,24 +370,43 @@ class StreamProcessor:
         """
         print("\n=== Polymorphic Stream Processing ===")
         print("Processing mixed stream types through unified interface...\n")
+        lst = [[SensorStream(), ["SENSOR_001", "Environmental Data", ["temp:22.5", "pressure:1013"]]],
+               [TransactionStream(), ["TRANS_001", "Financial Data",  ["buy:100", "sell:23", "sell:150", "buy:75"] ]],
+               [EventStream(), ["EVENT_001", "System Events", ["login", "error", "logout"]]]]
+
+        print("Batch 1 Results:")
+        for obj, data in lst:
+            obj.process_batch(obj.filter_data(data))
+            splited = (obj.get_stats())[obj.__name__+" analysis:"].split(",")
+            print(f"- {obj.__name__} data:", (splited[0]))
 
         sensor_obj = SensorStream()
-        transactoin_obj = TransactionStream()
-        event_obj = EventStream()
+        sensor_obj.filter_data([])
+        sensor_obj.filter_data([])
+        demo_alart = sensor_obj.alerts
 
-        sensor_data = ["SENSOR_001", "Environmental Data", ["temp:22.5", "humidity:65", "pressure:1013"]]
-        tranactions_data = ["TRANS_001", "Financial Data",  ["buy:100", "sell:150", "buy:75"] ]
-        event_data = ["EVENT_001", "System Events", ["login", "error", "logout"]]
-
-        print("Batch 1 Results:\n")
-        transactoin_obj.process_batch(transactoin_obj.filter_data(tranactions_data))
-        splited = (transactoin_obj.get_stats())[transactoin_obj.__name__+" analysis:"].split(",")
-        print(f"- {transactoin_obj.__name__} data:", (splited[0]))
+        tr_obj = TransactionStream()
+        tr_obj.process_batch(tr_obj.filter_data(["TRANS_001", "Financial Data",  ["buy:100", "sell:150", "buy:75"]]))
+        print("\nStream filtering active: High-priority data only")
+        print(f"Filtered results: {demo_alart} critical sensor alerts, {tr_obj.large_transaction} large transaction")
 
 
 
+def data_stream() -> None:
+    """
 
-StreamProcessor().sensor_streaming_output()
-StreamProcessor().transaction_streaming_output()
-StreamProcessor().event_streaming_output()
-# StreamProcessor().polymorphic_stream_processing()
+    """
+
+    print("=== CODE NEXUS - POLYMORPHIC STREAM SYSTEM ===\n")
+
+    stream = StreamProcessor()
+
+    stream.sensor_streaming_output()
+    stream.transaction_streaming_output()
+    stream.event_streaming_output()
+    stream.polymorphic_stream_processing()
+    print("\nAll streams processed successfully. Nexus throughput optimal.")
+
+
+if __name__ == "__main__":
+    data_stream()
