@@ -47,14 +47,14 @@ class SensorStream(DataStream):
     SensorStream processes temperature/sensor data with alerts for extreme values
     """
 
-    def __init__(self, stream_id: str = "", type: str = "",
+    def __init__(self, id: str = "", type: str = "",
                  sensor_batch_list: Dict[str, Union[int, float]] = {},
                  readings_processed: int = 0, avg_temp: float = 0.0,
                  criteria: str = "°C"):
         """    """
         self.__name__ = "Sensor"
         self.data_batch = []
-        self.stream_id = stream_id
+        self.id = id
         self.type = type
         self.sensor_batch_list = sensor_batch_list
         self.criteria = criteria
@@ -69,7 +69,7 @@ class SensorStream(DataStream):
         Filter data based on criteria
         """
         try:
-            if len(data_batch) != 3:
+            if len(data_batch) != 3 or isinstance(data_batch[2], list) is not True:
                 self.alerts += 1
                 raise ValueError("\nError in SensorStream Class: Exact Place 'filter_data' method\n")
 
@@ -79,7 +79,6 @@ class SensorStream(DataStream):
         except Exception as e:
             print(e)
             return [False]
-
 
     def process_batch(self, data_batch: List[Any]) -> str:
 
@@ -93,7 +92,7 @@ class SensorStream(DataStream):
 
 #           [ Id, sensor word, [temp:22.5, humidity:65, pressure:1013], Optional[str|None]]
 
-            self.stream_id, self.type, self.sensor_batch_list, criteria = data_batch
+            self.id, self.type, self.sensor_batch_list, criteria = data_batch
 
             if criteria is not None:
                 self.criteria = criteria
@@ -120,14 +119,12 @@ class SensorStream(DataStream):
     def get_stats(self) -> Dict[str, Union[str, int, float]]:
 
         """
-        return a format depentding on process
+        Return stream statistics.
         """
-       
-        return {"Stream ID:": f"{self.stream_id}, Type: {self.type}",
+        obj = SensorStream()
+        return {"Stream ID:": f"{self.id}, Type: {self.type}",
                 "Processing sensor batch:": f"{self.sensor_batch_list}",
-                "Sensor analysis:": self.process_batch(self.filter_data(self.data_batch))}
-
-
+                "Sensor analysis:": obj.process_batch(obj.filter_data(self.data_batch))}
 
 
 class TransactionStream(DataStream):
@@ -136,7 +133,92 @@ class TransactionStream(DataStream):
     TransactionStream processes buy/sell operations with net flow calculations
     """
 
-    pass
+    def __init__(self, id: str = "", type: str = "", transactoin_batch_list: str = "",
+                 large_transaction: Union[int, float] = 0, net_flow: int = 0,
+                 operations: int = 0):
+        """
+            Initializing Object Variables.
+        """
+        self.__name__ = "Transaction"
+        self.id = id
+        self.type = type
+        self.transaction_batch_list = transactoin_batch_list
+        self.data_batch = []
+        self.criteria = "unit(s)"
+        self.buys = 0
+        self.sells = 0
+        self.net_flow = net_flow
+        self.large_transaction = large_transaction
+        self.operations = operations
+        self.alerts = 0
+
+    def filter_data(self, data_batch: List[Any], criteria: Optional[str] = None) -> List[Any]:
+
+        """
+        Filter data based on criteria
+        """
+        try:
+            if len(data_batch) != 3 or isinstance(data_batch[2], list) is not True:
+                self.alerts += 1
+                raise ValueError("\nError in TransactionStream Class: Exact Place 'filter_data' method\n")
+
+            new_list = [True] + data_batch
+            new_list += [criteria]
+            return new_list
+        except Exception as e:
+            print(e)
+            return [False]
+
+    def process_batch(self, data_batch: List[Any]) -> str:
+
+        """
+        Process a batch of data
+        """
+        try:
+            if data_batch[0] is False:
+                raise ValueError("\nError in TransactionStream Class: Exact Place 'process_batch' method\n")
+            del data_batch[0]
+
+#           [ Id, Transactions,  [buy:100, sell:150, buy:75], Optional[str|None]]
+
+            self.id, self.type, self.transaction_batch_list, criteria = data_batch
+
+            if criteria is not None:
+                self.criteria = criteria
+            del data_batch[-1]
+
+            for element in (self.transaction_batch_list):
+                if "buy" in element:
+                    splited = element.split(":")
+                    self.buys += int(splited[1])
+                    # print("buy")
+                if "sell" in element:
+                    splited = element.split(":")
+                    self.sells += int(splited[1])
+                    # print("sell")
+
+            self.data_batch = data_batch
+
+            self.operations = len(self.transaction_batch_list)
+
+            self.net_flow = self.buys - self.sells
+
+            sign = "+" if self.net_flow > 0 else ""
+            return (f"{self.operations} operation(s), net flow: {sign}{self.net_flow} {self.criteria}")
+
+        except Exception as e:
+            print(e)
+            return "Fail"
+
+    def get_stats(self) -> Dict[str, Union[str, int, float]]:
+
+        """
+        Return stream statistics.
+        """
+        obj = TransactionStream()
+        return {"Stream ID:": f"{self.id}, Type: {self.type}",
+                "Processing transaction batch:": f"{self.transaction_batch_list}",
+                "Transaction analysis:": obj.process_batch(obj.filter_data(self.data_batch))}
 
 
 class EventStream(DataStream):
@@ -164,5 +246,15 @@ class StreamProcessor:
         for key in stata:
             print(key, stata[key])
 
+    def transaction_streaming_output(self):
+        obj = TransactionStream()
+        data_batch = [1, "Financial Data",  ["buy:100", "sell:150", "buy:75"] ]
+
+        obj.process_batch(obj.filter_data(data_batch))
+        stata = obj.get_stats()
+        print("\nInitializing Transaction Stream...")
+        for key in stata:
+            print(key, stata[key])
 
 StreamProcessor().sensor_streaming_output()
+StreamProcessor().transaction_streaming_output()

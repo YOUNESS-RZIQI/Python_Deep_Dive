@@ -1,12 +1,16 @@
+from abc import ABCMeta, abstractmethod
 
 
-
-class A(type):
-    def __repr__(cls):
-        return "<class 'A'>"
+class A(metaclass=ABCMeta):
     pass
 
-class B(metaclass=A):
+class B(A):
+    @abstractmethod
+    def hi():
+        pass
+
+class C(B):
     pass
 
-print(type(A)) 
+obj = B()
+print(type(B)) 
