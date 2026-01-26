@@ -1,16 +1,8 @@
-from abc import ABCMeta, abstractmethod
+
+s = "asgfdb"
+b = ["123456"]
 
 
-class A(metaclass=ABCMeta):
-    pass
-
-class B(A):
-    @abstractmethod
-    def hi():
-        pass
-
-class C(B):
-    pass
-
-obj = B()
-print(type(B)) 
+for i in b:
+    s += i
+print(s)

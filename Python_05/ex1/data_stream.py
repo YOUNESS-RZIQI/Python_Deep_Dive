@@ -191,11 +191,9 @@ class TransactionStream(DataStream):
                 if "buy" in element:
                     splited = element.split(":")
                     self.buys += int(splited[1])
-                    # print("buy")
                 if "sell" in element:
                     splited = element.split(":")
                     self.sells += int(splited[1])
-                    # print("sell")
 
             self.data_batch = data_batch
 
@@ -204,7 +202,7 @@ class TransactionStream(DataStream):
             self.net_flow = self.buys - self.sells
 
             sign = "+" if self.net_flow > 0 else ""
-            return (f"{self.operations} operation(s), net flow: {sign}{self.net_flow} {self.criteria}")
+            return (f"{self.operations} operation(s) processed, net flow: {sign}{self.net_flow} {self.criteria}")
 
         except Exception as e:
             print(e)
@@ -227,7 +225,94 @@ class EventStream(DataStream):
     EventStream processes system events with error detection and categorization
     """
 
-    pass
+    def __init__(self):
+        """
+        Initializing Object Variables.
+        """
+        self.__name__ = "Event"
+        self.id = ""
+        self.type = ""
+        self.event_batch_list = []
+        self.data_batch = []
+        self.criteria = "error"
+        self.errors = 0
+        self.logins = 0
+        self.logouts = 0
+        self.alerts = 0
+        self.events = 0
+
+
+    def filter_data(self, data_batch: List[Any], criteria: Optional[str] = None) -> List[Any]:
+
+        """
+        Filter data based on criteria
+        """
+        try:
+            if len(data_batch) != 3 or isinstance(data_batch[2], list) is not True:
+                self.alerts += 1
+                raise ValueError("\nError in TransactionStream Class: Exact Place 'filter_data' method\n")
+
+            new_list = [True] + data_batch
+            new_list += [criteria]
+            return new_list
+        except Exception as e:
+            print(e)
+            return [False]
+
+    def process_batch(self, data_batch: List[Any]) -> str:
+
+        """
+        Process a batch of data
+        """
+        try:
+            if data_batch[0] is False:
+                raise ValueError("\nError in TransactionStream Class: Exact Place 'process_batch' method\n")
+            del data_batch[0]
+
+#           [ Id, Transactions,  [buy:100, sell:150, buy:75], Optional[str|None]]
+
+            self.id, self.type, self.event_batch_list, criteria = data_batch
+
+            if criteria is not None:
+                self.criteria = criteria
+            del data_batch[-1]
+
+            for element in (self.event_batch_list):
+                if element == "login":
+                    self.logins += 1
+                elif element == "error":
+                    self.errors += 1
+                elif element == "logout":
+                    self.logouts += 1
+
+            self.data_batch = data_batch
+
+            self.events = len(self.event_batch_list)
+
+            if self.criteria == "error":
+                return (f"{self.events} event(s) processed, {self.errors} error detected")
+            elif self.criteria == "login":
+                return (f"{self.events} event(s) processed, {self.logins} login detected")
+            else:
+                return (f"{self.events} event(s) processed, {self.logouts} logout detected")
+
+        except Exception as e:
+            print(e)
+            return "Fail"
+
+    def get_stats(self) -> Dict[str, Union[str, int, float]]:
+
+        """
+        Return stream statistics.
+        """
+        obj = EventStream()
+        return {"Stream ID:": f"{self.id}, Type: {self.type}",
+                "Processing event batch:": f"{self.event_batch_list}",
+                "Event analysis:": obj.process_batch(obj.filter_data(self.data_batch))}
+
+
+
+
 
 
 class StreamProcessor:
@@ -235,9 +320,13 @@ class StreamProcessor:
     """
     StreamProcessor class can handle multiple stream types polymorphically
     """
-    # use is instance to print each output format.
 
-    def sensor_streaming_output(self):
+    def sensor_streaming_output(self) -> None:
+
+        """
+
+        """
+
         data = ["SENSOR_001", "Environmental Data", ["temp:22.5", "humidity:65", "pressure:1013"]]
         obj = SensorStream()
         obj.process_batch(obj.filter_data(data))
@@ -246,9 +335,14 @@ class StreamProcessor:
         for key in stata:
             print(key, stata[key])
 
-    def transaction_streaming_output(self):
+    def transaction_streaming_output(self) -> None:
+
+        """
+
+        """
+
         obj = TransactionStream()
-        data_batch = [1, "Financial Data",  ["buy:100", "sell:150", "buy:75"] ]
+        data_batch = ["TRANS_001", "Financial Data",  ["buy:100", "sell:150", "buy:75"] ]
 
         obj.process_batch(obj.filter_data(data_batch))
         stata = obj.get_stats()
@@ -256,5 +350,45 @@ class StreamProcessor:
         for key in stata:
             print(key, stata[key])
 
-StreamProcessor().sensor_streaming_output()
-StreamProcessor().transaction_streaming_output()
+    def event_streaming_output(self) -> None:
+
+        """
+
+        """
+
+        obj = EventStream()
+        data_batsh = ["EVENT_001", "System Events", ["login", "error", "logout"]]
+        obj.process_batch(obj.filter_data(data_batsh))
+        stata = obj.get_stats()
+        print("\nInitializing Event Stream...")
+        for key in stata:
+            print(key, stata[key])
+
+    def polymorphic_stream_processing(self):
+
+        """
+
+        """
+        print("\n=== Polymorphic Stream Processing ===")
+        print("Processing mixed stream types through unified interface...\n")
+
+        sensor_obj = SensorStream()
+        transactoin_obj = TransactionStream()
+        event_obj = EventStream()
+
+        sensor_data = ["SENSOR_001", "Environmental Data", ["temp:22.5", "humidity:65", "pressure:1013"]]
+        tranactions_data = ["TRANS_001", "Financial Data",  ["buy:100", "sell:150", "buy:75"] ]
+        event_data = ["EVENT_001", "System Events", ["login", "error", "logout"]]
+
+        print("Batch 1 Results:\n")
+        transactoin_obj.process_batch(transactoin_obj.filter_data(tranactions_data))
+        splited = (transactoin_obj.get_stats())[transactoin_obj.__name__+" analysis:"].split(",")
+        print(f"- {transactoin_obj.__name__} data:", (splited[0]))
+
+
+
+
+# StreamProcessor().sensor_streaming_output()
+# StreamProcessor().transaction_streaming_output()
+# StreamProcessor().event_streaming_output()
+StreamProcessor().polymorphic_stream_processing()
