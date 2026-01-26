@@ -48,7 +48,7 @@ class SensorStream(DataStream):
     """
 
     def __init__(self, stream_id: str = "", type: str = "",
-                 sensor_process_list: Dict[str, Union[int, float]] = {},
+                 sensor_batch_list: Dict[str, Union[int, float]] = {},
                  readings_processed: int = 0, avg_temp: float = 0.0,
                  criteria: str = "°C"):
         """    """
@@ -56,7 +56,7 @@ class SensorStream(DataStream):
         self.data_batch = []
         self.stream_id = stream_id
         self.type = type
-        self.sensor_process_list = sensor_process_list
+        self.sensor_batch_list = sensor_batch_list
         self.criteria = criteria
 
         self.readings_processed = readings_processed
@@ -69,7 +69,8 @@ class SensorStream(DataStream):
         Filter data based on criteria
         """
         try:
-            if len(data_batch) != 4 and len(data_batch) != 3:
+            if len(data_batch) != 3:
+                self.alerts += 1
                 raise ValueError("\nError in SensorStream Class: Exact Place 'filter_data' method\n")
 
             new_list = [True] + data_batch
@@ -88,34 +89,30 @@ class SensorStream(DataStream):
         try:
             if data_batch[0] is False:
                 raise ValueError("\nError in SensorStream Class: Exact Place 'process_batch' method\n")
-
             del data_batch[0]
 
-#           [ 0, 1, [temp:22.5, humidity:65, pressure:1013], ?]
+#           [ Id, sensor word, [temp:22.5, humidity:65, pressure:1013], Optional[str|None]]
 
-            self.stream_id, self.type, self.sensor_process_list, criteria = data_batch
+            self.stream_id, self.type, self.sensor_batch_list, criteria = data_batch
 
             if criteria is not None:
                 self.criteria = criteria
-            temps_str_vals = self.sensor_process_list[0].split(":")
+            del data_batch[-1]
 
+            temps_str_vals = self.sensor_batch_list[0].split(":")
             del temps_str_vals[0]
-
             temps = [float(val) for val in temps_str_vals]
-
-            if data_batch[-1] is not None:
-                self.criteria = data_batch[-1]
-            else:
-                del data_batch[-1]
 
             self.data_batch = data_batch
 
-            self.readings_processed = len(self.sensor_process_list)
+            self.readings_processed = len(self.sensor_batch_list)
 
             self.avg_temp = sum(temps)/len(temps)
+
             readings = "readings" if self.readings_processed > 1 else "reading"
             return (f"{self.readings_processed} {readings} processed, avg temp: {self.avg_temp}"
                     f"{self.criteria}")
+
         except Exception as e:
             print(e)
             return "Fail"
@@ -125,13 +122,10 @@ class SensorStream(DataStream):
         """
         return a format depentding on process
         """
-        print("\nInitializing Sensor Stream...")
-        print(f"Stream ID: {self.stream_id}, Type: {self.type}")
-        print(f"Processing sensor batch: {self.sensor_process_list}")
-        print("Sensor analysis:", self.process_batch(self.filter_data(self.data_batch)))
        
-
-        return 
+        return {"Stream ID:": f"{self.stream_id}, Type: {self.type}",
+                "Processing sensor batch:": f"{self.sensor_batch_list}",
+                "Sensor analysis:": self.process_batch(self.filter_data(self.data_batch))}
 
 
 
@@ -160,7 +154,15 @@ class StreamProcessor:
     StreamProcessor class can handle multiple stream types polymorphically
     """
     # use is instance to print each output format.
-data = ["SENSOR_001", "Environmental Data", ["temp:22.5", "humidity:65", "pressure:1013"]]
-obj = SensorStream()
-obj.process_batch(obj.filter_data(data))
-obj.get_stats()
+
+    def sensor_streaming_output(self):
+        data = ["SENSOR_001", "Environmental Data", ["temp:22.5", "humidity:65", "pressure:1013"]]
+        obj = SensorStream()
+        obj.process_batch(obj.filter_data(data))
+        stata = obj.get_stats()
+        print("\nInitializing Sensor Stream...")
+        for key in stata:
+            print(key, stata[key])
+
+
+StreamProcessor().sensor_streaming_output()
