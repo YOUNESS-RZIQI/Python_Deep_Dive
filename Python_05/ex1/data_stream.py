@@ -311,10 +311,6 @@ class EventStream(DataStream):
                 "Event analysis:": obj.process_batch(obj.filter_data(self.data_batch))}
 
 
-
-
-
-
 class StreamProcessor:
 
     """
@@ -388,7 +384,7 @@ class StreamProcessor:
 
 
 
-# StreamProcessor().sensor_streaming_output()
-# StreamProcessor().transaction_streaming_output()
-# StreamProcessor().event_streaming_output()
-StreamProcessor().polymorphic_stream_processing()
+StreamProcessor().sensor_streaming_output()
+StreamProcessor().transaction_streaming_output()
+StreamProcessor().event_streaming_output()
+# StreamProcessor().polymorphic_stream_processing()
