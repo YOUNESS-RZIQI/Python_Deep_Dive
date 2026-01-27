@@ -12,7 +12,7 @@ from typing import Any, List, Dict, Union, Optional
 class DataStream(ABC):
 
     """
-
+        Abstract base class.
     """
 
     @abstractmethod
@@ -54,7 +54,9 @@ class SensorStream(DataStream):
                  sensor_batch_list: List[str] = [],
                  readings_processed: int = 0, avg_temp: float = 0.0,
                  criteria: str = "°C"):
-        """    """
+        """
+        Initializing Object variables.
+        """
         self.__name__ = "Sensor"
         self.data_batch: List = []
         self.id = id
@@ -358,7 +360,7 @@ class StreamProcessor:
     def sensor_streaming_output(self) -> None:
 
         """
-
+            sensor streaming output
         """
 
         data = ["SENSOR_001", "Environmental Data",
@@ -373,7 +375,7 @@ class StreamProcessor:
     def transaction_streaming_output(self) -> None:
 
         """
-
+            transaction streaming output
         """
 
         obj = TransactionStream()
@@ -389,7 +391,7 @@ class StreamProcessor:
     def event_streaming_output(self) -> None:
 
         """
-
+            event streaming output
         """
 
         obj = EventStream()
@@ -404,7 +406,7 @@ class StreamProcessor:
     def polymorphic_stream_processing(self):
 
         """
-
+            polymorphic stream processing
         """
         print("\n=== Polymorphic Stream Processing ===")
         print("Processing mixed stream types through unified interface...\n")
@@ -438,7 +440,7 @@ class StreamProcessor:
 
 def data_stream() -> None:
     """
-
+        Data stream Program.
     """
 
     print("=== CODE NEXUS - POLYMORPHIC STREAM SYSTEM ===\n")
