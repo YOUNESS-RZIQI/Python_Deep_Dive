@@ -1,10 +1,3 @@
-# 1) classes with inheritance
-# 2) super()
-# 3) try/except
-# 4) List comprehensions in data processing
-# 5) ABC & @abstractmethod
-# 6) isinstance
-
 from abc import ABC, abstractmethod
 from typing import Any, List, Dict, Union, Optional
 
