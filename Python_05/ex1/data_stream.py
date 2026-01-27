@@ -8,6 +8,10 @@ class DataStream(ABC):
         Abstract base class.
     """
 
+    def __init__(self, id: str):
+        """Initializing the Object Id"""
+        self.id = id
+
     @abstractmethod
     def process_batch(self, data_batch: List[Any]) -> str:
 
@@ -98,6 +102,7 @@ class SensorStream(DataStream):
 #                                               Optional[str|None]]
 
             self.id, self.type, self.sensor_batch_list, criteria = data_batch
+            super().__init__(self.id)
 
             if criteria is not None:
                 self.criteria = criteria
@@ -198,6 +203,7 @@ class TransactionStream(DataStream):
 #                                                   Optional[str|None]]
 
             self.id, self.type, self.trsctio_batch_list, criteria = data_batch
+            super().__init__(self.id)
 
             if criteria is not None:
                 self.criteria = criteria
@@ -301,6 +307,7 @@ class EventStream(DataStream):
 #                                               Optional[str|None]]
 
             self.id, self.type, self.event_batch_list, criteria = data_batch
+            super().__init__(self.id)
 
             if criteria is not None:
                 self.criteria = criteria
@@ -341,7 +348,7 @@ class EventStream(DataStream):
         return {"Stream ID:": f"{self.id}, Type: {self.type}",
                 "Processing event batch:": f"{self.event_batch_list}",
                 "Event analysis:":
-                obj.process_batch(obj.filter_data(self.data_batch))}
+                obj.process_batch(obj.filter_data(self.data_batch, "logout"))}
 
 
 class StreamProcessor:
