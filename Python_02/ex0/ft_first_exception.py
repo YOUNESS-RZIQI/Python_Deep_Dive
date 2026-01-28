@@ -27,7 +27,7 @@ def test_temperature_input():
     try:
         print("=== Garden Temperature Checker ===\n")
 
-        inputs = ["25", "abc", "100", "-50"]
+        inputs = [40, "abc", "100", "-50"]
 
         for tempr in inputs:
             print(f"Testing temperature: {tempr}")
