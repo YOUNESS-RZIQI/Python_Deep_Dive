@@ -102,7 +102,7 @@ class JSONAdapter(ProcessingPipeline):
         """
 
         """
-        pass
+        self.data: Dict[str, Union[str, float]] = {}
 
     def process(self, data: Any) -> Union[str,Any]:
         """
@@ -149,7 +149,7 @@ class StreamAdapter(ProcessingPipeline):
         return ""
 
 
-class NexusManager(ProcessingPipeline):
+class NexusManager():
     """
 
     """
