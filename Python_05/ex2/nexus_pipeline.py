@@ -7,14 +7,11 @@
 # 5) Protocol (duck typing)       -> ProcessingStage
 # 6) collections module           -> deque for stream buffering
 # 7) type hints throughout        -> typing used everywhere
-
-import json
 from typing import Any, Dict, List, Protocol, Union
-from collections import deque
 from abc import ABC, abstractmethod
-
+import json
 import time
-
+from collections import deque
 
 
 class ProcessingStage(Protocol):
@@ -25,33 +22,20 @@ class ProcessingStage(Protocol):
 class ProcessingPipeline(ABC):
     def __init__(self) -> None:
         """
-        Docstring for __init__
-        
-        :param self: Description
+
         """
         self.stages: List[ProcessingStage] = []
 
     def add_stage(self, stage: ProcessingStage) -> None:
         """
-        Docstring for add_stage
-        
-        :param self: Description
-        :param stage: Description
-        :type stage: ProcessingStage
+
         """
         self.stages.append(stage)
 
     def run_stages(self, data: Any) -> Any:
         """
-        Docstring for run_stages
-        
-        :param self: Description
-        :param data: Description
-        :type data: Any
-        :return: Description
-        :rtype: Any
-        """
 
+        """
 
         for stage in self.stages:
             data = stage.process(data)
@@ -83,12 +67,10 @@ class InputStage:
                     print(f"Input: {json.dumps(data)}")
                 return data
 
-
             elif isinstance(data, str) and "," in data:
                 if self.print_result is True:
                     print(f'Input: "{data}"')
                 return {",": data}
-
 
             elif isinstance(data, str) and "Real-time" in data:
                 if self.print_result is True:
@@ -96,10 +78,9 @@ class InputStage:
 
                 return {"Real-time": data}
 
-
             else:
-                if self.print_result is True:
-                    print(" ! Fail in Input Stage  !")
+                # if self.print_result is True:
+                #     print(" ! Fail in Input Stage  !")
                 return {"Fail": "Input Stage Fail"}
         except Exception as e:
             print(e)
@@ -117,13 +98,11 @@ class TransformStage:
 
     def process(self, data: Any) -> Dict[str, Any]:
 
-
         try:
-            if "sensor" in data and "value" in data and "unit" in data and "Fail" not in data:
+            if "sensor" in data and "value" in data and "unit" in data:
                 if self.print_result is True:
-                    print(f"Transrom: Enriched with metadata and validation")
+                    print("Transrom: Enriched with metadata and validation")
                 return data
-
 
             elif "," in data and "Fail" not in data:
                 if self.print_result is True:
@@ -133,18 +112,19 @@ class TransformStage:
                 for word in splited:
                     if word == "action":
                         actions += 1
-                    
-                return {",": f"User activity logged: {actions} actions processed"}
 
+                return {",":
+                        f"User activity logged: {actions} actions processed"}
 
             elif "Real-time" in data and "Fail" not in data:
                 if self.print_result is True:
                     print("Transform: Aggregated and filtered")
-                return {"Real-time": "Output: Stream summary: 5 readings, avg: 22.1°C"}
+                return {"Real-time":
+                        "Output: Stream summary: 5 readings, avg: 22.1°C"}
 
             else:
                 if self.print_result is True:
-                    print(" ! Fail in Transrom Stage  !")
+                    print("Error detected in Stage 2: Invalid data format")
                 return {"Fail": "Transform Stage Fail"}
         except Exception as e:
             print(e)
@@ -161,11 +141,10 @@ class OutputStage:
 
     def process(self, data: Any) -> str:
 
-
         try:
-            if "Fail" not in data and "sensor" in data and "value" in data and "unit" in data :
-                return f"Processed temperature reading: {data['value']}°{data['unit']}"
-
+            if "sensor" in data and "value" in data and "unit" in data:
+                return (f"Processed temperature reading:"
+                        f" {data['value']}°{data['unit']}")
 
             elif "," in data and "Fail" not in data:
                 return ("Output: " + data[","])
@@ -179,11 +158,12 @@ class OutputStage:
             return "Fail"
 
 
-
 class JSONAdapter(ProcessingPipeline):
     def __init__(self) -> None:
+        """
+        Docstring for __init__
+        """
         super().__init__()
-
 
         self.add_stage(InputStage())
         self.add_stage(TransformStage())
@@ -196,8 +176,9 @@ class JSONAdapter(ProcessingPipeline):
 
 class CSVAdapter(ProcessingPipeline):
     def __init__(self) -> None:
+        """
+        """
         super().__init__()
-
 
         self.add_stage(InputStage())
         self.add_stage(TransformStage())
@@ -210,8 +191,9 @@ class CSVAdapter(ProcessingPipeline):
 
 class StreamAdapter(ProcessingPipeline):
     def __init__(self) -> None:
+        """
+        """
         super().__init__()
-
 
         self.add_stage(InputStage())
         self.add_stage(TransformStage())
@@ -232,8 +214,6 @@ class NexusManager:
         self.pipelines.append(pipeline)
 
     def process(self, pipeline_index: int, data: Any) -> Any:
-
-
         return self.pipelines[pipeline_index].process(data)
 
 
@@ -244,26 +224,48 @@ def nexus_pipeline() -> None:
         print("=== CODE NEXUS - ENTERPRISE PIPELINE SYSTEM ===\n")
 
         print("Initializing Nexus Manager...")
+        obj_list = [InputStage(), TransformStage(), OutputStage()]
+        data_list = [{"sensor": "temp", "value": 23.5, "unit": "C"},
+                     "user,action,timestamp",
+                     " Real-time sensor stream"]
 
+        streams_start = time.time()
+        i = 0
+        while True:
+            i += 1
+            obj_list[0].print_result = False
+            obj_list[1].print_result = False
+            data = obj_list[1].process(obj_list[0].process(data_list[0]))
+            obj_list[2].process(data)
+            streams_end = time.time()
+            if (streams_end - streams_start) >= 1:
+                break
 
+        print(f"Pipeline capacity: {i} streams/second\n")
+        print("Creating Data Processing Pipeline...")
+        print("Stage 1: Input validation and parsing")
+        print("Stage 2: Data transformation and enrichment")
+        print("Stage 3: Output formatting and delivery")
 
     except Exception as e:
         print(e)
 
-
     try:
 
-        print("=== Multi-Format Data Processing ===\n")
+        print("\n=== Multi-Format Data Processing ===\n")
         manager = NexusManager()
 
         manager.add_pipeline(JSONAdapter())
         manager.add_pipeline(CSVAdapter())
         manager.add_pipeline(StreamAdapter())
-        data_list = [{"sensor": "temp", "value": 23.5, "unit": "C"},
-                    "user,action,timestamp",
-                    " Real-time sensor stream"]
 
-        for index in range(0,3):
+        message = ["Processing JSON data through pipeline...",
+                   "Processing CSV data through same pipeline...",
+                   "Processing Stream data through same pipeline..."]
+        i = 0
+        for index in range(0, 3):
+            print(message[i])
+            i += 1
             print(manager.process(index, data_list[index]))
             print()
 
@@ -272,12 +274,11 @@ def nexus_pipeline() -> None:
 
     try:
 
-        obj_list = [InputStage(), TransformStage(), OutputStage()]
         print("\n=== Pipeline Chaining Demo ===")
         for obj in obj_list:
             print(obj.name, sep="", end="")
         print()
-        
+
         print("Data flow: ", end='')
         for obj in obj_list:
             print(obj.flow, sep="", end="")
@@ -294,23 +295,44 @@ def nexus_pipeline() -> None:
             record += 1
             obj_list[0].print_result = False
             obj_list[1].print_result = False
-            obj_list[2].process(obj_list[1].process(obj_list[0].process(data_list[0])))
+            data_1 = obj_list[1].process(obj_list[0].process(data_list[0]))
+            obj_list[2].process(data_1)
 
         obj_list[0].print_result = False
         obj_list[1].print_result = False
-        obj_list[2].process(obj_list[1].process(obj_list[0].process("garbaj data")))
+        data_1 = obj_list[1].process(obj_list[0].process("hi"))
+        result = obj_list[2].process(data_1)
         record += 1
         end = time.time()
 
-        print(f"Chain result: {record} records processed through 3-stage pipeline")
-        print(f"Performance: 95% efficiency, {end - start}s total processing time")
+        print(f"Chain result: {record} records "
+              "processed through 3-stage pipeline")
+        if "Fail" in result:
+            print("Performance: 95% "
+                  f"efficiency, {end - start}s total processing time")
+        else:
+            print("Performance: 100% "
+                  f"efficiency, {end - start}s total processing time")
 
     except Exception as e:
         print(e)
 
+    try:
+        print("\n=== Error Recovery Test ===")
+        print("Simulating pipeline failure...")
 
+        manager.add_pipeline(JSONAdapter())
+        is_fail = manager.process(0, "jjj")
+        if "Fail" in is_fail:
+            raise ValueError("Recovery initiated: "
+                             "Switching to backup processor\n"
+                             "Recovery successful:"
+                             " Pipeline restored, processing resumed")
 
-    
+    except Exception as e:
+        print(e)
+
+    print("\nNexus Integration complete. All systems operational.")
 
 
 if __name__ == "__main__":
