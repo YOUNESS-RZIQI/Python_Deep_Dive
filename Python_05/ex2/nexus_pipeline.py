@@ -145,7 +145,7 @@ class OutputStage:
             if "sensor" in data and "value" in data and "unit" in data:
                 range = "Normal" if data['value'] < 30 else 'Not normal'
                 range = "Normal" if data['value'] > 20 else 'Not normal'
-                return (f"Processed temperature reading:"
+                return (f"Output: Processed temperature reading:"
                         f" {data['value']}°{data['unit']} ({range} range)")
 
             elif "," in data and "Fail" not in data:
@@ -270,7 +270,7 @@ def nexus_pipeline() -> None:
                    "Processing CSV data through same pipeline...",
                    "Processing Stream data through same pipeline..."]
         i = 0
-        for index in range(0, 3):
+        for index in range(0, len(obj_list)):
             print(message[i])
             i += 1
             print(manager.process(index, data_list[index]))
@@ -281,7 +281,7 @@ def nexus_pipeline() -> None:
 
     try:
 
-        print("\n=== Pipeline Chaining Demo ===")
+        print("=== Pipeline Chaining Demo ===")
         pipeline_chain = manager.get_pipeline_ids()
         for i in range(0, len(pipeline_chain) - 1):
             print(pipeline_chain[i], "-> ", end="")
