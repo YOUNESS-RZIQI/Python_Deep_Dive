@@ -17,6 +17,7 @@ from collections import deque
 
 class ProcessingStage(Protocol):
     def process(self, data: Any) -> Any:
+        """Protocol"""
         ...
 
 
@@ -44,6 +45,7 @@ class ProcessingPipeline(ABC):
 
     @abstractmethod
     def process(self, data: Any) -> Any:
+        """Abstract method"""
         ...
 
 
@@ -54,7 +56,6 @@ class InputStage:
 
     def __init__(self) -> None:
         """Initializing the Input object."""
-        self.name = "Pieline A -> "
         self.flow = "Raw -> "
         self.print_result: bool = True
 
@@ -88,16 +89,16 @@ class InputStage:
 
 
 class TransformStage:
-    """JSONAdapter
-
+    """
+    transform the data and process and analyz it.
     """
     def __init__(self) -> None:
-        self.name = "Pieline B -> "
+        """Initializing the Object Variabels"""
         self.flow = "Processed -> Analyzed -> "
         self.print_result: bool = True
 
     def process(self, data: Any) -> Dict[str, Any]:
-
+        """Processing the data throge analyzing it."""
         try:
             if "sensor" in data and "value" in data and "unit" in data:
                 if self.print_result is True:
@@ -130,14 +131,16 @@ class TransformStage:
 
 class OutputStage:
     """
-
+    return the format output of the data.
     """
     def __init__(self) -> None:
-        self.name = "Pieline C"
+        """Initializing the Object Variabels"""
         self.flow = "Stored"
 
     def process(self, data: Any) -> str:
-
+        """
+        return data format after processing it.
+        """
         try:
             if "sensor" in data and "value" in data and "unit" in data:
                 return (f"Processed temperature reading:"
@@ -157,9 +160,8 @@ class OutputStage:
 
 class JSONAdapter(ProcessingPipeline):
     def __init__(self, pipeline_id: str) -> None:
-        """
-        Docstring for __init__
-        """
+        """Initializing the Object Variabels"""
+
         super().__init__()
         self.pipeline_id = pipeline_id
         self.add_stage(InputStage())
@@ -167,14 +169,14 @@ class JSONAdapter(ProcessingPipeline):
         self.add_stage(OutputStage())
 
     def process(self, data: Any) -> Union[str, Any]:
-
+        """return data after the 3 stages (input, transfom, output)"""
         return self.run_stages(data)
 
 
 class CSVAdapter(ProcessingPipeline):
     def __init__(self, pipeline_id: str) -> None:
-        """
-        """
+        """Initializing the Object Variabels"""
+
         super().__init__()
         self.pipeline_id = pipeline_id
         self.add_stage(InputStage())
@@ -182,14 +184,14 @@ class CSVAdapter(ProcessingPipeline):
         self.add_stage(OutputStage())
 
     def process(self, data: Any) -> Union[str, Any]:
-
+        """return data after the 3 stages (input, transfom, output)"""
         return self.run_stages(data)
 
 
 class StreamAdapter(ProcessingPipeline):
     def __init__(self, pipeline_id: str) -> None:
-        """
-        """
+        """Initializing the Object Variabels"""
+
         super().__init__()
         self.pipeline_id = pipeline_id
         self.add_stage(InputStage())
@@ -197,20 +199,22 @@ class StreamAdapter(ProcessingPipeline):
         self.add_stage(OutputStage())
 
     def process(self, data: Any) -> Union[str, Any]:
+        """return data after the 3 stages (input, transfom, output)"""
 
         return self.run_stages(data)
 
 
 class NexusManager:
     def __init__(self) -> None:
-
+        """Initializing the Object Variabel, (pipelines)"""
         self.pipelines: deque[ProcessingPipeline] = deque()
 
     def add_pipeline(self, pipeline: ProcessingPipeline) -> None:
-
+        """adding pipelines ot the pipelins deque"""
         self.pipelines.append(pipeline)
 
     def process(self, pipeline_index: int, data: Any) -> Any:
+        """process spicefique pipeline."""
         return self.pipelines[pipeline_index].process(data)
 
     def get_pipeline_ids(self) -> Dict[int, str]:
@@ -219,7 +223,7 @@ class NexusManager:
 
 
 def nexus_pipeline() -> None:
-    """"""
+    """Main program and the entery point."""
 
     try:
         print("=== CODE NEXUS - ENTERPRISE PIPELINE SYSTEM ===\n")
