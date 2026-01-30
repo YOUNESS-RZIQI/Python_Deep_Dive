@@ -8,7 +8,7 @@ class DataStream(ABC):
         Abstract base class.
     """
 
-    def __init__(self, id: str):
+    def __init__(self, id: str) -> None:
         """Initializing the Object Id"""
         self.id = id
 
@@ -50,7 +50,7 @@ class SensorStream(DataStream):
     def __init__(self, id: str = "", type: str = "",
                  sensor_batch_list: List[str] = [],
                  readings_processed: int = 0, avg_temp: float = 0.0,
-                 criteria: str = "°C"):
+                 criteria: str = "°C") -> None:
         """
         Initializing Object variables.
         """
@@ -148,7 +148,7 @@ class TransactionStream(DataStream):
     def __init__(self, id: str = "", type: str = "",
                  transactoin_batch_list: str = "",
                  large_transaction: int = 0, net_flow: int = 0,
-                 operations: int = 0):
+                 operations: int = 0) -> None:
         """
             Initializing Object Variables.
         """
@@ -253,7 +253,7 @@ class EventStream(DataStream):
     EventStream processes system events with error detection and categorization
     """
 
-    def __init__(self):
+    def __init__(self, id: str = "") -> None:
         """
         Initializing Object Variables.
         """
@@ -403,7 +403,7 @@ class StreamProcessor:
         for key in stata:
             print(key, stata[key])
 
-    def polymorphic_stream_processing(self):
+    def polymorphic_stream_processing(self) -> None:
 
         """
             polymorphic stream processing
