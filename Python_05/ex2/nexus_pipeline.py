@@ -8,7 +8,7 @@
 # 6) collections module           -> deque for stream buffering
 # 7) type hints throughout        -> typing used everywhere
 
-from typing import Any, Dict, List, Protocol, Union
+from typing import Any, Dict, List, Protocol, Union, Optional
 from abc import ABC, abstractmethod
 import json
 import time
@@ -143,8 +143,10 @@ class OutputStage:
         """
         try:
             if "sensor" in data and "value" in data and "unit" in data:
+                range = "Normal" if data['value'] < 30 else 'Not normal'
+                range = "Normal" if data['value'] > 20 else 'Not normal'
                 return (f"Processed temperature reading:"
-                        f" {data['value']}°{data['unit']}")
+                        f" {data['value']}°{data['unit']} ({range} range)")
 
             elif "," in data and "Fail" not in data:
                 return ("Output: " + data[","])
@@ -159,7 +161,7 @@ class OutputStage:
 
 
 class JSONAdapter(ProcessingPipeline):
-    def __init__(self, pipeline_id: str) -> None:
+    def __init__(self, pipeline_id: Optional[str] = "Pipeline A") -> None:
         """Initializing the Object Variabels"""
 
         super().__init__()
@@ -174,7 +176,7 @@ class JSONAdapter(ProcessingPipeline):
 
 
 class CSVAdapter(ProcessingPipeline):
-    def __init__(self, pipeline_id: str) -> None:
+    def __init__(self, pipeline_id: Optional[str] = "Pipeline B") -> None:
         """Initializing the Object Variabels"""
 
         super().__init__()
@@ -189,7 +191,7 @@ class CSVAdapter(ProcessingPipeline):
 
 
 class StreamAdapter(ProcessingPipeline):
-    def __init__(self, pipeline_id: str) -> None:
+    def __init__(self, pipeline_id: Optional[str] = "Pipeline C") -> None:
         """Initializing the Object Variabels"""
 
         super().__init__()
@@ -289,8 +291,6 @@ def nexus_pipeline() -> None:
         for obj in obj_list:
             print(obj.flow, sep="", end="")
         print("\n")
-
-
 
     except Exception as e:
         print(e)
