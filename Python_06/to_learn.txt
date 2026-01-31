@@ -1,0 +1,24 @@
+1)  absolute vs relative imports
+
+2)  Import Transmutation - summoning code from distant modules
+
+3) Pathways - absolute vs relative imports
+
+4) when spells reference each other in an endless loop, threatening to tear apart the fabric of your code!
+
+5 ) ! every step of the transmutation process in import !
+
+6) Creating your own modules and packages
+
+7) Creating __init__.py files (Sacred Scrolls)
+ 
+8) forbeden to do :
+    • Using eval() or exec() (dangerous transmutations)
+    • Modifying sys.path directly
+    • Using importlib for dynamic imports
+    • Complex algorithms (keep your spells simple)
+
+
+Instractions:
+
+1) ERROR HANDLING: All functions should return strings
