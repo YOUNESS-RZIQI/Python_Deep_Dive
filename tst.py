@@ -1,0 +1,5 @@
+fro
+
+
+
+print(stdin.read())
