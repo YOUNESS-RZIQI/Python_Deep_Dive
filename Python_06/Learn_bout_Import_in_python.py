@@ -1,24 +1,10 @@
-# 1) First Check the sys.modules
-# 2) not found use the finders and the loaders to find the modules and load it to modules then executi it.
-# 3) 
+#  so py do searcj if the module is alredy loaded and excuted by the finders and loaders if not :
+# 1- check builtins modules (in built ins in the usr/bin/python3.10 there is no packages)
+# 2 - check sys.path;
+#    1- current dir
+#    2- the stdlib 
+#    3- site packages.
 
-            # Import search order
-
-            # sys.modules → check if module is already loaded (cache).
-
-            # Built-in and frozen modules → modules compiled into Python.
-
-            # Path-based search (sys.path), in order:
-
-            # Current directory / script’s directory
-
-            # Directories in PYTHONPATH (if set)
-
-            # Standard library directories
-
-            # Site-packages (pip-installed packages)
-
-            # ✅ So built-ins are checked before sys.path entries (including current dir).
 
 
 # to see the built in modules in python3.10 that lives in the /usr/bin/pyhon3.10
