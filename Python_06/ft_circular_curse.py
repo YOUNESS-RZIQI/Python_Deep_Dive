@@ -23,4 +23,5 @@ try:
     print("\nCircular dependency curse avoided using late imports!")
     print("All spells processed safely!")
 except Exception as e:
+    print("Error: in ft_circular_curse")
     print("Error:", e)

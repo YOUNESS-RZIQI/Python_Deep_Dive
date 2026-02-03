@@ -23,4 +23,5 @@ try:
     print("\nAll import transmutation methods mastered!")
 
 except Exception as e:
+    print("Error: in ft_import_transmutation")
     print("Error:", e)

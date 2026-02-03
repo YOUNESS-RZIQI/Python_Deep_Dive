@@ -52,4 +52,5 @@ try:
 
 
 except Exception as e:
+    print("Error: in ft_sacred_scroll")
     print("Error:", e)

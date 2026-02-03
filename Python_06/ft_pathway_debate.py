@@ -25,4 +25,5 @@ try:
 
     print("\nBoth pathways work! Absolute: clear, Relative: concise")
 except Exception as e:
+    print("Error: in ft_pathway_debate")
     print("Error:", e)
