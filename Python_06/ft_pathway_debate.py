@@ -1,5 +1,5 @@
 try:
-    from Python_06.alchemy.transmutation.basic import lead_to_gold, stone_to_gem
+    from alchemy.transmutation.basic import lead_to_gold, stone_to_gem
     from alchemy.transmutation.advanced import philosophers_stone
     from alchemy.transmutation.advanced import elixir_of_life
     import alchemy.transmutation
