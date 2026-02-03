@@ -1,5 +1,5 @@
 try:
-    import alchemy.elements
+    import alchemy
 
     print("\n=== Sacred Scroll Mastery ===\n")
 

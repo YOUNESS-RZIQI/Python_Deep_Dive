@@ -1,26 +1,21 @@
 try:
-    import alchemy
-    from .elements import create_air, create_earth
+    from .elements import create_fire, create_water, create_earth, create_air
 
     def healing_potion() -> str:
-        return (f"Healing potion brewed with "
-                f"{alchemy.elements.create_fire()} and "
-                f"{alchemy.elements.create_water()}")
+        return (f"Healing potion brewed with {create_fire()} "
+                f"and {create_water()}")
 
     def strength_potion() -> str:
-        return (f"Strength potion brewed with "
-                f"{create_earth()} and {alchemy.elements.create_fire()}")
+        return (f"Strength potion brewed with {create_earth()} "
+                f"and {create_fire()}")
 
     def invisibility_potion() -> str:
-        return (f"Invisibility potion brewed with "
-                f"{create_air} and {alchemy.elements.create_water()}")
+        return (f"Invisibility potion brewed with {create_air()} "
+                f"and {create_water()}")
 
     def wisdom_potion() -> str:
-        return ("Wisdom potion brewed with all elements:" +
-                alchemy.elements.create_fire() +
-                alchemy.elements.create_water() +
-                create_earth() + create_air())
-
+        return (f"Wisdom potion brewed with all elements: {create_fire()} "
+                f"{create_water()} {create_earth()} {create_air()}")
 except Exception as e:
-    print("Error: in alchemy/potions")
-    print("The Error is:", e)
+    print("Error in alchemy/potions")
+    print("Error:", e)
