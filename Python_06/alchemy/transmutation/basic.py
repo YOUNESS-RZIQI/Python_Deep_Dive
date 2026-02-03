@@ -1,9 +1,12 @@
-from alchemy.elements import create_fire, create_earth
+try:
+    from alchemy.elements import create_fire, create_earth
 
+    def lead_to_gold() -> str:
+        return f"Lead transmuted to gold using {create_fire()}"
 
-def lead_to_gold() -> str:
-    return f"Lead transmuted to gold using {create_fire()}"
+    def stone_to_gem() -> str:
+        return f"Stone transmuted to gem using {create_earth()}"
 
-
-def stone_to_gem() -> str:
-    return f"Stone transmuted to gem using {create_earth()}"
+except Exception as e:
+    print("Error: in alchemy/transmutation/basic")
+    print("The Error is:", e)
