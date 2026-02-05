@@ -8,11 +8,16 @@
 # print('\n')
 
 
-# choice : deal with the list, tuple and string (iterabel, indexed) , it return a random value from the iterable (list...).
-deck = ["A♠", "2♠", "3♠", "4♠"]
-result = random.choice(deck)
-print(deck)
-print(result)
-print('\n')
+# # choice : deal with the list, tuple and string (iterabel, indexed) , it return a random value from the iterable (list...).
+# deck = ["A♠", "2♠", "3♠", "4♠"]
+# result = random.choice(deck)
+# print(deck)
+# print(result)
+# print('\n')
 
+
+# randint: acept two args as int's only (from and to) and it return a random number btween does two int's and they are also included.
+result = random.randint(1, 2)
+print(result)
+print("\n")
 
