@@ -16,8 +16,29 @@
 # print('\n')
 
 
-# randint: acept two args as int's only (from and to) and it return a random number btween does two int's and they are also included.
-result = random.randint(1, 2)
-print(result)
-print("\n")
+# # randint: acept two args as int's only (from and to) and it return a random number btween does two int's and they are also included.
+# result = random.randint(1, 2)
+# print(result)
+# print("\n")
+
+# enum : for easy understanding and naming.
+from enum import IntEnum
+
+
+class Colors(IntEnum):
+    read = 1
+    blue = 2
+
+
+print(type(Colors.blue))
+print(Colors.blue.name)
+choice = int(input("Which color you wnat ?\n\t1) read   2) blue\n"))
+
+
+match choice:
+    case Colors.read | Colors.blue:
+        print("Bouth")
+    case _:
+        print("Else")
+
 
