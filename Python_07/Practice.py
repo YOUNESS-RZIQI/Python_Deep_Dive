@@ -21,24 +21,43 @@
 # print(result)
 # print("\n")
 
-# enum : for easy understanding and naming.
-from enum import IntEnum
+# # enum : for easy understanding and naming.
+# from enum import IntEnum
 
 
-class Colors(IntEnum):
-    read = 1
-    blue = 2
+# class Colors(IntEnum):
+#     read = 1
+#     blue = 2
+
+# print(type(Colors.blue))
+# print(Colors.blue.name)
+# choice = int(input("Which color you wnat ?\n\t1) read   2) blue\n"))
 
 
-print(type(Colors.blue))
-print(Colors.blue.name)
-choice = int(input("Which color you wnat ?\n\t1) read   2) blue\n"))
+# match choice:
+#     case Colors.read | Colors.blue:
+#         print("Bouth")
+#     case _:
+#         print("Else")
 
 
-match choice:
-    case Colors.read | Colors.blue:
-        print("Bouth")
-    case _:
-        print("Else")
+from datetime import datetime
+import time as tim
+
+# today from datetime: 2026-02-06 08:24:54.289618
+time = datetime.today()
+print(time.date())
 
 
+time = datetime.now()
+
+print(time)
+print(time.year)
+print(time.month)
+print(time.day)
+
+start = tim.time()
+end = tim.time()
+
+print(tim.asctime())
+print(end - start)
