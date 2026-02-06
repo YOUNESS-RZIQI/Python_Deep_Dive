@@ -37,9 +37,9 @@ class SpellCard(Card):
             effect_type: The type of effect (EffectType enum)
         """
         super().__init__(name, cost, rarity)
-        self.effect_type: EffectType = effect_type
+        self.effect_type = effect_type
 
-    def play(self, game_state: Dict) -> Dict:
+    def play(self, game_state: dict) -> dict:
         """
         Play this spell card by casting it.
 
@@ -47,7 +47,7 @@ class SpellCard(Card):
             game_state: Current state of the game
 
         Returns:
-            A Dictionary containing the result of casting the spell
+            A dictionary containing the result of casting the spell
         """
         effect_descriptions = {
             EffectType.DAMAGE: f"Deal {self.cost} damage to target",
@@ -57,22 +57,15 @@ class SpellCard(Card):
         }
 
         return {
-            'card_played': self.name,
-            'mana_used': self.cost,
+            'card_played': game_state['name'],
+            'mana_used': game_state['cost'],
             'effect': effect_descriptions.get(
-                self.effect_type,
+                game_state['effect_type'],
                 "Unknown effect"
             )
-            # return {
-            #     'card_played': game_state['name'],
-            #     'mana_used': game_state['cost'],
-            #     'effect': effect_descriptions.get(
-            #         game_state['effect_type'],
-            #         "Unknown effect"
-            #     )
         }
 
-    def resolve_effect(self, targets: List) -> Dict:
+    def resolve_effect(self, targets: List) -> dict:
         """
         Resolve the spell's effect on the given targets.
 
@@ -80,7 +73,7 @@ class SpellCard(Card):
             targets: List of targets affected by the spell
 
         Returns:
-            A Dictionary containing the resolution result
+            A dictionary containing the resolution result
         """
         return {
             'spell': self.name,
@@ -90,12 +83,12 @@ class SpellCard(Card):
             'consumed': True  # Spells are one-time use
         }
 
-    def get_card_info(self) -> Dict:
+    def get_card_info(self) -> dict:
         """
         Get comprehensive information about this spell card.
 
         Returns:
-            A Dictionary containing all card information
+            A dictionary containing all card information
         """
         info = super().get_card_info()
         info['effect_type'] = self.effect_type.value

@@ -15,10 +15,8 @@ def main():
     print("=== DataDeck Deck Builder ===\n")
     print("Building deck with different card types...\n")
 
-    # Create a deck
     deck = Deck()
 
-    # Add different types of cards (demonstrating polymorphism)
     try:
         fire_dragon = CreatureCard("Fire Dragon", 5, Rarity.LEGENDARY, 7, 5)
         lightning_bolt = SpellCard("Lightning Bolt", 3, Rarity.COMMON,
@@ -32,21 +30,17 @@ def main():
     deck.add_card(lightning_bolt)
     deck.add_card(mana_crystal)
 
-    # Display deck statistics
     stats = deck.get_deck_stats()
     print(f"Deck stats: {stats}\n")
 
-    # Shuffle the deck
     deck.shuffle()
 
-    # Draw and play cards
     print("Drawing and playing cards:\n")
-
-    game_state = {'mana': 10, 'battlefield': []}
 
     for _ in range(3):
         card = deck.draw_card()
         if card:
+            game_state = card.get_card_info()
             card_type = card.__class__.__name__.replace('Card', '')
             print(f"Drew: {card.name} ({card_type})")
             play_result = card.play(game_state)

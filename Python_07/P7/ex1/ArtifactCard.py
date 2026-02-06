@@ -51,9 +51,9 @@ class ArtifactCard(Card):
             A Dictionary containing the result of playing the artifact
         """
         return {
-            'card_played': self.name,
-            'mana_used': self.cost,
-            'effect': f"Permanent: {self.effect}"
+            'card_played': game_state['name'],
+            'mana_used': game_state['cost'],
+            'effect': f"Permanent: {game_state['effect']}"
         }
 
     def activate_ability(self) -> Dict:
