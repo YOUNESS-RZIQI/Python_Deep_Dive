@@ -22,6 +22,7 @@ def main():
     except ValueError as e:
         print("Error:", e)
         return
+
     print("CreatureCard Info:")
     print(fire_dragon.get_card_info())
     print()
@@ -35,13 +36,11 @@ def main():
     print(f"Play result: {play_result}")
     print()
 
-    # Test creature combat
     print("Fire Dragon attacks Goblin Warrior:")
     attack_result = fire_dragon.attack_target(goblin_warrior)
     print(f"Attack result: {attack_result}")
     print()
 
-    # Test playability with insufficient mana
     insufficient_mana = 3
     print(f"Testing insufficient mana ({insufficient_mana} available):")
     print(f"Playable: {fire_dragon.is_playable(insufficient_mana)}")
