@@ -12,22 +12,25 @@ def main():
     print("=== DataDeck Card Foundation ===\n")
     print("Testing Abstract Base Class Design:\n")
 
-    # Create creature cards
-    fire_dragon = CreatureCard("Fire Dragon", 5, Rarity.LEGENDARY, 7, 5)
-    goblin_warrior = CreatureCard("Goblin Warrior", 2, Rarity.COMMON, 2, 2)
-
-    # Display card information
+    try:
+        fire_dragon = CreatureCard("Fire Dragon", 5, Rarity.LEGENDARY, 7, 5)
+    except ValueError as e:
+        print("Error:", e)
+        return
+    try:
+        goblin_warrior = CreatureCard("Goblin Warrior", 2, Rarity.COMMON, 2, 2)
+    except ValueError as e:
+        print("Error:", e)
+        return
     print("CreatureCard Info:")
     print(fire_dragon.get_card_info())
     print()
 
-    # Test playability with sufficient mana
     available_mana = 6
     print(f"Playing Fire Dragon with {available_mana} mana available:")
     print(f"Playable: {fire_dragon.is_playable(available_mana)}")
 
-    # Play the card with a simple game state
-    game_state = {'mana': available_mana, 'battlefield': []}
+    game_state = fire_dragon.get_card_info()
     play_result = fire_dragon.play(game_state)
     print(f"Play result: {play_result}")
     print()

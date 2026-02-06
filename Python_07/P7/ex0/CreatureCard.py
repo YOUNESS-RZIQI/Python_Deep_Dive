@@ -34,7 +34,6 @@ class CreatureCard(Card):
         """
         super().__init__(name, cost, rarity)
 
-        # Validate attack and health are positive integers
         if not isinstance(attack, int) or attack <= 0:
             raise ValueError("Attack must be a positive integer")
         if not isinstance(health, int) or health <= 0:
@@ -54,8 +53,8 @@ class CreatureCard(Card):
             A Dictionary containing the result of playing the creature
         """
         return {
-            'card_played': self.name,
-            'mana_used': self.cost,
+            'card_played': game_state['name'],
+            'mana_used': game_state['cost'],
             'effect': 'Creature summoned to battlefield'
         }
 
