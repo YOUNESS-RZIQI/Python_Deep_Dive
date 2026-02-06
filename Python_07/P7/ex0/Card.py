@@ -1,12 +1,18 @@
 """
-The abstract foundation class
-"""
-
-"""
 Card.py - Abstract Base Class for all DataDeck cards
 """
 from abc import ABC, abstractmethod
 from typing import Dict
+from enum import Enum
+
+
+class Rarity(Enum):
+    """Enumeration for card rarity levels."""
+    COMMON = "Common"
+    UNCOMMON = "Uncommon"
+    RARE = "Rare"
+    EPIC = "Epic"
+    LEGENDARY = "Legendary"
 
 
 class Card(ABC):
@@ -16,21 +22,21 @@ class Card(ABC):
     the required abstract methods.
     """
 
-    def __init__(self, name: str, cost: int, rarity: str) -> None:
+    def __init__(self, name: str, cost: int, rarity: Rarity) -> None:
         """
         Initialize a card with basic attributes.
 
         Args:
             name: The name of the card
             cost: The mana cost to play this card
-            rarity: The rarity tier of the card (e.g., Common, Rare, Legendary)
+            rarity: The rarity tier of the card (Rarity enum)
         """
         self.name = name
         self.cost = cost
         self.rarity = rarity
 
     @abstractmethod
-    def play(self, game_state: dict) -> dict:
+    def play(self, game_state: Dict) -> Dict:
         """
         Abstract method that defines how a card is played.
         Must be implemented by all concrete card classes.
@@ -39,21 +45,21 @@ class Card(ABC):
             game_state: Current state of the game
 
         Returns:
-            A dictionary containing the result of playing the card
+            A Dictionary containing the result of playing the card
         """
         pass
 
-    def get_card_info(self) -> dict:
+    def get_card_info(self) -> Dict:
         """
         Get comprehensive information about this card.
 
         Returns:
-            A dictionary containing all card information
+            A Dictionary containing all card information
         """
         return {
             'name': self.name,
             'cost': self.cost,
-            'rarity': self.rarity,
+            'rarity': self.rarity.value,
             'type': self.__class__.__name__.replace('Card', '')
         }
 

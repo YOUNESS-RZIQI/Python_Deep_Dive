@@ -2,7 +2,7 @@
 CreatureCard.py - Concrete implementation of a creature card
 """
 from typing import Dict
-from ex0.Card import Card
+from ex0.Card import Card, Rarity
 
 
 class CreatureCard(Card):
@@ -15,7 +15,7 @@ class CreatureCard(Card):
         self,
         name: str,
         cost: int,
-        rarity: str,
+        rarity: Rarity,
         attack: int,
         health: int
     ) -> None:
@@ -25,7 +25,7 @@ class CreatureCard(Card):
         Args:
             name: The name of the creature
             cost: The mana cost to summon this creature
-            rarity: The rarity tier of the card
+            rarity: The rarity tier of the card (Rarity enum)
             attack: The attack power of the creature
             health: The health points of the creature
 
@@ -43,7 +43,7 @@ class CreatureCard(Card):
         self.attack = attack
         self.health = health
 
-    def play(self, game_state: dict) -> dict:
+    def play(self, game_state: Dict) -> Dict:
         """
         Play this creature card by summoning it to the battlefield.
 
@@ -51,7 +51,7 @@ class CreatureCard(Card):
             game_state: Current state of the game
 
         Returns:
-            A dictionary containing the result of playing the creature
+            A Dictionary containing the result of playing the creature
         """
         return {
             'card_played': self.name,
@@ -59,7 +59,7 @@ class CreatureCard(Card):
             'effect': 'Creature summoned to battlefield'
         }
 
-    def attack_target(self, target: 'CreatureCard') -> dict:
+    def attack_target(self, target: 'CreatureCard') -> Dict:
         """
         Attack another creature or target.
 
@@ -67,7 +67,7 @@ class CreatureCard(Card):
             target: The target creature to attack
 
         Returns:
-            A dictionary containing the combat result
+            A Dictionary containing the combat result
         """
         return {
             'attacker': self.name,
@@ -76,12 +76,12 @@ class CreatureCard(Card):
             'combat_resolved': True
         }
 
-    def get_card_info(self) -> dict:
+    def get_card_info(self) -> Dict:
         """
         Get comprehensive information about this creature card.
 
         Returns:
-            A dictionary containing all card information including combat stats
+            A Dictionary containing all card information including combat stats
         """
         info = super().get_card_info()
         info['attack'] = self.attack

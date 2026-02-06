@@ -1,10 +1,7 @@
 """
-Demonstration script
-"""
-"""
 main.py - Demonstration of the Card Foundation
 """
-# from ex0.Card import Card
+from ex0.Card import Rarity
 from ex0.CreatureCard import CreatureCard
 
 
@@ -16,8 +13,8 @@ def main():
     print("Testing Abstract Base Class Design:\n")
 
     # Create creature cards
-    fire_dragon = CreatureCard("Fire Dragon", 5, "Legendary", 7, 5)
-    goblin_warrior = CreatureCard("Goblin Warrior", 2, "Common", 2, 2)
+    fire_dragon = CreatureCard("Fire Dragon", 5, Rarity.LEGENDARY, 7, 5)
+    goblin_warrior = CreatureCard("Goblin Warrior", 2, Rarity.COMMON, 2, 2)
 
     # Display card information
     print("CreatureCard Info:")
