@@ -21,7 +21,7 @@ def main():
         fire_dragon = CreatureCard("Fire Dragon", 5, Rarity.LEGENDARY, 7, 5)
         lightning_bolt = SpellCard("Lightning Bolt", 3, Rarity.COMMON,
                                    EffectType.DAMAGE)
-        mana_crystal = ArtifactCard("Mana Crystal", 2, Rarity.UNCOMMON, 5,
+        mana_crystal = ArtifactCard("Mana Crystal", 4, Rarity.UNCOMMON, 5,
                                     "+1 mana per turn")
     except ValueError as e:
         print("Error:", e)
