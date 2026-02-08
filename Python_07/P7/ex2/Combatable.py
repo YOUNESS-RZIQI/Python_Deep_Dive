@@ -1,0 +1,48 @@
+"""
+Combatable.py - Abstract interface for combat abilities
+"""
+from abc import ABC, abstractmethod
+from typing import Dict
+
+
+class Combatable(ABC):
+    """
+    Abstract interface for cards with combat capabilities.
+    Cards implementing this interface can attack, defend, and track combat stats.
+    """
+
+    @abstractmethod
+    def attack(self, target) -> Dict:
+        """
+        Attack a target with this card.
+
+        Args:
+            target: The target to attack
+
+        Returns:
+            A dictionary containing the attack result
+        """
+        pass
+
+    @abstractmethod
+    def defend(self, incoming_damage: int) -> Dict:
+        """
+        Defend against incoming damage.
+
+        Args:
+            incoming_damage: Amount of damage being dealt
+
+        Returns:
+            A dictionary containing the defense result
+        """
+        pass
+
+    @abstractmethod
+    def get_combat_stats(self) -> Dict:
+        """
+        Get the combat statistics of this card.
+
+        Returns:
+            A dictionary containing combat-related statistics
+        """
+        pass
