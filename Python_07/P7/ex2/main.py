@@ -23,12 +23,12 @@ def main():
 
     # Show that EliteCard implements multiple interfaces
     print("EliteCard capabilities:")
-    
+
     # Get methods from each interface
     card_methods = ['play', 'get_card_info', 'is_playable']
     combatable_methods = ['attack', 'defend', 'get_combat_stats']
     magical_methods = ['cast_spell', 'channel_mana', 'get_magic_stats']
-    
+
     print(f"- Card: {card_methods}")
     print(f"- Combatable: {combatable_methods}")
     print(f"- Magical: {magical_methods}\n")

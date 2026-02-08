@@ -64,12 +64,13 @@ class EliteCard(Card, Combatable, Magical):
         # Use game_state information if available
         card_name = game_state.get('card_name', self.name)
         available_mana = game_state.get('available_mana', 0)
-        
+
         return {
             'card_played': card_name,
             'mana_used': self.cost,
             'effect': 'Elite warrior deployed with combat and magic abilities',
-            'mana_remaining': available_mana - self.cost if available_mana >= self.cost else 0
+            'mana_remaining': (available_mana - self.cost
+                               if available_mana >= self.cost else 0)
         }
 
     def attack(self, target) -> Dict:
@@ -82,8 +83,10 @@ class EliteCard(Card, Combatable, Magical):
         Returns:
             A dictionary containing the attack result
         """
-        target_name = target if isinstance(target, str) else getattr(target, 'name', 'Unknown')
-        
+        target_name = target if isinstance(target, str) else getattr(target,
+                                                                     'name',
+                                                                     'Unknown')
+
         return {
             'attacker': self.name,
             'target': target_name,
@@ -103,7 +106,7 @@ class EliteCard(Card, Combatable, Magical):
         """
         damage_blocked = min(self.defense_power, incoming_damage)
         damage_taken = max(0, incoming_damage - self.defense_power)
-        
+
         return {
             'defender': self.name,
             'damage_taken': damage_taken,
@@ -137,7 +140,7 @@ class EliteCard(Card, Combatable, Magical):
             A dictionary containing the spell cast result
         """
         mana_cost = len(spell_name) // 2  # Simple mana cost calculation
-        
+
         return {
             'caster': self.name,
             'spell': spell_name,
@@ -156,7 +159,7 @@ class EliteCard(Card, Combatable, Magical):
             A dictionary containing the channeling result
         """
         self.current_mana += amount
-        
+
         return {
             'channeled': amount,
             'total_mana': self.current_mana

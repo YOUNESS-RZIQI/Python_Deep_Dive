@@ -8,7 +8,8 @@ from typing import Dict
 class Combatable(ABC):
     """
     Abstract interface for cards with combat capabilities.
-    Cards implementing this interface can attack, defend, and track combat stats.
+    Cards implementing this interface can attack, defend, and track
+    combat stats.
     """
 
     @abstractmethod
