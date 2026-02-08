@@ -21,14 +21,14 @@ def main():
         fire_dragon = CreatureCard("Fire Dragon", 5, Rarity.LEGENDARY, 7, 5)
         lightning_bolt = SpellCard("Lightning Bolt", 3, Rarity.COMMON,
                                    EffectType.DAMAGE)
-        mana_crystal = ArtifactCard("Mana Crystal", 4, Rarity.UNCOMMON, 5,
+        mana_crystal = ArtifactCard("Mana Crystal", 2, Rarity.UNCOMMON, 5,
                                     "+1 mana per turn")
     except ValueError as e:
         print("Error:", e)
 
-    deck.add_card(fire_dragon)
     deck.add_card(lightning_bolt)
     deck.add_card(mana_crystal)
+    deck.add_card(fire_dragon)
 
     stats = deck.get_deck_stats()
     print(f"Deck stats: {stats}\n")
@@ -40,10 +40,9 @@ def main():
     for _ in range(3):
         card = deck.draw_card()
         if card:
-            game_state = card.get_card_info()
             card_type = card.__class__.__name__.replace('Card', '')
             print(f"Drew: {card.name} ({card_type})")
-            play_result = card.play(game_state)
+            play_result = card.play(card.get_card_info())
             print(f"Play result: {play_result}\n")
 
     print("Polymorphism in action: Same interface, different card "

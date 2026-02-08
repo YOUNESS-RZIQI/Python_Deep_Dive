@@ -50,10 +50,10 @@ class SpellCard(Card):
             A Dictionary containing the result of casting the spell
         """
         effect_descriptions = {
-            EffectType.DAMAGE: f"Deal {self.cost} damage to target",
-            EffectType.HEAL: f"Heal {self.cost * 2} health",
-            EffectType.BUFF: f"Grant +{self.cost}/+{self.cost} buff",
-            EffectType.DEBUFF: f"Apply -{self.cost}/-{self.cost} debuff"
+            EffectType.DAMAGE.value: f"Deal {self.cost} damage to target",
+            EffectType.HEAL.value: f"Heal {self.cost * 2} health",
+            EffectType.BUFF.value: f"Grant +{self.cost}/+{self.cost} buff",
+            EffectType.DEBUFF.value: f"Apply -{self.cost}/-{self.cost} debuff"
         }
 
         return {
