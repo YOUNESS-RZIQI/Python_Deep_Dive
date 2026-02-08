@@ -74,7 +74,6 @@ class Deck:
                 'avg_cost': 0.0
             }
 
-        # Count card types by examining the class name
         card_types = {
             'creatures': 0,
             'spells': 0,
@@ -85,7 +84,6 @@ class Deck:
 
         for card in self.cards:
             card_type = card.__class__.__name__.replace('Card', '').lower()
-            # Map card type names to stats keys
             if 'creature' in card_type:
                 card_types['creatures'] += 1
             elif 'spell' in card_type:

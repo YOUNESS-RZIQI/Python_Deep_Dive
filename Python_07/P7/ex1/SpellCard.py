@@ -39,7 +39,7 @@ class SpellCard(Card):
         super().__init__(name, cost, rarity)
         self.effect_type = effect_type
 
-    def play(self, game_state: dict) -> dict:
+    def play(self, game_state: Dict) -> Dict:
         """
         Play this spell card by casting it.
 
@@ -47,7 +47,7 @@ class SpellCard(Card):
             game_state: Current state of the game
 
         Returns:
-            A dictionary containing the result of casting the spell
+            A Dictionary containing the result of casting the spell
         """
         effect_descriptions = {
             EffectType.DAMAGE: f"Deal {self.cost} damage to target",
@@ -65,7 +65,7 @@ class SpellCard(Card):
             )
         }
 
-    def resolve_effect(self, targets: List) -> dict:
+    def resolve_effect(self, targets: List) -> Dict:
         """
         Resolve the spell's effect on the given targets.
 
@@ -73,7 +73,7 @@ class SpellCard(Card):
             targets: List of targets affected by the spell
 
         Returns:
-            A dictionary containing the resolution result
+            A Dictionary containing the resolution result
         """
         return {
             'spell': self.name,
@@ -83,12 +83,12 @@ class SpellCard(Card):
             'consumed': True  # Spells are one-time use
         }
 
-    def get_card_info(self) -> dict:
+    def get_card_info(self) -> Dict:
         """
         Get comprehensive information about this spell card.
 
         Returns:
-            A dictionary containing all card information
+            A Dictionary containing all card information
         """
         info = super().get_card_info()
         info['effect_type'] = self.effect_type.value

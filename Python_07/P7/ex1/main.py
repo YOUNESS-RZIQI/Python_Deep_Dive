@@ -25,29 +25,29 @@ def main():
                                     "+1 mana per turn")
     except ValueError as e:
         print("Error:", e)
+    print(EffectType.BUFF)
+    # deck.add_card(fire_dragon)
+    # deck.add_card(lightning_bolt)
+    # deck.add_card(mana_crystal)
 
-    deck.add_card(fire_dragon)
-    deck.add_card(lightning_bolt)
-    deck.add_card(mana_crystal)
+    # stats = deck.get_deck_stats()
+    # print(f"Deck stats: {stats}\n")
 
-    stats = deck.get_deck_stats()
-    print(f"Deck stats: {stats}\n")
+    # deck.shuffle()
 
-    deck.shuffle()
+    # print("Drawing and playing cards:\n")
 
-    print("Drawing and playing cards:\n")
+    # for _ in range(3):
+    #     card = deck.draw_card()
+    #     if card:
+    #         game_state = card.get_card_info()
+    #         card_type = card.__class__.__name__.replace('Card', '')
+    #         print(f"Drew: {card.name} ({card_type})")
+    #         play_result = card.play(game_state)
+    #         print(f"Play result: {play_result}\n")
 
-    for _ in range(3):
-        card = deck.draw_card()
-        if card:
-            game_state = card.get_card_info()
-            card_type = card.__class__.__name__.replace('Card', '')
-            print(f"Drew: {card.name} ({card_type})")
-            play_result = card.play(game_state)
-            print(f"Play result: {play_result}\n")
-
-    print("Polymorphism in action: Same interface, different card "
-          "behaviors!")
+    # print("Polymorphism in action: Same interface, different card "
+    #       "behaviors!")
 
 
 if __name__ == "__main__":
