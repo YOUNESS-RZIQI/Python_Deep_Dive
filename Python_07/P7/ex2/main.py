@@ -45,15 +45,19 @@ def main():
     # Combat phase
     print("Combat phase:")
     attack_result = arcane_warrior.attack("Enemy")
-    print(f"Attack result: {attack_result}")
+    crit_status = " CRITICAL HIT!" if attack_result.get('critical_hit') else ""
+    print(f"Attack result: {attack_result}{crit_status}")
 
     defend_result = arcane_warrior.defend(5)
-    print(f"Defense result: {defend_result}\n")
+    dodge_status = " DODGED!" if defend_result.get('dodged') else ""
+    print(f"Defense result: {defend_result}{dodge_status}\n")
 
     # Magic phase
     print("Magic phase:")
     spell_result = arcane_warrior.cast_spell("Fireball", ["Enemy1", "Enemy2"])
     print(f"Spell cast: {spell_result}")
+    print("  (Note: Spell power varies randomly: "
+          f"{spell_result['spell_power']})")
 
     mana_result = arcane_warrior.channel_mana(3)
     print(f"Mana channel: {mana_result}\n")

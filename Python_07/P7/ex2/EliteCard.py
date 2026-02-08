@@ -2,6 +2,7 @@
 EliteCard.py - Elite card with both combat and magical capabilities
 """
 from typing import Dict, List
+import random
 from ex0.Card import Card, Rarity
 from ex2.Combatable import Combatable
 from ex2.Magical import Magical
@@ -69,13 +70,14 @@ class EliteCard(Card, Combatable, Magical):
             'card_played': card_name,
             'mana_used': self.cost,
             'effect': 'Elite warrior deployed with combat and magic abilities',
-            'mana_remaining': (available_mana - self.cost
-                               if available_mana >= self.cost else 0)
+            'mana_remaining': (available_mana -
+                               self.cost if available_mana >= self.cost else 0)
         }
 
     def attack(self, target) -> Dict:
         """
         Attack a target using physical combat.
+        Has a chance for critical hits with bonus damage.
 
         Args:
             target: The target to attack
@@ -87,16 +89,24 @@ class EliteCard(Card, Combatable, Magical):
                                                                      'name',
                                                                      'Unknown')
 
+        # Random critical hit chance (20% chance for 1.5x damage)
+        is_critical = random.random() < 0.2
+        damage = self.attack_power
+        if is_critical:
+            damage = int(self.attack_power * 1.5)
+
         return {
             'attacker': self.name,
             'target': target_name,
-            'damage': self.attack_power,
-            'combat_type': 'melee'
+            'damage': damage,
+            'combat_type': 'melee',
+            'critical_hit': is_critical
         }
 
     def defend(self, incoming_damage: int) -> Dict:
         """
         Defend against incoming damage.
+        Has a chance to dodge and take no damage.
 
         Args:
             incoming_damage: Amount of damage being dealt
@@ -104,13 +114,21 @@ class EliteCard(Card, Combatable, Magical):
         Returns:
             A dictionary containing the defense result
         """
-        damage_blocked = min(self.defense_power, incoming_damage)
-        damage_taken = max(0, incoming_damage - self.defense_power)
+        # Random dodge chance (15% chance to dodge completely)
+        dodged = random.random() < 0.15
+
+        if dodged:
+            damage_blocked = incoming_damage
+            damage_taken = 0
+        else:
+            damage_blocked = min(self.defense_power, incoming_damage)
+            damage_taken = max(0, incoming_damage - self.defense_power)
 
         return {
             'defender': self.name,
             'damage_taken': damage_taken,
             'damage_blocked': damage_blocked,
+            'dodged': dodged,
             'still_alive': True  # Elite cards are tough!
         }
 
@@ -131,6 +149,7 @@ class EliteCard(Card, Combatable, Magical):
     def cast_spell(self, spell_name: str, targets: List) -> Dict:
         """
         Cast a magical spell on the given targets.
+        Spell power has random variance based on magic_power.
 
         Args:
             spell_name: Name of the spell to cast
@@ -139,13 +158,19 @@ class EliteCard(Card, Combatable, Magical):
         Returns:
             A dictionary containing the spell cast result
         """
-        mana_cost = len(spell_name) // 2  # Simple mana cost calculation
+        # Base mana cost from spell name length
+        base_mana = len(spell_name) // 2
+
+        # Random power variance (80% to 120% of magic power)
+        power_multiplier = random.uniform(0.8, 1.2)
+        spell_power = int(self.magic_power * power_multiplier)
 
         return {
             'caster': self.name,
             'spell': spell_name,
             'targets': [str(t) for t in targets],
-            'mana_used': mana_cost
+            'mana_used': base_mana,
+            'spell_power': spell_power
         }
 
     def channel_mana(self, amount: int) -> Dict:
