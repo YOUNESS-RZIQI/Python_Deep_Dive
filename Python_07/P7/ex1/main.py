@@ -6,6 +6,8 @@ from ex0.CreatureCard import CreatureCard
 from ex1.SpellCard import SpellCard, EffectType
 from ex1.ArtifactCard import ArtifactCard
 from ex1.Deck import Deck
+import sys
+import traceback
 
 
 def main():
@@ -30,27 +32,42 @@ def main():
     deck.add_card(mana_crystal)
     deck.add_card(fire_dragon)
 
-    stats = deck.get_deck_stats()
-    print(f"Deck stats: {stats}\n")
+    try:
+        stats = deck.get_deck_stats()
+        print(f"Deck stats: {stats}\n")
+    except Exception:
+        print()
+        sys.stderr.write("\033[31m")
+        traceback.print_exc()
+        print()
+    finally:
+        sys.stderr.write("\033[0m")
+        sys.stderr.flush()
 
     deck.shuffle()
 
-    print("Drawing and playing cards:\n")
+    try:
+        print("Drawing and playing cards:\n")
 
-    for _ in range(3):
-        card = deck.draw_card()
-        if card:
-            card_type = card.__class__.__name__.replace("Card", "")
-            print(f"Drew: {card.name} ({card_type})")
-            play_result = card.play(card.get_card_info())
-            print(f"Play result: {play_result}\n")
+        for _ in range(3):
+            card = deck.draw_card()
+            if card:
+                card_type = card.__class__.__name__.replace("Card", "")
+                print(f"Drew: {card.name} ({card_type})")
+                play_result = card.play(card.get_card_info())
+                print(f"Play result: {play_result}\n")
+    except Exception:
+        print()
+        sys.stderr.write("\033[31m")
+        traceback.print_exc()
+        print()
+    finally:
+        sys.stderr.write("\033[0m")
+        sys.stderr.flush()
 
     print("Polymorphism in action: Same interface, different card "
           "behaviors!")
 
 
 if __name__ == "__main__":
-    try:
-        main()
-    except Exception as e:
-        print("Error:", e)
+    main()
