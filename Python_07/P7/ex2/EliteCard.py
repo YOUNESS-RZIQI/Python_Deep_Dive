@@ -32,24 +32,19 @@ class EliteCard(Card, Combatable, Magical):
             rarity: The rarity tier of the card (Rarity enum)
             attack_power: Physical attack power
             defense_power: Defense capability
-            magic_power: Magical power level
 
         Raises:
             ValueError: If any power stat is not a positive integer
         """
         super().__init__(name, cost, rarity)
 
-        # Validate all power stats are positive integers
         if not isinstance(attack_power, int) or attack_power <= 0:
             raise ValueError("Attack power must be a positive integer")
         if not isinstance(defense_power, int) or defense_power <= 0:
             raise ValueError("Defense power must be a positive integer")
-        if not isinstance(magic_power, int) or magic_power <= 0:
-            raise ValueError("Magic power must be a positive integer")
 
         self.attack_power = attack_power
         self.defense_power = defense_power
-        self.magic_power = magic_power
         self.current_mana = 0
 
     def play(self, game_state: Dict) -> Dict:
@@ -85,12 +80,9 @@ class EliteCard(Card, Combatable, Magical):
         Returns:
             A dictionary containing the attack result
         """
-        target_name = target if isinstance(target, str) else getattr(target,
-                                                                     "name",
-                                                                     "Unknown")
+        target_name = target if isinstance(target, str) else "Unknown"
 
-        # Random critical hit chance (20% chance for 1.5x damage)
-        is_critical = random.random() < 0.2
+        is_critical = random.random() < 0.6
         damage = self.attack_power
         if is_critical:
             damage = int(self.attack_power * 1.5)
@@ -100,7 +92,6 @@ class EliteCard(Card, Combatable, Magical):
             "target": target_name,
             "damage": damage,
             "combat_type": "melee",
-            "critical_hit": is_critical
         }
 
     def defend(self, incoming_damage: int) -> Dict:
@@ -114,22 +105,13 @@ class EliteCard(Card, Combatable, Magical):
         Returns:
             A dictionary containing the defense result
         """
-        # Random dodge chance (15% chance to dodge completely)
-        dodged = random.random() < 0.15
-
-        if dodged:
-            damage_blocked = incoming_damage
-            damage_taken = 0
-        else:
-            damage_blocked = min(self.defense_power, incoming_damage)
-            damage_taken = max(0, incoming_damage - self.defense_power)
-
+        damage_taken = incoming_damage
+        damage_blocked = self.defense_power - incoming_damage
         return {
             "defender": self.name,
             "damage_taken": damage_taken,
             "damage_blocked": damage_blocked,
-            "dodged": dodged,
-            "still_alive": True  # Elite cards are tough!
+            "still_alive": self.defense_power > incoming_damage
         }
 
     def get_combat_stats(self) -> Dict:
@@ -143,13 +125,11 @@ class EliteCard(Card, Combatable, Magical):
             "name": self.name,
             "attack_power": self.attack_power,
             "defense_power": self.defense_power,
-            "combat_ready": True
         }
 
     def cast_spell(self, spell_name: str, targets: List) -> Dict:
         """
         Cast a magical spell on the given targets.
-        Spell power has random variance based on magic_power.
 
         Args:
             spell_name: Name of the spell to cast
@@ -161,16 +141,11 @@ class EliteCard(Card, Combatable, Magical):
         # Base mana cost from spell name length
         base_mana = len(spell_name) // 2
 
-        # Random power variance (80% to 120% of magic power)
-        power_multiplier = random.uniform(0.8, 1.2)
-        spell_power = int(self.magic_power * power_multiplier)
-
         return {
             "caster": self.name,
             "spell": spell_name,
             "targets": [str(t) for t in targets],
             "mana_used": base_mana,
-            "spell_power": spell_power
         }
 
     def channel_mana(self, amount: int) -> Dict:
@@ -199,7 +174,6 @@ class EliteCard(Card, Combatable, Magical):
         """
         return {
             "name": self.name,
-            "magic_power": self.magic_power,
             "current_mana": self.current_mana,
             "spell_ready": self.current_mana >= 1
         }
@@ -214,5 +188,4 @@ class EliteCard(Card, Combatable, Magical):
         info = super().get_card_info()
         info["attack_power"] = self.attack_power
         info["defense_power"] = self.defense_power
-        info["magic_power"] = self.magic_power
         return info
