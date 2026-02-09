@@ -1,5 +1,12 @@
 try:
     from alchemy.grimoire import record_spell, validate_ingredients
+    # from alchemy.grimoire import spellbook
+    # from alchemy.grimoire import validator
+
+    # try:
+    #     spellbook.record_spell("", validator.validate_ingredients)
+    # except Exception:
+    #     print("", end="")
 
     print("\n=== Circular Curse Breaking ===\n")
 
