@@ -53,12 +53,12 @@ class CreatureCard(Card):
             A Dictionary containing the result of playing the creature
         """
         return {
-            'card_played': game_state['name'],
-            'mana_used': game_state['cost'],
-            'effect': 'Creature summoned to battlefield'
+            "card_played": game_state["name"],
+            "mana_used": game_state["cost"],
+            "effect": "Creature summoned to battlefield"
         }
 
-    def attack_target(self, target: 'CreatureCard') -> Dict:
+    def attack_target(self, target: "CreatureCard") -> Dict:
         """
         Attack another creature or target.
 
@@ -69,10 +69,10 @@ class CreatureCard(Card):
             A Dictionary containing the combat result
         """
         return {
-            'attacker': self.name,
-            'target': target.name,
-            'damage_dealt': self.attack,
-            'combat_resolved': True
+            "attacker": self.name,
+            "target": target.name,
+            "damage_dealt": self.attack,
+            "combat_resolved": True
         }
 
     def get_card_info(self) -> Dict:
@@ -83,6 +83,6 @@ class CreatureCard(Card):
             A Dictionary containing all card information including combat stats
         """
         info = super().get_card_info()
-        info['attack'] = self.attack
-        info['health'] = self.health
+        info["attack"] = self.attack
+        info["health"] = self.health
         return info

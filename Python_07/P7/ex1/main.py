@@ -40,7 +40,7 @@ def main():
     for _ in range(3):
         card = deck.draw_card()
         if card:
-            card_type = card.__class__.__name__.replace('Card', '')
+            card_type = card.__class__.__name__.replace("Card", "")
             print(f"Drew: {card.name} ({card_type})")
             play_result = card.play(card.get_card_info())
             print(f"Play result: {play_result}\n")
@@ -50,4 +50,7 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except Exception as e:
+        print("Error:", e)

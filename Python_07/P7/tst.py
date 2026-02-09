@@ -1,5 +1,17 @@
-ls = [0, 1, 2]
+class a():
+    pass
 
-for i, val in enumerate(ls):
-    print(i)
-    print(val)
+
+class b(a):
+    pass
+
+
+class c(b):
+    pass
+
+
+class d(c):
+    pass
+
+
+print(d.mro())

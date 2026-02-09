@@ -67,37 +67,37 @@ class Deck:
         """
         if not self.cards:
             return {
-                'total_cards': 0,
-                'creatures': 0,
-                'spells': 0,
-                'artifacts': 0,
-                'avg_cost': 0.0
+                "total_cards": 0,
+                "creatures": 0,
+                "spells": 0,
+                "artifacts": 0,
+                "avg_cost": 0.0
             }
 
         card_types = {
-            'creatures': 0,
-            'spells': 0,
-            'artifacts': 0
+            "creatures": 0,
+            "spells": 0,
+            "artifacts": 0
         }
 
         total_cost = 0
 
         for card in self.cards:
-            card_type = card.__class__.__name__.replace('Card', '').lower()
-            if 'creature' in card_type:
-                card_types['creatures'] += 1
-            elif 'spell' in card_type:
-                card_types['spells'] += 1
-            elif 'artifact' in card_type:
-                card_types['artifacts'] += 1
+            card_type = card.__class__.__name__.replace("Card", "").lower()
+            if "creature" in card_type:
+                card_types["creatures"] += 1
+            elif "spell" in card_type:
+                card_types["spells"] += 1
+            elif "artifact" in card_type:
+                card_types["artifacts"] += 1
             total_cost += card.cost
 
         avg_cost = total_cost / len(self.cards) if self.cards else 0.0
 
         return {
-            'total_cards': len(self.cards),
-            'creatures': card_types['creatures'],
-            'spells': card_types['spells'],
-            'artifacts': card_types['artifacts'],
-            'avg_cost': round(avg_cost, 1)
+            "total_cards": len(self.cards),
+            "creatures": card_types["creatures"],
+            "spells": card_types["spells"],
+            "artifacts": card_types["artifacts"],
+            "avg_cost": round(avg_cost, 1)
         }

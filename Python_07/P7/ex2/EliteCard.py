@@ -63,14 +63,14 @@ class EliteCard(Card, Combatable, Magical):
             A dictionary containing the result of playing the elite card
         """
         # Use game_state information if available
-        card_name = game_state.get('card_name', self.name)
-        available_mana = game_state.get('available_mana', 0)
+        card_name = game_state.get("card_name", self.name)
+        available_mana = game_state.get("available_mana", 0)
 
         return {
-            'card_played': card_name,
-            'mana_used': self.cost,
-            'effect': 'Elite warrior deployed with combat and magic abilities',
-            'mana_remaining': (available_mana -
+            "card_played": card_name,
+            "mana_used": self.cost,
+            "effect": "Elite warrior deployed with combat and magic abilities",
+            "mana_remaining": (available_mana -
                                self.cost if available_mana >= self.cost else 0)
         }
 
@@ -86,8 +86,8 @@ class EliteCard(Card, Combatable, Magical):
             A dictionary containing the attack result
         """
         target_name = target if isinstance(target, str) else getattr(target,
-                                                                     'name',
-                                                                     'Unknown')
+                                                                     "name",
+                                                                     "Unknown")
 
         # Random critical hit chance (20% chance for 1.5x damage)
         is_critical = random.random() < 0.2
@@ -96,11 +96,11 @@ class EliteCard(Card, Combatable, Magical):
             damage = int(self.attack_power * 1.5)
 
         return {
-            'attacker': self.name,
-            'target': target_name,
-            'damage': damage,
-            'combat_type': 'melee',
-            'critical_hit': is_critical
+            "attacker": self.name,
+            "target": target_name,
+            "damage": damage,
+            "combat_type": "melee",
+            "critical_hit": is_critical
         }
 
     def defend(self, incoming_damage: int) -> Dict:
@@ -125,11 +125,11 @@ class EliteCard(Card, Combatable, Magical):
             damage_taken = max(0, incoming_damage - self.defense_power)
 
         return {
-            'defender': self.name,
-            'damage_taken': damage_taken,
-            'damage_blocked': damage_blocked,
-            'dodged': dodged,
-            'still_alive': True  # Elite cards are tough!
+            "defender": self.name,
+            "damage_taken": damage_taken,
+            "damage_blocked": damage_blocked,
+            "dodged": dodged,
+            "still_alive": True  # Elite cards are tough!
         }
 
     def get_combat_stats(self) -> Dict:
@@ -140,10 +140,10 @@ class EliteCard(Card, Combatable, Magical):
             A dictionary containing combat-related statistics
         """
         return {
-            'name': self.name,
-            'attack_power': self.attack_power,
-            'defense_power': self.defense_power,
-            'combat_ready': True
+            "name": self.name,
+            "attack_power": self.attack_power,
+            "defense_power": self.defense_power,
+            "combat_ready": True
         }
 
     def cast_spell(self, spell_name: str, targets: List) -> Dict:
@@ -166,11 +166,11 @@ class EliteCard(Card, Combatable, Magical):
         spell_power = int(self.magic_power * power_multiplier)
 
         return {
-            'caster': self.name,
-            'spell': spell_name,
-            'targets': [str(t) for t in targets],
-            'mana_used': base_mana,
-            'spell_power': spell_power
+            "caster": self.name,
+            "spell": spell_name,
+            "targets": [str(t) for t in targets],
+            "mana_used": base_mana,
+            "spell_power": spell_power
         }
 
     def channel_mana(self, amount: int) -> Dict:
@@ -186,8 +186,8 @@ class EliteCard(Card, Combatable, Magical):
         self.current_mana += amount
 
         return {
-            'channeled': amount,
-            'total_mana': self.current_mana
+            "channeled": amount,
+            "total_mana": self.current_mana
         }
 
     def get_magic_stats(self) -> Dict:
@@ -198,10 +198,10 @@ class EliteCard(Card, Combatable, Magical):
             A dictionary containing magic-related statistics
         """
         return {
-            'name': self.name,
-            'magic_power': self.magic_power,
-            'current_mana': self.current_mana,
-            'spell_ready': self.current_mana >= 1
+            "name": self.name,
+            "magic_power": self.magic_power,
+            "current_mana": self.current_mana,
+            "spell_ready": self.current_mana >= 1
         }
 
     def get_card_info(self) -> Dict:
@@ -212,7 +212,7 @@ class EliteCard(Card, Combatable, Magical):
             A dictionary containing all card information
         """
         info = super().get_card_info()
-        info['attack_power'] = self.attack_power
-        info['defense_power'] = self.defense_power
-        info['magic_power'] = self.magic_power
+        info["attack_power"] = self.attack_power
+        info["defense_power"] = self.defense_power
+        info["magic_power"] = self.magic_power
         return info

@@ -51,23 +51,23 @@ class ArtifactCard(Card):
             A Dictionary containing the result of playing the artifact
         """
         return {
-            'card_played': game_state['name'],
-            'mana_used': game_state['cost'],
-            'effect': f"Permanent: {game_state['effect']}"
+            "card_played": game_state["name"],
+            "mana_used": game_state["cost"],
+            "effect": f'Permanent: {game_state["effect"]}'
         }
 
     def activate_ability(self) -> Dict:
         """
-        Activate the artifact's ongoing ability.
+        Activate the artifact"s ongoing ability.
 
         Returns:
             A Dictionary containing the activation result
         """
         return {
-            'artifact': self.name,
-            'ability': self.effect,
-            'durability_remaining': self.durability,
-            'active': self.durability > 0
+            "artifact": self.name,
+            "ability": self.effect,
+            "durability_remaining": self.durability,
+            "active": self.durability > 0
         }
 
     def get_card_info(self) -> Dict:
@@ -78,6 +78,6 @@ class ArtifactCard(Card):
             A Dictionary containing all card information
         """
         info = super().get_card_info()
-        info['durability'] = self.durability
-        info['effect'] = self.effect
+        info["durability"] = self.durability
+        info["effect"] = self.effect
         return info

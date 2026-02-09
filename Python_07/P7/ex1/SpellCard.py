@@ -57,17 +57,17 @@ class SpellCard(Card):
         }
 
         return {
-            'card_played': game_state['name'],
-            'mana_used': game_state['cost'],
-            'effect': effect_descriptions.get(
-                game_state['effect_type'],
+            "card_played": game_state["name"],
+            "mana_used": game_state["cost"],
+            "effect": effect_descriptions.get(
+                game_state["effect_type"],
                 "Unknown effect"
             )
         }
 
     def resolve_effect(self, targets: List) -> Dict:
         """
-        Resolve the spell's effect on the given targets.
+        Resolve the spell"s effect on the given targets.
 
         Args:
             targets: List of targets affected by the spell
@@ -76,11 +76,11 @@ class SpellCard(Card):
             A Dictionary containing the resolution result
         """
         return {
-            'spell': self.name,
-            'effect_type': self.effect_type.value,
-            'targets': [str(target) for target in targets],
-            'resolved': True,
-            'consumed': True  # Spells are one-time use
+            "spell": self.name,
+            "effect_type": self.effect_type.value,
+            "targets": [str(target) for target in targets],
+            "resolved": True,
+            "consumed": True
         }
 
     def get_card_info(self) -> Dict:
@@ -91,5 +91,5 @@ class SpellCard(Card):
             A Dictionary containing all card information
         """
         info = super().get_card_info()
-        info['effect_type'] = self.effect_type.value
+        info["effect_type"] = self.effect_type.value
         return info

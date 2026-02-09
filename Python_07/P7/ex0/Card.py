@@ -57,10 +57,10 @@ class Card(ABC):
             A Dictionary containing all card information
         """
         return {
-            'name': self.name,
-            'cost': self.cost,
-            'rarity': self.rarity.value,
-            'type': self.__class__.__name__.replace('Card', '')
+            "name": self.name,
+            "cost": self.cost,
+            "rarity": self.rarity.value,
+            "type": self.__class__.__name__.replace("Card", "")
         }
 
     def is_playable(self, available_mana: int) -> bool:
