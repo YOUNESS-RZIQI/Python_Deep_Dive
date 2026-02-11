@@ -72,11 +72,15 @@ class CreatureCard(Card):
         Returns:
             A Dictionary containing the combat result
         """
+        if target.health <= 0:
+            return {"error": "The target has No Health (alredy death)"}
+        combat_resolved = self.attack >= target.health
+        target.health -= self.attack
         return {
             "attacker": self.name,
             "target": target.name,
             "damage_dealt": self.attack,
-            "combat_resolved": True
+            "combat_resolved": combat_resolved
         }
 
     def get_card_info(self) -> Dict:

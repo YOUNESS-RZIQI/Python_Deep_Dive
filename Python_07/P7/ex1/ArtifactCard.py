@@ -50,10 +50,15 @@ class ArtifactCard(Card):
         Returns:
             A Dictionary containing the result of playing the artifact
         """
+        if not self.is_playable(game_state["mana"]):
+            return {"error": "No Enough Mana"}
+        game_state["mana"] -= self.cost
+        game_state["battlefield"] += [self.name]
+
         return {
-            "card_played": game_state["name"],
-            "mana_used": game_state["cost"],
-            "effect": f'Permanent: {game_state["effect"]}'
+            "card_played": self.name,
+            "mana_used": self.cost,
+            "effect": f'Permanent: {self.effect}'
         }
 
     def activate_ability(self) -> Dict:
@@ -63,6 +68,9 @@ class ArtifactCard(Card):
         Returns:
             A Dictionary containing the activation result
         """
+        if self.durability <= 0:
+            return {"error": "Durability is 0"}
+        self.durability -= 1
         return {
             "artifact": self.name,
             "ability": self.effect,
