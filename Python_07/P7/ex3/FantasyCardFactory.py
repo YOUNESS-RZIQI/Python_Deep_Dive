@@ -21,20 +21,7 @@ class FantasyCardFactory(CardFactory):
 
     def __init__(self) -> None:
         """Initialize the fantasy card factory with card templates."""
-        self.creature_templates = {
-            'dragon': {'cost': 5, 'attack': 7, 'health': 5, 'rarity': Rarity.LEGENDARY},
-            'goblin': {'cost': 2, 'attack': 2, 'health': 2, 'rarity': Rarity.COMMON}
-        }
-
-        self.spell_templates = {
-            'fireball': {'cost': 3, 'effect_type': EffectType.DAMAGE, 'rarity': Rarity.COMMON},
-            'healing': {'cost': 2, 'effect_type': EffectType.HEAL, 'rarity': Rarity.UNCOMMON}
-        }
-
-        self.artifact_templates = {
-            'mana_ring': {'cost': 2, 'durability': 5, 'effect': '+1 mana per turn', 'rarity': Rarity.UNCOMMON},
-            'staff': {'cost': 3, 'durability': 4, 'effect': '+2 spell power', 'rarity': Rarity.RARE}
-        }
+        self.cards = []
 
     def create_creature(
         self,
@@ -49,37 +36,13 @@ class FantasyCardFactory(CardFactory):
         Returns:
             A creature card
         """
+        creature = CreatureCard("Fire Dragon", 5, Rarity.LEGENDARY, 7, 6)
         if isinstance(name_or_power, str):
-            # Create by name
-            template_key = name_or_power.lower()
-            if template_key in self.creature_templates:
-                template = self.creature_templates[template_key]
-                name = name_or_power.capitalize()
-            else:
-                # Default to goblin
-                template = self.creature_templates['goblin']
-                name = 'Goblin'
+            creature.name = name_or_power
         elif isinstance(name_or_power, int):
-            # Create by power level
-            if name_or_power >= 5:
-                template = self.creature_templates['dragon']
-                name = 'Dragon'
-            else:
-                template = self.creature_templates['goblin']
-                name = 'Goblin'
-        else:
-            # Random creature
-            template_key = random.choice(list(self.creature_templates.keys()))
-            template = self.creature_templates[template_key]
-            name = template_key.capitalize()
+            creature.attack = name_or_power
 
-        return CreatureCard(
-            name,
-            template['cost'],
-            template['rarity'],
-            template['attack'],
-            template['health']
-        )
+        self.cards += [creature]
 
     def create_spell(
         self,
@@ -94,36 +57,18 @@ class FantasyCardFactory(CardFactory):
         Returns:
             A spell card
         """
+        spell = SpellCard("Fire Dragon", 5, Rarity.LEGENDARY, 7, 6)
         if isinstance(name_or_power, str):
-            # Create by name
-            template_key = name_or_power.lower()
-            if template_key in self.spell_templates:
-                template = self.spell_templates[template_key]
-                name = name_or_power.capitalize()
-            else:
-                # Default to fireball
-                template = self.spell_templates['fireball']
-                name = 'Fireball'
+            spell.name = name_or_power
         elif isinstance(name_or_power, int):
-            # Create by power level
-            if name_or_power >= 3:
-                template = self.spell_templates['fireball']
-                name = 'Fireball'
-            else:
-                template = self.spell_templates['healing']
-                name = 'Healing'
-        else:
-            # Random spell
-            template_key = random.choice(list(self.spell_templates.keys()))
-            template = self.spell_templates[template_key]
-            name = template_key.capitalize()
+            spell.attack = name_or_power
 
-        return SpellCard(
-            name,
-            template['cost'],
-            template['rarity'],
-            template['effect_type']
-        )
+        # return SpellCard(
+        #     name,
+        #     template['cost'],
+        #     template['rarity'],
+        #     template['effect_type']
+        # )
 
     def create_artifact(
         self,

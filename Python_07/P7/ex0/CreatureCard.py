@@ -52,9 +52,13 @@ class CreatureCard(Card):
         Returns:
             A Dictionary containing the result of playing the creature
         """
+        if not self.is_playable(game_state["mana"]):
+            return {"error": "No Enough Mana"}
+        game_state["mana"] -= self.cost
+        game_state["battlefield"] += [self.name]
         return {
-            "card_played": game_state["name"],
-            "mana_used": game_state["cost"],
+            "card_played": self.name,
+            "mana_used": self.cost,
             "effect": "Creature summoned to battlefield"
         }
 
