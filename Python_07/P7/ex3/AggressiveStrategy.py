@@ -2,9 +2,9 @@ from typing import Dict, List
 from ex3.GameStrategy import GameStrategy
 
 
-# • Prioritizes attacking and dealing damage 
-# • Plays low-cost creatures first for board presence 
-# • Targets enemy creatures and player directly 
+# • Prioritizes attacking and dealing damage
+# • Plays low-cost creatures first for board presence
+# • Targets enemy creatures and player directly
 # • Returns comprehensive turn execution results
 
 
@@ -26,33 +26,35 @@ class AggressiveStrategy(GameStrategy):
         Returns:
             A dictionary containing the turn execution result
         """
-        cards_played = []
-        mana_used = 0
-        targets_attacked = []
-        damage_dealt = 0
+        from_lowest = []
+        for elment in hand
+        # cards_played = []
+        # mana_used = 0
+        # targets_attacked = []
+        # damage_dealt = 0
 
-        # Sort hand by cost (low to high) for aggressive play
-        sorted_hand = sorted(hand, key=lambda c: c.cost)
+        # # Sort hand by cost (low to high) for aggressive play
+        # sorted_hand = sorted(hand, key=lambda c: c.cost)
 
-        # Available mana for this turn (simplified)
-        available_mana = 10
+        # # Available mana for this turn (simplified)
+        # available_mana = 10
 
-        # Play as many low-cost cards as possible
-        for card in sorted_hand:
-            if mana_used + card.cost <= available_mana:
-                cards_played.append(card.name)
-                mana_used += card.cost
+        # # Play as many low-cost cards as possible
+        # for card in sorted_hand:
+        #     if mana_used + card.cost <= available_mana:
+        #         cards_played.append(card.name)
+        #         mana_used += card.cost
 
-                # Aggressive strategy: calculate damage
-                if hasattr(card, 'attack'):
-                    damage_dealt += card.attack
-                elif hasattr(card, 'effect_type'):
-                    # Spell damage based on cost
-                    damage_dealt += card.cost
+        #         # Aggressive strategy: calculate damage
+        #         if hasattr(card, 'attack'):
+        #             damage_dealt += card.attack
+        #         elif hasattr(card, 'effect_type'):
+        #             # Spell damage based on cost
+        #             damage_dealt += card.cost
 
-        # Aggressive strategy attacks player directly
-        if damage_dealt > 0:
-            targets_attacked.append("Enemy Player")
+        # # Aggressive strategy attacks player directly
+        # if damage_dealt > 0:
+        #     targets_attacked.append("Enemy Player")
 
         return {
             'cards_played': cards_played,

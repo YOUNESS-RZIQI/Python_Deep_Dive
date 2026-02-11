@@ -33,7 +33,7 @@ def main():
     turn_result = engine.simulate_turn()
 
     print(f"Hand: {turn_result['hand']}")
-    print(f"\nTurn execution:")
+    print("\nTurn execution:")
     print(f"Strategy: {turn_result['strategy']}")
     print(f"Actions: {turn_result['actions']}\n")
 
