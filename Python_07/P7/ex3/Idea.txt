@@ -1,8 +1,0 @@
-The GaveStratgy Class:
-
-    * BluePrint, just and enter face.
-
-    methods:
-        * execute_turn: List of the cards in hand + List of cards in batallfild.
-        * get_strategy_name: no parameter just the self.
-        * proiritize targets : takes the abalbal trgets.
