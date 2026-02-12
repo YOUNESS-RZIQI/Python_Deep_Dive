@@ -1,5 +1,0 @@
-fro
-
-
-
-print(stdin.read())
