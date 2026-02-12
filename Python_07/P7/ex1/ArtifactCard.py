@@ -69,7 +69,7 @@ class ArtifactCard(Card):
             A Dictionary containing the activation result
         """
         if self.durability <= 0:
-            return {"error": "Durability is 0"}
+            return {"error": "Durability is 0, so there is no effect"}
         self.durability -= 1
         return {
             "artifact": self.name,

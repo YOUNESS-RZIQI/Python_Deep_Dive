@@ -25,45 +25,32 @@ def main():
                                    EffectType.DAMAGE)
         mana_crystal = ArtifactCard("Mana Crystal", 2, Rarity.UNCOMMON, 5,
                                     "+1 mana per turn")
-    except ValueError as e:
-        print("Error:", e)
 
-    deck.add_card(lightning_bolt)
-    deck.add_card(mana_crystal)
-    deck.add_card(fire_dragon)
+        deck.add_card(lightning_bolt)
+        deck.add_card(mana_crystal)
+        deck.add_card(fire_dragon)
 
-    try:
         stats = deck.get_deck_stats()
         print(f"Deck stats: {stats}\n")
-    except Exception:
-        print()
-        sys.stderr.write("\033[31m")
-        traceback.print_exc()
-        print()
-    finally:
-        sys.stderr.write("\033[0m")
-        sys.stderr.flush()
 
-    deck.shuffle()
+        deck.shuffle()
 
-    try:
         print("Drawing and playing cards:\n")
 
-        for _ in range(3):
+        game_state = {"mana": 10, "battlefield": []}
+        for no_matter in range(len(deck.cards)):
             card = deck.draw_card()
             if card:
                 card_type = card.__class__.__name__.replace("Card", "")
                 print(f"Drew: {card.name} ({card_type})")
-                play_result = card.play(card.get_card_info())
+                play_result = card.play(game_state)
                 print(f"Play result: {play_result}\n")
+
     except Exception:
         print()
         sys.stderr.write("\033[31m")
         traceback.print_exc()
         print()
-    finally:
-        sys.stderr.write("\033[0m")
-        sys.stderr.flush()
 
     print("Polymorphism in action: Same interface, different card "
           "behaviors!")

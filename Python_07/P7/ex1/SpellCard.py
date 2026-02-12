@@ -3,6 +3,7 @@ SpellCard.py - Concrete implementation of a spell card
 """
 from typing import Dict, List
 from ex0.Card import Card, Rarity
+from ex0.CreatureCard import CreatureCard
 from enum import Enum
 
 
@@ -12,6 +13,7 @@ class EffectType(Enum):
     HEAL = "heal"
     BUFF = "buff"
     DEBUFF = "debuff"
+    NOEFFECT = "No effect"
 
 
 class SpellCard(Card):
@@ -49,6 +51,11 @@ class SpellCard(Card):
         Returns:
             A Dictionary containing the result of casting the spell
         """
+        if not self.is_playable(game_state["mana"]):
+            return {"error": "No Enough Mana"}
+        game_state["mana"] -= self.cost
+        game_state["battlefield"] += [self.name]
+
         effect_descriptions = {
             EffectType.DAMAGE.value: f"Deal {self.cost} damage to target",
             EffectType.HEAL.value: f"Heal {self.cost * 2} health",
@@ -57,15 +64,13 @@ class SpellCard(Card):
         }
 
         return {
-            "card_played": game_state["name"],
-            "mana_used": game_state["cost"],
+            "card_played": self.name,
+            "mana_used": self.cost,
             "effect": effect_descriptions.get(
-                game_state["effect_type"],
-                "Unknown effect"
-            )
+                self.effect_type.value, "Unknown effect")
         }
 
-    def resolve_effect(self, targets: List) -> Dict:
+    def resolve_effect(self, targets: List[CreatureCard]) -> Dict:
         """
         Resolve the spell"s effect on the given targets.
 
@@ -75,13 +80,15 @@ class SpellCard(Card):
         Returns:
             A Dictionary containing the resolution result
         """
-        return {
+        ressult = {
             "spell": self.name,
             "effect_type": self.effect_type.value,
-            "targets": [str(target) for target in targets],
+            "targets": [target for target in targets],
             "resolved": True,
             "consumed": True
         }
+        self.effect_type = EffectType.NOEFFECT
+        return ressult
 
     def get_card_info(self) -> Dict:
         """

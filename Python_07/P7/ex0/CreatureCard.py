@@ -75,7 +75,7 @@ class CreatureCard(Card):
         if target.health <= 0:
             return {"error": "The target has No Health (alredy death)"}
         combat_resolved = self.attack >= target.health
-        target.health -= self.attack
+        target.health -= min(target.health, self.attack)
         return {
             "attacker": self.name,
             "target": target.name,
