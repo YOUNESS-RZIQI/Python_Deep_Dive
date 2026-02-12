@@ -2,7 +2,6 @@
 EliteCard.py - Elite card with both combat and magical capabilities
 """
 from typing import Dict, List
-import random
 from ex0.Card import Card, Rarity
 from ex2.Combatable import Combatable
 from ex2.Magical import Magical
@@ -21,7 +20,6 @@ class EliteCard(Card, Combatable, Magical):
         rarity: Rarity,
         attack_power: int,
         defense_power: int,
-        magic_power: int
     ) -> None:
         """
         Initialize an elite card with combat and magic stats.
@@ -57,7 +55,6 @@ class EliteCard(Card, Combatable, Magical):
         Returns:
             A dictionary containing the result of playing the elite card
         """
-        # Use game_state information if available
         card_name = game_state.get("card_name", self.name)
         available_mana = game_state.get("available_mana", 0)
 
@@ -82,10 +79,7 @@ class EliteCard(Card, Combatable, Magical):
         """
         target_name = target if isinstance(target, str) else "Unknown"
 
-        is_critical = random.random() < 0.6
         damage = self.attack_power
-        if is_critical:
-            damage = int(self.attack_power * 1.5)
 
         return {
             "attacker": self.name,
@@ -105,11 +99,13 @@ class EliteCard(Card, Combatable, Magical):
         Returns:
             A dictionary containing the defense result
         """
-        damage_taken = incoming_damage
-        damage_blocked = self.defense_power - incoming_damage
+
+        damage_blocked = min(incoming_damage, self.defense_power)
+        new_defese_power = self.defense_power - incoming_damage
+        self.defense_power = new_defese_power if new_defese_power >= 0 else 0
         return {
             "defender": self.name,
-            "damage_taken": damage_taken,
+            "damage_taken": incoming_damage,
             "damage_blocked": damage_blocked,
             "still_alive": self.defense_power > incoming_damage
         }
@@ -138,13 +134,12 @@ class EliteCard(Card, Combatable, Magical):
         Returns:
             A dictionary containing the spell cast result
         """
-        # Base mana cost from spell name length
-        base_mana = len(spell_name) // 2
+        base_mana = len(targets) * 2
 
         return {
             "caster": self.name,
             "spell": spell_name,
-            "targets": [str(t) for t in targets],
+            "targets": [t for t in targets],
             "mana_used": base_mana,
         }
 
