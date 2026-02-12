@@ -1,5 +1,6 @@
 from typing import Dict, List
 from ex3.GameStrategy import GameStrategy
+from ex0.CreatureCard import CreatureCard
 
 
 # • Prioritizes attacking and dealing damage
@@ -14,6 +15,9 @@ class AggressiveStrategy(GameStrategy):
     Plays low-cost cards first and attacks aggressively.
     """
 
+    def __init__(self):
+        self.mana = 0
+
     def execute_turn(self, hand: List, battlefield: List) -> Dict:
         """
         Execute an aggressive turn.
@@ -26,9 +30,23 @@ class AggressiveStrategy(GameStrategy):
         Returns:
             A dictionary containing the turn execution result
         """
-        from_lowest = sorted(hand, key=lambda card: card.cost)
-        
 
+        hand_from_lowest: List = sorted(hand, key=lambda card: card.cost)
+        del hand_from_lowest[-1]
+
+        cards_played = []
+        mana_used = 0
+        damage_dealt = 0
+        for card in hand_from_lowest:
+            if self.mana >= card.cost:
+                self.mana -= card.cost
+                mana_used += card.cost
+                battlefield += [card.name]
+                cards_played += [card.name]
+                if hasattr("attack", card):
+                    damage_dealt += card.attack
+
+        targets_attacked = "Enemy Player"
         return {
             'cards_played': cards_played,
             'mana_used': mana_used,
@@ -45,10 +63,10 @@ class AggressiveStrategy(GameStrategy):
         """
         return "AggressiveStrategy"
 
-    def prioritize_targets(self, available_targets: List) -> List:
+    def prioritize_targets(self,
+                           available_targets: List[CreatureCard]) -> List:
         """
         Prioritize targets aggressively.
-        Prioritizes enemy player, then weakest creatures.
 
         Args:
             available_targets: List of available targets
@@ -56,16 +74,8 @@ class AggressiveStrategy(GameStrategy):
         Returns:
             A list of targets in priority order
         """
-        # Aggressive strategy: prioritize direct damage to player
-        prioritized = []
 
-        # Player is highest priority
-        player_targets = [t for t in available_targets if 'player' in str(t).lower()]
-        prioritized.extend(player_targets)
-
-        # Then low-health creatures (if they have health attribute)
-        creature_targets = [t for t in available_targets if t not in player_targets]
-        creature_targets.sort(key=lambda t: getattr(t, 'health', 999))
-        prioritized.extend(creature_targets)
+        prioritized: List = sorted(available_targets,
+                                   key=lambda card: card.health)
 
         return prioritized

@@ -21,7 +21,7 @@ class FantasyCardFactory(CardFactory):
 
     def __init__(self) -> None:
         """Initialize the fantasy card factory with card templates."""
-        self.cards = []
+        self.cards = {"creatures": [], "spells": [], "artifacts": []}
 
     def create_creature(
         self,
@@ -36,13 +36,34 @@ class FantasyCardFactory(CardFactory):
         Returns:
             A creature card
         """
-        creature = CreatureCard("Fire Dragon", 5, Rarity.LEGENDARY, 7, 6)
+        creatures_list = [
+            "Dragon",
+            "Ice Phoenix",
+            "Shadow Wolf",
+            "Thunder Giant",
+            "Crystal Golem",
+            "Forest Elf",
+            "Sea Serpent",
+            "Stone Troll",
+            "Golden",
+            "Dark Vampire",
+        ]
+
+        creature = CreatureCard(
+            name=random.choice(creatures_list),
+            cost=random.randint(1, 9),
+            rarity=random.choice(list(Rarity)),
+            attack=random.randint(1, 9),
+            health=random.randint(1, 9),
+        )
+
         if isinstance(name_or_power, str):
             creature.name = name_or_power
         elif isinstance(name_or_power, int):
             creature.attack = name_or_power
 
-        self.cards += [creature]
+        self.cards["creatures"].append(creature.name.lower())
+        return creature
 
     def create_spell(
         self,
@@ -52,23 +73,38 @@ class FantasyCardFactory(CardFactory):
         Create a fantasy spell card.
 
         Args:
-            name_or_power: Either a spell name or power level
+            name_or_power: Either a spell name (str) or spell cost (int)
 
         Returns:
             A spell card
         """
-        spell = SpellCard("Fire Dragon", 5, Rarity.LEGENDARY, 7, 6)
+        spell_names = [
+            "Fireball",
+            "Ice Lance",
+            "Thunder Strike",
+            "Healing Wave",
+            "Stone Shield",
+            "Shadow Curse",
+            "Wind Gust",
+            "Lightning",
+            "Poison Cloud",
+            "Arcane Blast"
+        ]
+
+        spell = SpellCard(
+            name=random.choice(spell_names),
+            cost=random.randint(1, 9),
+            rarity=random.choice(list(Rarity)),
+            effect_type=random.choice(list(EffectType))
+        )
+
         if isinstance(name_or_power, str):
             spell.name = name_or_power
         elif isinstance(name_or_power, int):
-            spell.attack = name_or_power
+            spell.cost = name_or_power
 
-        # return SpellCard(
-        #     name,
-        #     template['cost'],
-        #     template['rarity'],
-        #     template['effect_type']
-        # )
+        self.cards["spells"].append(spell.name.lower())
+        return spell
 
     def create_artifact(
         self,
@@ -78,42 +114,53 @@ class FantasyCardFactory(CardFactory):
         Create a fantasy artifact card.
 
         Args:
-            name_or_power: Either an artifact name or power level
+            name_or_power: Either an artifact name (str) or durability (int)
 
         Returns:
             An artifact card
         """
-        if isinstance(name_or_power, str):
-            # Create by name
-            template_key = name_or_power.lower()
-            if template_key in self.artifact_templates:
-                template = self.artifact_templates[template_key]
-                name = name_or_power.replace('_', ' ').title()
-            else:
-                # Default to mana ring
-                template = self.artifact_templates['mana_ring']
-                name = 'Mana Ring'
-        elif isinstance(name_or_power, int):
-            # Create by power level
-            if name_or_power >= 3:
-                template = self.artifact_templates['staff']
-                name = 'Staff'
-            else:
-                template = self.artifact_templates['mana_ring']
-                name = 'Mana Ring'
-        else:
-            # Random artifact
-            template_key = random.choice(list(self.artifact_templates.keys()))
-            template = self.artifact_templates[template_key]
-            name = template_key.replace('_', ' ').title()
+        artifact_names = [
+            "Amulet of Strength",
+            "Ring of Invisibility",
+            "Crystal Orb",
+            "Sword of Eternity",
+            "Shield of Ages",
+            "Cloak of Shadows",
+            "Gauntlet of Power",
+            "Helmet of Wisdom",
+            "Boots of Swiftness",
+            "Staff of Flames",
+            "Mana_ring"
+        ]
 
-        return ArtifactCard(
-            name,
-            template['cost'],
-            template['rarity'],
-            template['durability'],
-            template['effect']
+        artifact_effects = [
+            "Increase attack of all creatures by 1",
+            "Gain extra mana each turn",
+            "Draw an extra card each turn",
+            "Reduce damage taken by 2",
+            "Double your attack once per turn",
+            "Heal 1 health per turn",
+            "Negate enemy spell once",
+            "Extra defense to all creatures",
+            "Discard enemy card randomly",
+            "Increase spell damage by 2"
+        ]
+
+        artifact = ArtifactCard(
+            name=random.choice(artifact_names),
+            cost=random.randint(1, 9),
+            rarity=random.choice(list(Rarity)),
+            durability=random.randint(1, 5),
+            effect=random.choice(artifact_effects)
         )
+
+        if isinstance(name_or_power, str):
+            artifact.name = name_or_power
+        elif isinstance(name_or_power, int):
+            artifact.durability = max(1, name_or_power)
+
+        self.cards["artifacts"].append(artifact.name.lower())
+        return artifact
 
     def create_themed_deck(self, size: int) -> Dict:
         """
@@ -123,13 +170,12 @@ class FantasyCardFactory(CardFactory):
             size: Number of cards in the deck
 
         Returns:
-            A dictionary containing deck information
+            A dictionary containing deck information of created Cards.
         """
-        deck_cards = []
+        deck_cards: list[Card] = []
 
-        # Create a balanced deck
         creatures_count = size // 2
-        spells_count = size // 3
+        spells_count = size // 2
         artifacts_count = size - creatures_count - spells_count
 
         for _ in range(creatures_count):
@@ -141,16 +187,7 @@ class FantasyCardFactory(CardFactory):
         for _ in range(artifacts_count):
             deck_cards.append(self.create_artifact())
 
-        return {
-            'theme': 'Fantasy',
-            'cards': deck_cards,
-            'size': len(deck_cards),
-            'composition': {
-                'creatures': creatures_count,
-                'spells': spells_count,
-                'artifacts': artifacts_count
-            }
-        }
+        return {"deck": deck_cards}
 
     def get_supported_types(self) -> Dict:
         """
@@ -160,7 +197,7 @@ class FantasyCardFactory(CardFactory):
             A dictionary of supported card types
         """
         return {
-            'creatures': list(self.creature_templates.keys()),
-            'spells': list(self.spell_templates.keys()),
-            'artifacts': list(self.artifact_templates.keys())
+            'creatures': "'Fire Dragon', 'Goblin Warrior' ...",
+            'spells': "'Fireball', 'Ice Lance' ...",
+            'artifacts': "'Amulet of Strength', 'Ring of Invisibility' ..."
         }

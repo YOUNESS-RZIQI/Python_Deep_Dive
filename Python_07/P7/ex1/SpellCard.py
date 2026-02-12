@@ -84,7 +84,6 @@ class SpellCard(Card):
             "spell": self.name,
             "effect_type": self.effect_type.value,
             "targets": [target for target in targets],
-            "resolved": True,
             "consumed": True
         }
         self.effect_type = EffectType.NOEFFECT
