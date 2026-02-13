@@ -17,16 +17,13 @@ def main():
     print(f"Factory: {factory.__class__.__name__}")
     print(f"Strategy: {strategy.get_strategy_name()}")
 
-    # Show available card types
     supported_types = factory.get_supported_types()
     print(f"Available types: {supported_types}\n")
 
-    # Create and configure game engine
     engine = GameEngine()
     engine.configure_engine(factory, strategy)
 
-    # Simulate a turn
-    print("Simulating aggressive turn...\n")
+    print("Simulating aggressive turn...")
     turn_result = engine.simulate_turn()
 
     print(f"Hand: {turn_result['hand']}")
@@ -34,7 +31,6 @@ def main():
     print(f"Strategy: {turn_result['strategy']}")
     print(f"Actions: {turn_result['actions']}\n")
 
-    # Get engine report
     print("Game Report:")
     status = engine.get_engine_status()
     print(f"{status}\n")

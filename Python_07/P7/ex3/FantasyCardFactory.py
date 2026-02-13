@@ -1,16 +1,10 @@
-from typing import Dict, Optional, Union
 import random
 from ex0.Card import Card, Rarity
 from ex0.CreatureCard import CreatureCard
 from ex1.SpellCard import SpellCard, EffectType
 from ex1.ArtifactCard import ArtifactCard
 from ex3.CardFactory import CardFactory
-
-
-# • Creates fantasy-themed creatures (Dragons, Goblins, etc.)
-# • Creates elemental spells (Fire, Ice, Lightning)
-# • Creates magical artifacts (Rings, Staffs, Crystals)
-# • Supports extensible card type registration
+from typing import Dict
 
 
 class FantasyCardFactory(CardFactory):
@@ -25,7 +19,7 @@ class FantasyCardFactory(CardFactory):
 
     def create_creature(
         self,
-        name_or_power: Optional[Union[str, int]] = None
+        name_or_power: str | int | None = None
     ) -> Card:
         """
         Create a fantasy creature card.
@@ -47,6 +41,7 @@ class FantasyCardFactory(CardFactory):
             "Stone Troll",
             "Golden",
             "Dark Vampire",
+            "Goblin",
         ]
 
         creature = CreatureCard(
@@ -60,14 +55,14 @@ class FantasyCardFactory(CardFactory):
         if isinstance(name_or_power, str):
             creature.name = name_or_power
         elif isinstance(name_or_power, int):
-            creature.attack = name_or_power
+            creature.cost = name_or_power
 
         self.cards["creatures"].append(creature.name.lower())
         return creature
 
     def create_spell(
         self,
-        name_or_power: Optional[Union[str, int]] = None
+        name_or_power: str | int | None = None
     ) -> Card:
         """
         Create a fantasy spell card.
@@ -108,7 +103,7 @@ class FantasyCardFactory(CardFactory):
 
     def create_artifact(
         self,
-        name_or_power: Optional[Union[str, int]] = None
+        name_or_power: str | int | None = None
     ) -> Card:
         """
         Create a fantasy artifact card.
@@ -135,23 +130,25 @@ class FantasyCardFactory(CardFactory):
 
         artifact_effects = [
             "Increase attack of all creatures by 1",
-            "Gain extra mana each turn",
+            "Become invisible for one turn",
             "Draw an extra card each turn",
-            "Reduce damage taken by 2",
             "Double your attack once per turn",
-            "Heal 1 health per turn",
+            "Reduce damage taken by 2",
             "Negate enemy spell once",
+            "Increase attack damage by 2",
             "Extra defense to all creatures",
-            "Discard enemy card randomly",
-            "Increase spell damage by 2"
+            "Gain extra movement speed this turn",
+            "Increase spell damage by 2",
+            "Gain extra mana each turn"
         ]
 
+        num = random.randint(0, len(artifact_names) - 1)
         artifact = ArtifactCard(
-            name=random.choice(artifact_names),
+            name=random.choice(artifact_names[num]),
             cost=random.randint(1, 9),
             rarity=random.choice(list(Rarity)),
             durability=random.randint(1, 5),
-            effect=random.choice(artifact_effects)
+            effect=random.choice(artifact_effects[num])
         )
 
         if isinstance(name_or_power, str):
@@ -197,7 +194,7 @@ class FantasyCardFactory(CardFactory):
             A dictionary of supported card types
         """
         return {
-            'creatures': "'Fire Dragon', 'Goblin Warrior' ...",
-            'spells': "'Fireball', 'Ice Lance' ...",
-            'artifacts': "'Amulet of Strength', 'Ring of Invisibility' ..."
+            "creatures": ["Fire Dragon", "Goblin Warrior"],
+            "spells": ["Fireball"],
+            "artifacts": ["mana_ring"]
         }

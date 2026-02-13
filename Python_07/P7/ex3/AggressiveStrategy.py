@@ -32,18 +32,18 @@ class AggressiveStrategy(GameStrategy):
         """
 
         hand_from_lowest: List = sorted(hand, key=lambda card: card.cost)
-        del hand_from_lowest[-1]
 
         cards_played = []
         mana_used = 0
         damage_dealt = 0
+        game_state = {"mana": self.mana, "battlefield": battlefield}
         for card in hand_from_lowest:
             if self.mana >= card.cost:
                 self.mana -= card.cost
-                mana_used += card.cost
-                battlefield += [card.name]
                 cards_played += [card.name]
-                if hasattr("attack", card):
+                card.play(game_state)
+                mana_used += card.cost
+                if "CreatureCard" in card.__class__.__name__:
                     damage_dealt += card.attack
 
         targets_attacked = "Enemy Player"
