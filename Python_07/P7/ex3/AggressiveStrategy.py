@@ -3,12 +3,6 @@ from ex3.GameStrategy import GameStrategy
 from ex0.CreatureCard import CreatureCard
 
 
-# • Prioritizes attacking and dealing damage
-# • Plays low-cost creatures first for board presence
-# • Targets enemy creatures and player directly
-# • Returns comprehensive turn execution results
-
-
 class AggressiveStrategy(GameStrategy):
     """
     Aggressive strategy that prioritizes dealing damage.
@@ -38,14 +32,14 @@ class AggressiveStrategy(GameStrategy):
         damage_dealt = 0
         game_state = {"mana": self.mana, "battlefield": battlefield}
         for card in hand_from_lowest:
-            if self.mana >= card.cost:
-                self.mana -= card.cost
+            if game_state["mana"] >= card.cost:
                 cards_played += [card.name]
                 card.play(game_state)
                 mana_used += card.cost
                 if "CreatureCard" in card.__class__.__name__:
                     damage_dealt += card.attack
 
+        self.mana = game_state["mana"]
         targets_attacked = "Enemy Player"
         return {
             'cards_played': cards_played,

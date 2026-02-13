@@ -51,11 +51,7 @@ class GameEngine:
             raise ValueError("Engine must be configured before simulating"
                              "turns")
 
-        hand = [
-            self.factory.create_creature("Fire Dragon"),
-            self.factory.create_creature("Goblin Warrior"),
-            self.factory.create_spell("Lightning Bolt")
-        ]
+        hand = self.factory.create_themed_deck(5)["deck"]
 
         self.cards_created += len(hand)
 

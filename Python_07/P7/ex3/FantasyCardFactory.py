@@ -144,11 +144,11 @@ class FantasyCardFactory(CardFactory):
 
         num = random.randint(0, len(artifact_names) - 1)
         artifact = ArtifactCard(
-            name=random.choice(artifact_names[num]),
+            name=(artifact_names[num]),
             cost=random.randint(1, 9),
             rarity=random.choice(list(Rarity)),
             durability=random.randint(1, 5),
-            effect=random.choice(artifact_effects[num])
+            effect=(artifact_effects[num])
         )
 
         if isinstance(name_or_power, str):
@@ -171,18 +171,10 @@ class FantasyCardFactory(CardFactory):
         """
         deck_cards: list[Card] = []
 
-        creatures_count = size // 2
-        spells_count = size // 2
-        artifacts_count = size - creatures_count - spells_count
-
-        for _ in range(creatures_count):
-            deck_cards.append(self.create_creature())
-
-        for _ in range(spells_count):
-            deck_cards.append(self.create_spell())
-
-        for _ in range(artifacts_count):
-            deck_cards.append(self.create_artifact())
+        for _ in range(size):
+            ls = [self.create_creature(), self.create_spell(),
+                  self.create_artifact()]
+            deck_cards.append(random.choice(ls))
 
         return {"deck": deck_cards}
 
