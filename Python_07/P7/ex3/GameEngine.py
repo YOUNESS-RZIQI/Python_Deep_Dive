@@ -19,6 +19,7 @@ class GameEngine:
         self.turns_simulated: int = 0
         self.total_damage: int = 0
         self.cards_created: int = 0
+        self.how_mush_to_creat = 0
 
     def configure_engine(
         self,
@@ -51,8 +52,7 @@ class GameEngine:
             raise ValueError("Engine must be configured before simulating"
                              "turns")
 
-        hand = self.factory.create_themed_deck(5)["deck"]
-
+        hand = self.factory.create_themed_deck(self.how_mush_to_creat)["deck"]
         self.cards_created += len(hand)
 
         battlefield = []
@@ -65,7 +65,7 @@ class GameEngine:
         return {
             "actions": turn_result,
             "strategy": self.strategy.get_strategy_name(),
-            "hand": [(card.name + f"({card.cost})") for card in hand]
+            "hand": ", ".join(f"{card.name} ({card.cost})" for card in hand)
         }
 
     def get_engine_status(self) -> Dict:
