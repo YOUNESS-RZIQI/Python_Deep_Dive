@@ -57,7 +57,7 @@ class FantasyCardFactory(CardFactory):
         elif isinstance(name_or_power, int):
             creature.cost = name_or_power
 
-        self.cards["creatures"].append(creature.name.lower())
+        self.cards["creatures"].append(creature)
         return creature
 
     def create_spell(
@@ -98,7 +98,7 @@ class FantasyCardFactory(CardFactory):
         elif isinstance(name_or_power, int):
             spell.cost = name_or_power
 
-        self.cards["spells"].append(spell.name.lower())
+        self.cards["spells"].append(spell)
         return spell
 
     def create_artifact(
@@ -156,7 +156,7 @@ class FantasyCardFactory(CardFactory):
         elif isinstance(name_or_power, int):
             artifact.durability = max(1, name_or_power)
 
-        self.cards["artifacts"].append(artifact.name.lower())
+        self.cards["artifacts"].append(artifact)
         return artifact
 
     def create_themed_deck(self, size: int) -> Dict:

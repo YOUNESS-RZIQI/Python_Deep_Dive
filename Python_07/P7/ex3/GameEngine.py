@@ -3,7 +3,6 @@ from ex3.CardFactory import CardFactory
 from ex3.GameStrategy import GameStrategy
 from ex3.AggressiveStrategy import AggressiveStrategy
 from ex3.FantasyCardFactory import FantasyCardFactory
-import random
 
 
 class GameEngine:
@@ -56,8 +55,6 @@ class GameEngine:
         self.cards_created += len(hand)
 
         battlefield = []
-
-        self.strategy.mana = random.randint(4, 9)
         turn_result = self.strategy.execute_turn(hand, battlefield)
         self.turns_simulated += 1
         self.total_damage += turn_result["damage_dealt"]
