@@ -1,15 +1,7 @@
-from abc import ABC, abstractmethod
+from ex0.Card import Card, Rarity
 
+class a(Card):
+    def play(self):
+        pass
 
-class a(ABC):
-
-    def say_hi():
-        print("Hi")
-    say_hi = abstractmethod(say_hi)
-
-
-class b(a):
-    say_hi = "hi"
-
-
-print(b().say_hi)
+a("name", 5, Rarity.COMMON)

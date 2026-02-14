@@ -1,6 +1,3 @@
-"""
-Deck.py - Deck management system for DataDeck
-"""
 from typing import Dict, Optional
 import random
 from ex0.Card import Card

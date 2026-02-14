@@ -1,8 +1,5 @@
-"""
-CreatureCard.py - Concrete implementation of a creature card
-"""
 from typing import Dict
-from ex0.Card import Card, Rarity
+from ex0.Card import Card
 
 
 class CreatureCard(Card):
@@ -11,14 +8,8 @@ class CreatureCard(Card):
     Creatures have attack and health values and can engage in combat.
     """
 
-    def __init__(
-        self,
-        name: str,
-        cost: int,
-        rarity: Rarity,
-        attack: int,
-        health: int
-    ) -> None:
+    def __init__(self, name: str, cost: int, rarity: str,
+                 attack: int, health: int) -> None:
         """
         Initialize a creature card with combat stats.
 
@@ -52,6 +43,8 @@ class CreatureCard(Card):
         Returns:
             A Dictionary containing the result of playing the creature
         """
+        if self.name not in game_state["battlefield"]:
+            raise ValueError(f"{self.name} is alredy in battlefield")
         if not isinstance(game_state, Dict):
             raise ValueError("gama_state must be Dict type.")
         if not self.is_playable(game_state["mana"]):

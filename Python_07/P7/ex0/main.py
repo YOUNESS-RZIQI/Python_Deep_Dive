@@ -16,9 +16,11 @@ def main():
 
     try:
 
-        fire_dragon = CreatureCard("Fire Dragon", 5, Rarity.LEGENDARY, 7, 5)
+        fire_dragon = CreatureCard("Fire Dragon", 5, Rarity.LEGENDARY.value, 7,
+                                   5)
 
-        goblin_warrior = CreatureCard("Goblin Warrior", 2, Rarity.COMMON, 2, 8)
+        goblin_warrior = CreatureCard("Goblin Warrior", 2, Rarity.COMMON.value,
+                                      2, 8)
 
         print("CreatureCard Info:")
         print(fire_dragon.get_card_info())

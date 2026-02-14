@@ -1,8 +1,5 @@
-"""
-ArtifactCard.py - Concrete implementation of an artifact card
-"""
 from typing import Dict
-from ex0.Card import Card, Rarity
+from ex0.Card import Card
 
 
 class ArtifactCard(Card):
@@ -15,7 +12,7 @@ class ArtifactCard(Card):
         self,
         name: str,
         cost: int,
-        rarity: Rarity,
+        rarity: str,
         durability: int,
         effect: str
     ) -> None:
@@ -50,6 +47,11 @@ class ArtifactCard(Card):
         Returns:
             A Dictionary containing the result of playing the artifact
         """
+        if self.name not in game_state["battlefield"]:
+            raise ValueError(f"{self.name} is alredy in battlefield")
+        if not isinstance(game_state, Dict):
+            raise ValueError("gama_state must be Dict type.")
+
         if not self.is_playable(game_state["mana"]):
             return {"error": "No Enough Mana"}
         game_state["mana"] -= self.cost

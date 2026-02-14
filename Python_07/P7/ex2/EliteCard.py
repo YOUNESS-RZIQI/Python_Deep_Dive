@@ -55,6 +55,11 @@ class EliteCard(Card, Combatable, Magical):
         Returns:
             A dictionary containing the result of playing the elite card
         """
+        if self.name not in game_state["battlefield"]:
+            raise ValueError(f"{self.name} is alredy in battlefield")
+        if not isinstance(game_state, Dict):
+            raise ValueError("gama_state must be Dict type.")
+
         card_name = game_state.get("card_name", self.name)
         available_mana = game_state.get("available_mana", 0)
 

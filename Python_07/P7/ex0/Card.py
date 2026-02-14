@@ -1,6 +1,3 @@
-"""
-Card.py - Abstract Base Class for all DataDeck cards
-"""
 from abc import ABC, abstractmethod
 from typing import Dict
 from enum import Enum
@@ -22,7 +19,7 @@ class Card(ABC):
     the required abstract methods.
     """
 
-    def __init__(self, name: str, cost: int, rarity: Rarity) -> None:
+    def __init__(self, name: str, cost: int, rarity: str) -> None:
         """
         Initialize a card with basic attributes.
 
@@ -33,16 +30,15 @@ class Card(ABC):
         """
         if not isinstance(name, str):
             raise ValueError("Error: name should be of type(str)")
-        if not isinstance(cost, int) or cost < 0:
+        if not isinstance(cost, int) or cost <= 0:
             raise ValueError("Error: cost must be positive integer (int)")
-        if not isinstance(rarity, Rarity):
+        if not isinstance(rarity, str):
             raise ValueError("Error: cost should be of type(Enum: 'Rarity')")
 
         self.name = name
         self.cost = cost
         self.rarity = rarity
 
-    @abstractmethod
     def play(self, game_state: Dict) -> Dict:
         """
         Abstract method that defines how a card is played.
@@ -56,6 +52,8 @@ class Card(ABC):
         """
         pass
 
+    play = abstractmethod(play)
+
     def get_card_info(self) -> Dict:
         """
         Get comprehensive information about this card.
@@ -66,7 +64,7 @@ class Card(ABC):
         return {
             "name": self.name,
             "cost": self.cost,
-            "rarity": self.rarity.value,
+            "rarity": self.rarity,
             "type": self.__class__.__name__.replace("Card", "")
         }
 
@@ -80,5 +78,7 @@ class Card(ABC):
         Returns:
             True if the card can be played, False otherwise
         """
+        if not isinstance(available_mana, int):
+            raise ValueError("available_mana mus be of type (int)")
 
         return available_mana >= self.cost

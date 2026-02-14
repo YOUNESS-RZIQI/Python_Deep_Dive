@@ -1,8 +1,5 @@
-"""
-SpellCard.py - Concrete implementation of a spell card
-"""
 from typing import Dict, List
-from ex0.Card import Card, Rarity
+from ex0.Card import Card
 from ex0.CreatureCard import CreatureCard
 from enum import Enum
 
@@ -26,8 +23,8 @@ class SpellCard(Card):
         self,
         name: str,
         cost: int,
-        rarity: Rarity,
-        effect_type: EffectType
+        rarity: str,
+        effect_type: str
     ) -> None:
         """
         Initialize a spell card with an effect type.
@@ -51,6 +48,11 @@ class SpellCard(Card):
         Returns:
             A Dictionary containing the result of casting the spell
         """
+        if self.name not in game_state["battlefield"]:
+            raise ValueError(f"{self.name} is alredy in battlefield")
+        if not isinstance(game_state, Dict):
+            raise ValueError("gama_state must be Dict type.")
+
         if not self.is_playable(game_state["mana"]):
             return {"error": "No Enough Mana"}
         game_state["mana"] -= self.cost
@@ -67,7 +69,7 @@ class SpellCard(Card):
             "card_played": self.name,
             "mana_used": self.cost,
             "effect": effect_descriptions.get(
-                self.effect_type.value, "Unknown effect")
+                self.effect_type, "Unknown effect")
         }
 
     def resolve_effect(self, targets: List[CreatureCard]) -> Dict:
@@ -82,11 +84,11 @@ class SpellCard(Card):
         """
         ressult = {
             "spell": self.name,
-            "effect_type": self.effect_type.value,
+            "effect_type": self.effect_type,
             "targets": [target for target in targets],
             "consumed": True
         }
-        self.effect_type = EffectType.NOEFFECT
+        self.effect_type = EffectType.NOEFFECT.value
         return ressult
 
     def get_card_info(self) -> Dict:
@@ -97,5 +99,5 @@ class SpellCard(Card):
             A Dictionary containing all card information
         """
         info = super().get_card_info()
-        info["effect_type"] = self.effect_type.value
+        info["effect_type"] = self.effect_type
         return info
