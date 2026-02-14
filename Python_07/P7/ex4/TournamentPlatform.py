@@ -1,6 +1,3 @@
-"""
-TournamentPlatform.py - Platform for managing tournament cards and matches
-"""
 from typing import Dict, List, Optional
 import random
 from ex4.TournamentCard import TournamentCard
@@ -28,11 +25,11 @@ class TournamentPlatform:
         Returns:
             A unique ID for the registered card
         """
-        # Generate unique ID
-        card_id = f"{card.name.lower().replace(' ', '_')}_{len(self.registered_cards) + 1:03d}"
-        
+        card_id = f"{card.name.lower().replace(' ', '_')}_"
+        f"{len(self.registered_cards) + 1:03d}"
+
         self.registered_cards[card_id] = card
-        
+
         return card_id
 
     def create_match(self, card1_id: str, card2_id: str) -> Dict:
@@ -149,7 +146,7 @@ class TournamentPlatform:
             }
 
         total_rating = sum(
-            card.calculate_rating() 
+            card.calculate_rating()
             for card in self.registered_cards.values()
         )
         avg_rating = total_rating // len(self.registered_cards)

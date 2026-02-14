@@ -52,6 +52,8 @@ class CreatureCard(Card):
         Returns:
             A Dictionary containing the result of playing the creature
         """
+        if not isinstance(game_state, Dict):
+            raise ValueError("gama_state must be Dict type.")
         if not self.is_playable(game_state["mana"]):
             return {"error": "No Enough Mana"}
         game_state["mana"] -= self.cost
@@ -72,6 +74,9 @@ class CreatureCard(Card):
         Returns:
             A Dictionary containing the combat result
         """
+        if not isinstance(target, CreatureCard):
+            raise ValueError("gama_state must be CreatureCard type.")
+
         if target.health <= 0:
             return {"error": "The target has No Health (alredy death)"}
         combat_resolved = self.attack >= target.health

@@ -12,7 +12,6 @@ class Combatable(ABC):
     combat stats.
     """
 
-    @abstractmethod
     def attack(self, target) -> Dict:
         """
         Attack a target with this card.
@@ -24,6 +23,8 @@ class Combatable(ABC):
             A dictionary containing the attack result
         """
         pass
+
+    attack = abstractmethod(attack)
 
     @abstractmethod
     def defend(self, incoming_damage: int) -> Dict:

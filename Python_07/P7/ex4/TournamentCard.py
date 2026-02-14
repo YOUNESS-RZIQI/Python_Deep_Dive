@@ -95,6 +95,40 @@ class TournamentCard(Card, Combatable, Rankable):
             "critical_hit": is_critical
         }
 
+    def calculate_rating(self) -> int:
+        """
+        Calculate tournament rating based on wins, losses, and base stats.
+        Uses a simplified ELO-style calculation.
+
+        Returns:
+            The calculated rating
+        """
+        # Base rating + win bonus - loss penalty + power bonus
+        win_bonus = self.wins * 16
+        loss_penalty = self.losses * 16
+        power_bonus = (self.attack_power + self.defense_power) * 2
+
+        rating = self.base_rating + win_bonus - loss_penalty + power_bonus
+        return max(0, rating)  # Rating can't be negative
+
+    def get_tournament_stats(self) -> Dict:
+        """
+        Get comprehensive tournament statistics.
+
+        Returns:
+            A dictionary containing all tournament-related stats
+        """
+        return {
+            "name": self.name,
+            "rating": self.calculate_rating(),
+            "record": f"{self.wins}-{self.losses}",
+            "attack_power": self.attack_power,
+            "defense_power": self.defense_power,
+            "total_matches": self.wins + self.losses
+        }
+
+    # not manchend to be implemented.
+
     def defend(self, incoming_damage: int) -> Dict:
         """
         Defend against incoming damage in tournament.
@@ -129,22 +163,6 @@ class TournamentCard(Card, Combatable, Rankable):
             "combat_ready": True
         }
 
-    def calculate_rating(self) -> int:
-        """
-        Calculate tournament rating based on wins, losses, and base stats.
-        Uses a simplified ELO-style calculation.
-
-        Returns:
-            The calculated rating
-        """
-        # Base rating + win bonus - loss penalty + power bonus
-        win_bonus = self.wins * 16
-        loss_penalty = self.losses * 16
-        power_bonus = (self.attack_power + self.defense_power) * 2
-
-        rating = self.base_rating + win_bonus - loss_penalty + power_bonus
-        return max(0, rating)  # Rating can't be negative
-
     def update_wins(self, wins: int) -> None:
         """
         Update the number of wins.
@@ -177,22 +195,6 @@ class TournamentCard(Card, Combatable, Rankable):
             "losses": self.losses,
             "win_rate": (self.wins / (self.wins + self.losses) * 100 
                         if (self.wins + self.losses) > 0 else 0.0)
-        }
-
-    def get_tournament_stats(self) -> Dict:
-        """
-        Get comprehensive tournament statistics.
-
-        Returns:
-            A dictionary containing all tournament-related stats
-        """
-        return {
-            "name": self.name,
-            "rating": self.calculate_rating(),
-            "record": f"{self.wins}-{self.losses}",
-            "attack_power": self.attack_power,
-            "defense_power": self.defense_power,
-            "total_matches": self.wins + self.losses
         }
 
     def get_card_info(self) -> Dict:
