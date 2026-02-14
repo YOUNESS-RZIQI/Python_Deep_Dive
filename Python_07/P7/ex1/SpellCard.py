@@ -10,7 +10,7 @@ class EffectType(Enum):
     HEAL = "heal"
     BUFF = "buff"
     DEBUFF = "debuff"
-    NOEFFECT = "No effect"
+    CONSUMED = "consumed"
 
 
 class SpellCard(Card):
@@ -82,13 +82,16 @@ class SpellCard(Card):
         Returns:
             A Dictionary containing the resolution result
         """
+        if self.effect_type != EffectType.CONSUMED.value:
+            return {"Error": "! Effect alredy Consumed !"}
+
         ressult = {
             "spell": self.name,
             "effect_type": self.effect_type,
             "targets": [target for target in targets],
             "consumed": True
         }
-        self.effect_type = EffectType.NOEFFECT.value
+        self.effect_type = EffectType.CONSUMED.value
         return ressult
 
     def get_card_info(self) -> Dict:
