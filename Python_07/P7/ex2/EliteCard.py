@@ -1,5 +1,6 @@
 from typing import Dict, List
 from ex0.Card import Card
+from ex0.CreatureCard import CreatureCard
 from ex2.Combatable import Combatable
 from ex2.Magical import Magical
 
@@ -41,6 +42,7 @@ class EliteCard(Card, Combatable, Magical):
         self.attack_power = attack_power
         self.defense_power = defense_power
         self.current_mana = 0
+        self.is_in_battelfield = False
 
     def play(self, game_state: Dict) -> Dict:
         """
@@ -52,23 +54,22 @@ class EliteCard(Card, Combatable, Magical):
         Returns:
             A dictionary containing the result of playing the elite card
         """
-        if self.name not in game_state["battlefield"]:
+        if self.name in game_state["battlefield"]:
             raise ValueError(f"{self.name} is alredy in battlefield")
         if not isinstance(game_state, Dict):
             raise ValueError("gama_state must be Dict type.")
-
-        card_name = game_state.get("card_name", self.name)
-        available_mana = game_state.get("available_mana", 0)
+        if not self.is_playable(game_state["mana"]):
+            return {"Error:": "No enoughf mana"}
+        game_state["mana"] -= self.cost
+        game_state["battlefield"] += [self.name]
+        self.is_in_battelfield = True
 
         return {
-            "card_played": card_name,
+            "card_played": self.name,
             "mana_used": self.cost,
-            "effect": "Elite warrior deployed with combat and magic abilities",
-            "mana_remaining": (available_mana -
-                               self.cost if available_mana >= self.cost else 0)
         }
 
-    def attack(self, target) -> Dict:
+    def attack(self, target: CreatureCard) -> Dict:
         """
         Attack a target using physical combat.
         Has a chance for critical hits with bonus damage.
@@ -79,15 +80,18 @@ class EliteCard(Card, Combatable, Magical):
         Returns:
             A dictionary containing the attack result
         """
-        target_name = target if isinstance(target, str) else "Unknown"
+        if not self.is_in_battelfield or not target.is_in_battelfield:
+            raise ValueError("You can not attack wiht no Creature "
+                             "in the battelfield")
+        if target.health <= 0:
+            return {"error": "The target has No Health (alredy death)"}
 
-        damage = self.attack_power
-
+        target.health -= min(target.health, self.attack)
         return {
             "attacker": self.name,
-            "target": target_name,
-            "damage": damage,
-            "combat_type": "melee",
+            "target": target.name,
+            "damage": self.attack_power,
+            "combat_type": "melee"
         }
 
     def defend(self, incoming_damage: int) -> Dict:
@@ -136,6 +140,9 @@ class EliteCard(Card, Combatable, Magical):
         Returns:
             A dictionary containing the spell cast result
         """
+        if not isinstance(spell_name, str) or isinstance(targets, List):
+            raise ValueError("spell_name must be (str) and "
+                             "targets must be (List)")
         base_mana = len(targets) * 2
 
         return {
