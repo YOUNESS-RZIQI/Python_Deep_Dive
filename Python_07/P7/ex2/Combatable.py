@@ -1,6 +1,3 @@
-"""
-Combatable.py - Abstract interface for combat abilities
-"""
 from abc import ABC, abstractmethod
 from typing import Dict
 
@@ -26,7 +23,6 @@ class Combatable(ABC):
 
     attack = abstractmethod(attack)
 
-    @abstractmethod
     def defend(self, incoming_damage: int) -> Dict:
         """
         Defend against incoming damage.
@@ -39,7 +35,8 @@ class Combatable(ABC):
         """
         pass
 
-    @abstractmethod
+    defend = abstractmethod(defend)
+
     def get_combat_stats(self) -> Dict:
         """
         Get the combat statistics of this card.
@@ -48,3 +45,5 @@ class Combatable(ABC):
             A dictionary containing combat-related statistics
         """
         pass
+
+    get_combat_stats = abstractmethod(get_combat_stats)

@@ -1,8 +1,5 @@
-"""
-EliteCard.py - Elite card with both combat and magical capabilities
-"""
 from typing import Dict, List
-from ex0.Card import Card, Rarity
+from ex0.Card import Card
 from ex2.Combatable import Combatable
 from ex2.Magical import Magical
 
@@ -17,7 +14,7 @@ class EliteCard(Card, Combatable, Magical):
         self,
         name: str,
         cost: int,
-        rarity: Rarity,
+        rarity: str,
         attack_power: int,
         defense_power: int,
     ) -> None:

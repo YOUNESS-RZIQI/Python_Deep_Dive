@@ -1,6 +1,3 @@
-"""
-Magical.py - Abstract interface for magical abilities
-"""
 from abc import ABC, abstractmethod
 from typing import Dict, List
 
@@ -12,7 +9,6 @@ class Magical(ABC):
     and track magic stats.
     """
 
-    @abstractmethod
     def cast_spell(self, spell_name: str, targets: List) -> Dict:
         """
         Cast a spell on the given targets.
@@ -26,7 +22,8 @@ class Magical(ABC):
         """
         pass
 
-    @abstractmethod
+    cast_spell = abstractmethod(cast_spell)
+
     def channel_mana(self, amount: int) -> Dict:
         """
         Channel mana to increase magical power.
@@ -39,7 +36,8 @@ class Magical(ABC):
         """
         pass
 
-    @abstractmethod
+    channel_mana = abstractmethod(channel_mana)
+
     def get_magic_stats(self) -> Dict:
         """
         Get the magical statistics of this card.
@@ -48,3 +46,5 @@ class Magical(ABC):
             A dictionary containing magic-related statistics
         """
         pass
+
+    get_magic_stats = abstractmethod(get_magic_stats)
