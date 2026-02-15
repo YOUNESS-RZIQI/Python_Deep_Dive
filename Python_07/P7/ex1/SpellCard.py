@@ -92,7 +92,7 @@ class SpellCard(Card):
         for target in targets:
             if not target.is_in_battelfield:
                 raise ValueError("you can not do resolve_effect "
-                                 "before playing the card ??")
+                                 "the card of target not in battelfield ??")
 
         if self.effect_type == "":
             return {"Error": "! Effect alredy Consumed !"}

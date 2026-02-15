@@ -74,8 +74,8 @@ class ArtifactCard(Card):
             A Dictionary containing the activation result
         """
         if not self.is_in_battelfield:
-            raise ValueError("you can not activete ability of not ArtifactCard "
-                             "in the battalefield")
+            raise ValueError("you can not activete ability of not ArtifactCard"
+                             " in the battalefield")
         return {
             "artifact": self.name,
             "ability": self.effect,
