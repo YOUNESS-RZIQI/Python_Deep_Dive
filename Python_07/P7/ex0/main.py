@@ -20,14 +20,14 @@ def main():
                                    5)
 
         goblin_warrior = CreatureCard("Goblin Warrior", 2, Rarity.COMMON.value,
-                                      2, 8)
+                                      2, 2)
 
         print("CreatureCard Info:")
         print(fire_dragon.get_card_info())
         print()
 
         game_state = {"mana": 8, "battlefield": []}
-        goblin_warrior.play(game_state)
+        # goblin_warrior.play(game_state)
         print(f"Playing Fire Dragon with {game_state['mana']} mana available:")
         print(f"Playable: {fire_dragon.is_playable(game_state['mana'])}")
 

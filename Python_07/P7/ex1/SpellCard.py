@@ -10,7 +10,6 @@ class EffectType(Enum):
     HEAL = "heal"
     BUFF = "buff"
     DEBUFF = "debuff"
-    CONSUMED = "consumed"
 
 
 class SpellCard(Card):
@@ -36,7 +35,11 @@ class SpellCard(Card):
             effect_type: The type of effect (EffectType enum)
         """
         super().__init__(name, cost, rarity)
+        if not isinstance(effect_type, str):
+            raise ValueError("in SpellCard __init__ : "
+                             "effect_type must be (str)")
         self.effect_type = effect_type
+        self.is_in_battelfield = False
 
     def play(self, game_state: Dict) -> Dict:
         """
@@ -48,7 +51,7 @@ class SpellCard(Card):
         Returns:
             A Dictionary containing the result of casting the spell
         """
-        if self.name not in game_state["battlefield"]:
+        if self.name in game_state["battlefield"]:
             raise ValueError(f"{self.name} is alredy in battlefield")
         if not isinstance(game_state, Dict):
             raise ValueError("gama_state must be Dict type.")
@@ -57,6 +60,7 @@ class SpellCard(Card):
             return {"error": "No Enough Mana"}
         game_state["mana"] -= self.cost
         game_state["battlefield"] += [self.name]
+        self.is_in_battelfield = True
 
         effect_descriptions = {
             EffectType.DAMAGE.value: f"Deal {self.cost} damage to target",
@@ -82,7 +86,15 @@ class SpellCard(Card):
         Returns:
             A Dictionary containing the resolution result
         """
-        if self.effect_type != EffectType.CONSUMED.value:
+        if not self.is_in_battelfield:
+            raise ValueError("you can not do resolve_effect "
+                             "before playing the card ??")
+        for target in targets:
+            if not target.is_in_battelfield:
+                raise ValueError("you can not do resolve_effect "
+                                 "before playing the card ??")
+
+        if self.effect_type == "":
             return {"Error": "! Effect alredy Consumed !"}
 
         ressult = {
@@ -91,7 +103,7 @@ class SpellCard(Card):
             "targets": [target for target in targets],
             "consumed": True
         }
-        self.effect_type = EffectType.CONSUMED.value
+        self.effect_type = ""
         return ressult
 
     def get_card_info(self) -> Dict:

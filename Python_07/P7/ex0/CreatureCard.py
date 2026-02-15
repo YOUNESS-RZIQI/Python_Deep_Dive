@@ -32,6 +32,7 @@ class CreatureCard(Card):
 
         self.attack = attack
         self.health = health
+        self.is_in_battelfield = False
 
     def play(self, game_state: Dict) -> Dict:
         """
@@ -43,7 +44,7 @@ class CreatureCard(Card):
         Returns:
             A Dictionary containing the result of playing the creature
         """
-        if self.name not in game_state["battlefield"]:
+        if self.name in game_state["battlefield"]:
             raise ValueError(f"{self.name} is alredy in battlefield")
         if not isinstance(game_state, Dict):
             raise ValueError("gama_state must be Dict type.")
@@ -51,6 +52,7 @@ class CreatureCard(Card):
             return {"error": "No Enough Mana"}
         game_state["mana"] -= self.cost
         game_state["battlefield"] += [self.name]
+        self.is_in_battelfield = True
         return {
             "card_played": self.name,
             "mana_used": self.cost,
@@ -69,7 +71,9 @@ class CreatureCard(Card):
         """
         if not isinstance(target, CreatureCard):
             raise ValueError("gama_state must be CreatureCard type.")
-
+        if not self.is_in_battelfield or not target.is_in_battelfield:
+            raise ValueError("You can not attack wiht no Creature "
+                             "in the battelfield")
         if target.health <= 0:
             return {"error": "The target has No Health (alredy death)"}
         combat_resolved = self.attack >= target.health

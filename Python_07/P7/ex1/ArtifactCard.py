@@ -33,9 +33,12 @@ class ArtifactCard(Card):
 
         if not isinstance(durability, int) or durability <= 0:
             raise ValueError("Durability must be a positive integer")
-
+        if not isinstance(effect, str):
+            raise ValueError("in ArtifactCard Calss in __init__ the effect"
+                             " should be of type (str)")
         self.durability = durability
         self.effect = effect
+        self.is_in_battelfield = False
 
     def play(self, game_state: Dict) -> Dict:
         """
@@ -47,7 +50,7 @@ class ArtifactCard(Card):
         Returns:
             A Dictionary containing the result of playing the artifact
         """
-        if self.name not in game_state["battlefield"]:
+        if self.name in game_state["battlefield"]:
             raise ValueError(f"{self.name} is alredy in battlefield")
         if not isinstance(game_state, Dict):
             raise ValueError("gama_state must be Dict type.")
@@ -56,7 +59,7 @@ class ArtifactCard(Card):
             return {"error": "No Enough Mana"}
         game_state["mana"] -= self.cost
         game_state["battlefield"] += [self.name]
-
+        self.is_in_battelfield = True
         return {
             "card_played": self.name,
             "mana_used": self.cost,
@@ -70,13 +73,13 @@ class ArtifactCard(Card):
         Returns:
             A Dictionary containing the activation result
         """
-        if self.durability <= 0:
-            return {"error": "Durability is 0, so there is no effect"}
-        self.durability -= 1
+        if not self.is_in_battelfield:
+            raise ValueError("you can not activete ability of not ArtifactCard "
+                             "in the battalefield")
         return {
             "artifact": self.name,
             "ability": self.effect,
-            "durability_remaining": self.durability,
+            "durability": self.durability,
             "active": self.durability > 0
         }
 

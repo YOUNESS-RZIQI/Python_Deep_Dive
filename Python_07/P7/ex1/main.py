@@ -24,27 +24,25 @@ def main():
         mana_crystal = ArtifactCard("Mana Crystal", 2, Rarity.UNCOMMON.value,
                                     5, "+1 mana per turn")
 
-        print(lightning_bolt.resolve_effect(["me", "you"]))
-        print(lightning_bolt.resolve_effect(["me", "you"]))
-        # deck.add_card(lightning_bolt)
-        # deck.add_card(mana_crystal)
-        # deck.add_card(fire_dragon)
+        deck.add_card(lightning_bolt)
+        deck.add_card(mana_crystal)
+        deck.add_card(fire_dragon)
 
-        # stats = deck.get_deck_stats()
-        # print(f"Deck stats: {stats}\n")
+        stats = deck.get_deck_stats()
+        print(f"Deck stats: {stats}\n")
 
-        # deck.shuffle()
+        deck.shuffle()
 
-        # print("Drawing and playing cards:\n")
+        print("Drawing and playing cards:\n")
 
-        # game_state = {"mana": 10, "battlefield": []}
-        # for no_matter in range(len(deck.cards)):
-        #     card = deck.draw_card()
-        #     if card:
-        #         card_type = card.__class__.__name__.replace("Card", "")
-        #         print(f"Drew: {card.name} ({card_type})")
-        #         play_result = card.play(game_state)
-        #         print(f"Play result: {play_result}\n")
+        game_state = {"mana": 10, "battlefield": []}
+        for no_matter in range(len(deck.cards)):
+            card = deck.draw_card()
+            if card:
+                card_type = card.__class__.__name__.replace("Card", "")
+                print(f"Drew: {card.name} ({card_type})")
+                play_result = card.play(game_state)
+                print(f"Play result: {play_result}\n")
 
     except Exception:
         print()
@@ -58,3 +56,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+acitve
+while:
