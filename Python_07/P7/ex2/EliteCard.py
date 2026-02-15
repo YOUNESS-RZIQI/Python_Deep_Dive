@@ -11,6 +11,8 @@ class EliteCard(Card, Combatable, Magical):
     These are powerful cards with both physical combat and magical abilities.
     """
 
+    mana = 0
+
     def __init__(
         self,
         name: str,
@@ -41,7 +43,6 @@ class EliteCard(Card, Combatable, Magical):
 
         self.attack_power = attack_power
         self.defense_power = defense_power
-        self.current_mana = 0
         self.is_in_battelfield = False
 
     def play(self, game_state: Dict) -> Dict:
@@ -61,6 +62,7 @@ class EliteCard(Card, Combatable, Magical):
         if not self.is_playable(game_state["mana"]):
             return {"Error:": "No enoughf mana"}
         game_state["mana"] -= self.cost
+        self.mana -= self.cost
         game_state["battlefield"] += [self.name]
         self.is_in_battelfield = True
 
@@ -81,12 +83,9 @@ class EliteCard(Card, Combatable, Magical):
             A dictionary containing the attack result
         """
         if not self.is_in_battelfield or not target.is_in_battelfield:
-            raise ValueError("You can not attack wiht no Creature "
+            raise ValueError("You can not attack wiht no Card "
                              "in the battelfield")
-        if target.health <= 0:
-            return {"error": "The target has No Health (alredy death)"}
 
-        target.health -= min(target.health, self.attack)
         return {
             "attacker": self.name,
             "target": target.name,
@@ -105,6 +104,9 @@ class EliteCard(Card, Combatable, Magical):
         Returns:
             A dictionary containing the defense result
         """
+        if not self.is_in_battelfield:
+            raise ValueError("You can not defend wiht no Creature "
+                             "in the battelfield")
 
         damage_blocked = min(incoming_damage, self.defense_power)
         new_defese_power = self.defense_power - incoming_damage
@@ -129,7 +131,7 @@ class EliteCard(Card, Combatable, Magical):
             "defense_power": self.defense_power,
         }
 
-    def cast_spell(self, spell_name: str, targets: List) -> Dict:
+    def cast_spell(self, spell_name: str, targets: List["EliteCard"]) -> Dict:
         """
         Cast a magical spell on the given targets.
 
@@ -140,7 +142,15 @@ class EliteCard(Card, Combatable, Magical):
         Returns:
             A dictionary containing the spell cast result
         """
-        if not isinstance(spell_name, str) or isinstance(targets, List):
+        if not self.is_in_battelfield:
+            raise ValueError("You can not cast_spell wiht no Creature "
+                             "in the battelfield")
+        for tar in targets:
+            if not tar.is_in_battelfield:
+                raise ValueError("You can not cast_spell wiht no Creature "
+                                 "in the battelfield")
+
+        if not isinstance(spell_name, str) or not isinstance(targets, List):
             raise ValueError("spell_name must be (str) and "
                              "targets must be (List)")
         base_mana = len(targets) * 2
@@ -148,7 +158,7 @@ class EliteCard(Card, Combatable, Magical):
         return {
             "caster": self.name,
             "spell": spell_name,
-            "targets": [t for t in targets],
+            "targets": [t.name for t in targets],
             "mana_used": base_mana,
         }
 
@@ -162,11 +172,11 @@ class EliteCard(Card, Combatable, Magical):
         Returns:
             A dictionary containing the channeling result
         """
-        self.current_mana += amount
+        self.mana += amount
 
         return {
             "channeled": amount,
-            "total_mana": self.current_mana
+            "total_mana": self.mana
         }
 
     def get_magic_stats(self) -> Dict:
@@ -176,11 +186,8 @@ class EliteCard(Card, Combatable, Magical):
         Returns:
             A dictionary containing magic-related statistics
         """
-        return {
-            "name": self.name,
-            "current_mana": self.current_mana,
-            "spell_ready": self.current_mana >= 1
-        }
+        return {self.name: "Not emplimented yet, there is no info about it ?"}
+        ...
 
     def get_card_info(self) -> Dict:
         """

@@ -1,7 +1,6 @@
-from ex0.Card import Card, Rarity
+def say_hi():
+    print("hi")
+    ...
 
-class a(Card):
-    def play(self):
-        pass
-
-a("name", 5, Rarity.COMMON)
+    say_hi
+    
