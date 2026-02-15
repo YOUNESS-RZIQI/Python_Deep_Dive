@@ -58,7 +58,7 @@ def main():
         arcane_warrior.mana = 10
         mana = arcane_warrior.mana
         game_state = {"mana": mana, "battlefield": []}
-        # arcane_warrior.mana = game_state["mana"]
+
         arcane_warrior.play(game_state)
         enemy.play(game_state)
         print(f"\n{game_state['battlefield']}\n")
