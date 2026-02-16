@@ -27,7 +27,7 @@ def main():
         print()
 
         game_state = {"mana": 8, "battlefield": []}
-        # goblin_warrior.play(game_state)
+        goblin_warrior.play(game_state)
         print(f"Playing Fire Dragon with {game_state['mana']} mana available:")
         print(f"Playable: {fire_dragon.is_playable(game_state['mana'])}")
 

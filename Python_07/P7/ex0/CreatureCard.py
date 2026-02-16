@@ -69,6 +69,8 @@ class CreatureCard(Card):
         Returns:
             A Dictionary containing the combat result
         """
+        if self == target:
+            raise ValueError("! you Can Not Attack Your Self ? !")
         if not isinstance(target, CreatureCard):
             raise ValueError("gama_state must be CreatureCard type.")
         if not self.is_in_battelfield or not target.is_in_battelfield:
