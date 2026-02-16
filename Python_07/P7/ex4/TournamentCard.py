@@ -41,11 +41,11 @@ class TournamentCard(Card, Combatable, Rankable):
 
         self.attack_power = attack_power
         self.defense_power = defense_power
+        self.is_in_battelfield = False
 
-        # Tournament stats
         self.wins = 0
         self.losses = 0
-        self.base_rating = 1200  # Starting ELO-style rating
+        self.base_rating = 1200
 
     def play(self, game_state: Dict) -> Dict:
         """
@@ -57,18 +57,24 @@ class TournamentCard(Card, Combatable, Rankable):
         Returns:
             A dictionary containing the result of playing the card
         """
-        card_name = game_state.get("card_name", self.name)
-        available_mana = game_state.get("available_mana", 0)
+        if not isinstance(game_state, Dict):
+            raise TypeError("game satate must be of type (Dict)")
 
+        if self.name in game_state["battlefield"]:
+            raise ValueError(f"{self.name} is alredy in battlefield")
+
+        if not self.is_playable(game_state["mana"]):
+            return {"error": "No Enough Mana"}
+
+        game_state["mana"] -= self.cost
+        game_state["battlefield"] += [self.name]
+        self.is_in_battelfield = True
         return {
-            "card_played": card_name,
+            "card_played": self.name,
             "mana_used": self.cost,
-            "effect": "Tournament warrior ready for battle",
-            "mana_remaining": (available_mana - self.cost
-                               if available_mana >= self.cost else 0)
-        }
+            "effect": "Tournament warrior ready for battle"}
 
-    def attack(self, target) -> Dict:
+    def attack(self, target: "TournamentCard") -> Dict:
         """
         Attack a target in tournament combat.
 
@@ -78,21 +84,22 @@ class TournamentCard(Card, Combatable, Rankable):
         Returns:
             A dictionary containing the attack result
         """
-        target_name = target if isinstance(target, str) else getattr(
-            target, "name", "Unknown"
-        )
+        if self == target:
+            raise ValueError("! you Can Not Attack Your Self ? !")
 
-        # Random critical hit chance
-        is_critical = random.random() < 0.2
-        damage = self.attack_power
-        if is_critical:
-            damage = int(self.attack_power * 1.5)
+        if not self.is_in_battelfield or not target.is_in_battelfield:
+            raise ValueError("You can not attack wiht no Creature "
+                             "in the battelfield")
+        if target.defense_power <= 0:
+            return {"error": "The target has No defense_power (alredy death)"}
 
+        combat_resolved = self.attack_power >= target.defense_power
+        target.defense_power -= min(target.defense_power, self.attack_power)
         return {
             "attacker": self.name,
-            "target": target_name,
-            "damage": damage,
-            "critical_hit": is_critical
+            "target": target.name,
+            "damage_dealt": self.attack_power,
+            "combat_resolved": combat_resolved
         }
 
     def calculate_rating(self) -> int:
