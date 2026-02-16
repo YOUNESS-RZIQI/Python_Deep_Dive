@@ -11,7 +11,6 @@ class Rankable(ABC):
     Provides methods for calculating ratings and tracking wins/losses.
     """
 
-    @abstractmethod
     def calculate_rating(self) -> int:
         """
         Calculate the current rating of this entity.
@@ -21,7 +20,8 @@ class Rankable(ABC):
         """
         pass
 
-    @abstractmethod
+    calculate_rating = abstractmethod(calculate_rating)
+
     def update_wins(self, wins: int) -> None:
         """
         Update the number of wins.
@@ -31,7 +31,8 @@ class Rankable(ABC):
         """
         pass
 
-    @abstractmethod
+    update_wins = abstractmethod(update_wins)
+
     def update_losses(self, losses: int) -> None:
         """
         Update the number of losses.
@@ -41,7 +42,8 @@ class Rankable(ABC):
         """
         pass
 
-    @abstractmethod
+    update_losses = abstractmethod(update_losses)
+
     def get_rank_info(self) -> Dict:
         """
         Get ranking information.
@@ -50,3 +52,5 @@ class Rankable(ABC):
             A dictionary containing ranking details
         """
         pass
+
+    get_rank_info = abstractmethod(get_rank_info)

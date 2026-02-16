@@ -6,7 +6,7 @@ from ex4.Rankable import Rankable
 
 
 class TournamentCard(Card, Combatable, Rankable):
-    """
+    """Rankable
     Tournament card that combines Card, Combatable, and Rankable interfaces.
     These cards can participate in ranked tournaments and track their performance.
     """
@@ -41,7 +41,7 @@ class TournamentCard(Card, Combatable, Rankable):
 
         self.attack_power = attack_power
         self.defense_power = defense_power
-        
+
         # Tournament stats
         self.wins = 0
         self.losses = 0
