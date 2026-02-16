@@ -36,8 +36,8 @@ class SpellCard(Card):
         """
         super().__init__(name, cost, rarity)
         if not isinstance(effect_type, str):
-            raise ValueError("in SpellCard __init__ : "
-                             "effect_type must be (str)")
+            raise TypeError("in SpellCard __init__ : "
+                            "effect_type must be (str)")
         self.effect_type = effect_type
         self.is_in_battelfield = False
 
@@ -54,7 +54,7 @@ class SpellCard(Card):
         if self.name in game_state["battlefield"]:
             raise ValueError(f"{self.name} is alredy in battlefield")
         if not isinstance(game_state, Dict):
-            raise ValueError("gama_state must be Dict type.")
+            raise TypeError("gama_state must be Dict type.")
 
         if not self.is_playable(game_state["mana"]):
             return {"error": "No Enough Mana"}

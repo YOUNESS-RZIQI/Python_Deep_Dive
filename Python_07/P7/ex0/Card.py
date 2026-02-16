@@ -29,11 +29,11 @@ class Card(ABC):
             rarity: The rarity tier of the card (Rarity enum)
         """
         if not isinstance(name, str):
-            raise ValueError("Error: name should be of type(str)")
+            raise TypeError("Error: name should be of type(str)")
         if not isinstance(cost, int) or cost <= 0:
-            raise ValueError("Error: cost must be positive integer (int)")
+            raise Exception("Error: cost must be positive integer (int)")
         if not isinstance(rarity, str):
-            raise ValueError("Error: cost should be of type(Enum: 'Rarity')")
+            raise TypeError("Error: cost should be of type(Enum: 'Rarity')")
 
         self.name = name
         self.cost = cost
@@ -79,6 +79,6 @@ class Card(ABC):
             True if the card can be played, False otherwise
         """
         if not isinstance(available_mana, int):
-            raise ValueError("available_mana mus be of type (int)")
+            raise TypeError("available_mana mus be of type (int)")
 
         return available_mana >= self.cost

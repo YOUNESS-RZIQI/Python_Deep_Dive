@@ -21,14 +21,14 @@ class CreatureCard(Card):
             health: The health points of the creature
 
         Raises:
-            ValueError: If attack or health are not positive integers
+            Exception: If attack or health are not positive integers
         """
         super().__init__(name, cost, rarity)
 
         if not isinstance(attack, int) or attack <= 0:
-            raise ValueError("Attack must be a positive integer")
+            raise Exception("Attack must be a positive integer")
         if not isinstance(health, int) or health <= 0:
-            raise ValueError("Health must be a positive integer")
+            raise Exception("Health must be a positive integer")
 
         self.attack = attack
         self.health = health
@@ -47,7 +47,7 @@ class CreatureCard(Card):
         if self.name in game_state["battlefield"]:
             raise ValueError(f"{self.name} is alredy in battlefield")
         if not isinstance(game_state, Dict):
-            raise ValueError("gama_state must be Dict type.")
+            raise TypeError("gama_state must be Dict type.")
         if not self.is_playable(game_state["mana"]):
             return {"error": "No Enough Mana"}
         game_state["mana"] -= self.cost
@@ -72,7 +72,7 @@ class CreatureCard(Card):
         if self == target:
             raise ValueError("! you Can Not Attack Your Self ? !")
         if not isinstance(target, CreatureCard):
-            raise ValueError("gama_state must be CreatureCard type.")
+            raise TypeError("gama_state must be CreatureCard type.")
         if not self.is_in_battelfield or not target.is_in_battelfield:
             raise ValueError("You can not attack wiht no Creature "
                              "in the battelfield")

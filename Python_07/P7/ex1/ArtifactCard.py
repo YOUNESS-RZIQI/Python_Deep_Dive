@@ -27,15 +27,15 @@ class ArtifactCard(Card):
             effect: Description of the artifact's permanent ability
 
         Raises:
-            ValueError: If durability is not a positive integer
+            Exception: If durability is not a positive integer
         """
         super().__init__(name, cost, rarity)
 
         if not isinstance(durability, int) or durability <= 0:
-            raise ValueError("Durability must be a positive integer")
+            raise Exception("Durability must be a positive integer")
         if not isinstance(effect, str):
-            raise ValueError("in ArtifactCard Calss in __init__ the effect"
-                             " should be of type (str)")
+            raise TypeError("in ArtifactCard Calss in __init__ the effect"
+                            " should be of type (str)")
         self.durability = durability
         self.effect = effect
         self.is_in_battelfield = False
@@ -53,7 +53,7 @@ class ArtifactCard(Card):
         if self.name in game_state["battlefield"]:
             raise ValueError(f"{self.name} is alredy in battlefield")
         if not isinstance(game_state, Dict):
-            raise ValueError("gama_state must be Dict type.")
+            raise TypeError("gama_state must be Dict type.")
 
         if not self.is_playable(game_state["mana"]):
             return {"error": "No Enough Mana"}

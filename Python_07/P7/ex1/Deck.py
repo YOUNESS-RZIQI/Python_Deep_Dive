@@ -21,7 +21,7 @@ class Deck:
             card: Any card that inherits from the Card base class
         """
         if not isinstance(card, Card):
-            ValueError("in add_card method : card must be (class Card)")
+            TypeError("in add_card method : card must be (class Card)")
         self.cards.append(card)
 
     def remove_card(self, card_name: str) -> bool:
@@ -35,8 +35,8 @@ class Deck:
             True if card was found and removed, False otherwise
         """
         if not isinstance(card_name, str):
-            raise ValueError("! in remove_card method : card_name "
-                             "must be (str) !")
+            raise TypeError("! in remove_card method : card_name "
+                            "must be (str) !")
         for i, card in enumerate(self.cards):
             if card.name == card_name:
                 self.cards.pop(i)
