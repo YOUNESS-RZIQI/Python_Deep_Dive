@@ -1,5 +1,5 @@
 from typing import Dict
-import random
+from ex0.CreatureCard import CreatureCard
 from ex0.Card import Card, Rarity
 from ex2.Combatable import Combatable
 from ex4.Rankable import Rankable
@@ -110,13 +110,12 @@ class TournamentCard(Card, Combatable, Rankable):
         Returns:
             The calculated rating
         """
-        # Base rating + win bonus - loss penalty + power bonus
         win_bonus = self.wins * 16
         loss_penalty = self.losses * 16
         power_bonus = (self.attack_power + self.defense_power) * 2
 
         rating = self.base_rating + win_bonus - loss_penalty + power_bonus
-        return max(0, rating)  # Rating can't be negative
+        return max(0, rating)
 
     def get_tournament_stats(self) -> Dict:
         """
@@ -167,7 +166,6 @@ class TournamentCard(Card, Combatable, Rankable):
             "name": self.name,
             "attack_power": self.attack_power,
             "defense_power": self.defense_power,
-            "combat_ready": True
         }
 
     def update_wins(self, wins: int) -> None:
@@ -177,6 +175,8 @@ class TournamentCard(Card, Combatable, Rankable):
         Args:
             wins: Number of wins to add
         """
+        if not isinstance(wins, int) or wins < 0:
+            raise Exception("wins must be positive integer (int)")
         self.wins += wins
 
     def update_losses(self, losses: int) -> None:
@@ -186,6 +186,9 @@ class TournamentCard(Card, Combatable, Rankable):
         Args:
             losses: Number of losses to add
         """
+        if not isinstance(losses, int) or losses < 0:
+            raise Exception("losses must be positive integer (int)")
+
         self.losses += losses
 
     def get_rank_info(self) -> Dict:
@@ -200,8 +203,8 @@ class TournamentCard(Card, Combatable, Rankable):
             "rating": self.calculate_rating(),
             "wins": self.wins,
             "losses": self.losses,
-            "win_rate": (self.wins / (self.wins + self.losses) * 100 
-                        if (self.wins + self.losses) > 0 else 0.0)
+            "win_rate": (self.wins / (self.wins + self.losses) * 100
+                         if (self.wins + self.losses) > 0 else 0.0)
         }
 
     def get_card_info(self) -> Dict:

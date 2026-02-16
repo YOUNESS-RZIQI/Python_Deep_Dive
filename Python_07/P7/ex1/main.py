@@ -17,7 +17,7 @@ def main():
     deck = Deck()
 
     try:
-        fire_dragon = CreatureCard("Fire Dragon", 5, Rarity.LEGENDARY.value,
+        fire_dragon = CreatureCard("Fire Dragon", -5, Rarity.LEGENDARY.value,
                                    7, 5)
         lightning_bolt = SpellCard("Lightning Bolt", 3, Rarity.COMMON.value,
                                    EffectType.DAMAGE.value)

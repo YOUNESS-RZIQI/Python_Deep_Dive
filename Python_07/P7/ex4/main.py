@@ -21,7 +21,7 @@ def main():
     fire_dragon = TournamentCard(
         "Fire Dragon",
         5,
-        Rarity.LEGENDARY,
+        Rarity.LEGENDARY.value,
         7,
         5
     )
@@ -29,7 +29,7 @@ def main():
     ice_wizard = TournamentCard(
         "Ice Wizard",
         4,
-        Rarity.EPIC,
+        Rarity.EPIC.value,
         5,
         6
     )
