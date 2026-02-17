@@ -25,7 +25,7 @@ def main():
         engine = GameEngine()
         engine.how_mush_to_creat = 3
         engine.configure_engine(factory, strategy)
-        engine.strategy.mana = 6
+        engine.strategy.mana = 20
 
         print("Simulating aggressive turn...")
         turn_result = engine.simulate_turn()
@@ -41,8 +41,7 @@ def main():
 
         print("Abstract Factory + Strategy Pattern: Maximum"
               " flexibility achieved!")
-        print()
-        print(len(factory.cards.keys()))
+
     except Exception:
         print()
         sys.stderr.write("\033[31m")

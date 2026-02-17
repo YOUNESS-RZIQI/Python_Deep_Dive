@@ -209,7 +209,7 @@ class FantasyCardFactory(CardFactory):
     def extensible_card_type_registration(self, card_obj: Card) -> None:
         if not isinstance(card_obj, Card):
             raise TypeError("card_obj must be of type Card")
-        if card_obj.get_card_info()[] in self.cards.keys():
-            self.cards[card_obj] += [card_obj.name]
+        if card_obj.get_card_info()["type"] in self.cards.keys():
+            self.cards[card_obj.get_card_info()["type"]] += [card_obj.name]
         else:
-            self.cards[card_obj] = [card_obj.name]
+            self.cards[card_obj.get_card_info()["type"]] = [card_obj.name]
