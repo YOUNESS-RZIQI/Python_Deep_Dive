@@ -187,9 +187,9 @@ class FantasyCardFactory(CardFactory):
                 self.create_artifact()
             ])
 
-            if card.name not in used_names:
+            if card.name not in se:
                 deck_cards.append(card)
-                used_names.add(card.name)
+                # used_names.add(card.name)
 
         return {"deck": deck_cards}
 
