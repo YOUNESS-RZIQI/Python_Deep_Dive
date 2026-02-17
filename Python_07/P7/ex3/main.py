@@ -41,7 +41,8 @@ def main():
 
         print("Abstract Factory + Strategy Pattern: Maximum"
               " flexibility achieved!")
-
+        print()
+        print(len(factory.cards.keys()))
     except Exception:
         print()
         sys.stderr.write("\033[31m")

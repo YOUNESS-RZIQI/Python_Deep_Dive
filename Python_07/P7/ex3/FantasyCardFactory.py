@@ -40,7 +40,6 @@ class FantasyCardFactory(CardFactory):
             "Sea Serpent",
             "Stone Troll",
             "Golden",
-            "Dark Vampire",
             "Goblin",
         ]
 
@@ -176,12 +175,21 @@ class FantasyCardFactory(CardFactory):
         Returns:
             A dictionary containing deck information of created Cards.
         """
+        if size >= 32 or size < 0:
+            raise ValueError("the Size must be : -1 < size < 32")
         deck_cards: list[Card] = []
+        used_names = set()
 
-        for _ in range(size):
-            ls = [self.create_creature(), self.create_spell(),
-                  self.create_artifact()]
-            deck_cards.append(random.choice(ls))
+        while len(deck_cards) < size:
+            card = random.choice([
+                self.create_creature(),
+                self.create_spell(),
+                self.create_artifact()
+            ])
+
+            if card.name not in used_names:
+                deck_cards.append(card)
+                used_names.add(card.name)
 
         return {"deck": deck_cards}
 
@@ -202,6 +210,6 @@ class FantasyCardFactory(CardFactory):
         if not isinstance(card_obj, Card):
             raise TypeError("card_obj must be of type Card")
         if card_obj.name in self.cards.keys():
-            self.cards[card_obj.name] += [card_obj]
+            self.cards[card_obj] += [card_obj.name]
         else:
-            self.cards[card_obj.name] = [card_obj]
+            self.cards[card_obj] = [card_obj.name]
