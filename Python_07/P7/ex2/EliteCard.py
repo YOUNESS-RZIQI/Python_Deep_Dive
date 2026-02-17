@@ -1,5 +1,5 @@
 from typing import Dict, List
-from ex0.Card import Card
+from ex0.Card import Card, CardType
 from ex0.CreatureCard import CreatureCard
 from ex2.Combatable import Combatable
 from ex2.Magical import Magical
@@ -203,6 +203,7 @@ class EliteCard(Card, Combatable, Magical):
             A dictionary containing all card information
         """
         info = super().get_card_info()
+        info["type"] = CardType.ELITE.value
         info["attack_power"] = self.attack_power
         info["defense_power"] = self.defense_power
         return info

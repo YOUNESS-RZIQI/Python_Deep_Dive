@@ -1,5 +1,5 @@
 from typing import Dict, List
-from ex0.Card import Card
+from ex0.Card import Card, CardType
 from ex0.CreatureCard import CreatureCard
 from enum import Enum
 
@@ -116,5 +116,6 @@ class SpellCard(Card):
             A Dictionary containing all card information
         """
         info = super().get_card_info()
+        info["type"] = CardType.SPELL.value
         info["effect_type"] = self.effect_type
         return info

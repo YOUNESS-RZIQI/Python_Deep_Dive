@@ -1,5 +1,5 @@
 from typing import Dict
-from ex0.Card import Card
+from ex0.Card import Card, CardType
 
 
 class ArtifactCard(Card):
@@ -91,6 +91,7 @@ class ArtifactCard(Card):
             A Dictionary containing all card information
         """
         info = super().get_card_info()
+        info["type"] = CardType.ARTIFACT.value
         info["durability"] = self.durability
         info["effect"] = self.effect
         return info

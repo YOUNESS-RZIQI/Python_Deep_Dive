@@ -12,6 +12,14 @@ class Rarity(Enum):
     LEGENDARY = "Legendary"
 
 
+class CardType(Enum):
+    CREATURE = "Creature"
+    SPELL = "Spell"
+    ARTIFACT = "Artifact"
+    ELITE = "Elite"
+    TOURNAMENT = "Tournament"
+
+
 class Card(ABC):
     """
     Abstract base class representing a universal card blueprint.
@@ -64,8 +72,7 @@ class Card(ABC):
         return {
             "name": self.name,
             "cost": self.cost,
-            "rarity": self.rarity,
-            "type": self.__class__.__name__.replace("Card", "")
+            "rarity": self.rarity
         }
 
     def is_playable(self, available_mana: int) -> bool:

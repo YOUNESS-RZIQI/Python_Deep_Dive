@@ -1,6 +1,5 @@
 from typing import Dict
-from ex0.CreatureCard import CreatureCard
-from ex0.Card import Card, Rarity
+from ex0.Card import Card, Rarity, CardType
 from ex2.Combatable import Combatable
 from ex4.Rankable import Rankable
 
@@ -133,8 +132,6 @@ class TournamentCard(Card, Combatable, Rankable):
             "total_matches": self.wins + self.losses
         }
 
-    # not manchend to be implemented.
-
     def defend(self, incoming_damage: int) -> Dict:
         """
         Defend against incoming damage in tournament.
@@ -215,6 +212,7 @@ class TournamentCard(Card, Combatable, Rankable):
             A dictionary containing all card information
         """
         info = super().get_card_info()
+        info["type"] = CardType.TOURNAMENT.value
         info["attack_power"] = self.attack_power
         info["defense_power"] = self.defense_power
         info["rating"] = self.calculate_rating()

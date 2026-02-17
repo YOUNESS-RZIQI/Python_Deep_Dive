@@ -1,5 +1,5 @@
 from typing import Dict
-from ex0.Card import Card
+from ex0.Card import Card, CardType
 
 
 class CreatureCard(Card):
@@ -95,6 +95,7 @@ class CreatureCard(Card):
             A Dictionary containing all card information including combat stats
         """
         info = super().get_card_info()
+        info["type"] = CardType.CREATURE.value
         info["attack"] = self.attack
         info["health"] = self.health
         return info

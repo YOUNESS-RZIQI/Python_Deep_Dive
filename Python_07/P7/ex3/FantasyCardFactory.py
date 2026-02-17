@@ -182,14 +182,14 @@ class FantasyCardFactory(CardFactory):
 
         while len(deck_cards) < size:
             card = random.choice([
-                self.create_creature(),
-                self.create_spell(),
-                self.create_artifact()
+                self.create_creature,
+                self.create_spell,
+                self.create_artifact
             ])
-
-            if card.name not in se:
+            card = card()
+            if card.name not in used_names:
                 deck_cards.append(card)
-                # used_names.add(card.name)
+                used_names.add(card.name)
 
         return {"deck": deck_cards}
 
@@ -209,7 +209,7 @@ class FantasyCardFactory(CardFactory):
     def extensible_card_type_registration(self, card_obj: Card) -> None:
         if not isinstance(card_obj, Card):
             raise TypeError("card_obj must be of type Card")
-        if card_obj.name in self.cards.keys():
+        if card_obj.get_card_info()[] in self.cards.keys():
             self.cards[card_obj] += [card_obj.name]
         else:
             self.cards[card_obj] = [card_obj.name]
