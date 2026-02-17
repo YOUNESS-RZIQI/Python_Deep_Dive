@@ -15,7 +15,7 @@ class FantasyCardFactory(CardFactory):
 
     def __init__(self) -> None:
         """Initialize the fantasy card factory with card templates."""
-        self.cards = {"creatures": [], "spells": [], "artifacts": []}
+        self.cards = {}
 
     def create_creature(
         self,
@@ -44,10 +44,12 @@ class FantasyCardFactory(CardFactory):
             "Goblin",
         ]
 
+        rar = random.choice(list(Rarity))
+
         creature = CreatureCard(
             name=random.choice(creatures_list),
             cost=random.randint(1, 9),
-            rarity=random.choice(list(Rarity)),
+            rarity=rar.value,
             attack=random.randint(1, 9),
             health=random.randint(1, 9),
         )
@@ -57,7 +59,7 @@ class FantasyCardFactory(CardFactory):
         elif isinstance(name_or_power, int):
             creature.cost = name_or_power
 
-        self.cards["creatures"].append(creature)
+        self.extensible_card_type_registration(creature)
         return creature
 
     def create_spell(
@@ -86,11 +88,14 @@ class FantasyCardFactory(CardFactory):
             "Arcane Blast"
         ]
 
+        rar = random.choice(list(Rarity))
+        eff = random.choice(list(EffectType))
+
         spell = SpellCard(
             name=random.choice(spell_names),
             cost=random.randint(1, 9),
-            rarity=random.choice(list(Rarity)),
-            effect_type=random.choice(list(EffectType))
+            rarity=rar.value,
+            effect_type=eff.value
         )
 
         if isinstance(name_or_power, str):
@@ -98,7 +103,7 @@ class FantasyCardFactory(CardFactory):
         elif isinstance(name_or_power, int):
             spell.cost = name_or_power
 
-        self.cards["spells"].append(spell)
+        self.extensible_card_type_registration(spell)
         return spell
 
     def create_artifact(
@@ -142,11 +147,13 @@ class FantasyCardFactory(CardFactory):
             "Gain extra mana each turn"
         ]
 
+        rar = random.choice(list(Rarity))
+
         num = random.randint(0, len(artifact_names) - 1)
         artifact = ArtifactCard(
             name=(artifact_names[num]),
             cost=random.randint(1, 9),
-            rarity=random.choice(list(Rarity)),
+            rarity=rar.value,
             durability=random.randint(1, 5),
             effect=(artifact_effects[num])
         )
@@ -156,7 +163,7 @@ class FantasyCardFactory(CardFactory):
         elif isinstance(name_or_power, int):
             artifact.durability = max(1, name_or_power)
 
-        self.cards["artifacts"].append(artifact)
+        self.extensible_card_type_registration(artifact)
         return artifact
 
     def create_themed_deck(self, size: int) -> Dict:
@@ -190,3 +197,11 @@ class FantasyCardFactory(CardFactory):
             "spells": ["Fireball"],
             "artifacts": ["mana_ring"]
         }
+
+    def extensible_card_type_registration(self, card_obj: Card) -> None:
+        if not isinstance(card_obj, Card):
+            raise TypeError("card_obj must be of type Card")
+        if card_obj.name in self.cards.keys():
+            self.cards[card_obj.name] += [card_obj]
+        else:
+            self.cards[card_obj.name] = [card_obj]

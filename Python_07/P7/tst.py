@@ -1,6 +1,18 @@
-def say_hi():
-    print("hi")
-    ...
+def hi(dic: dict, card):
+    if card in dic.keys():
+        dic[card] += [card]
+    else:
+        dic[card] = [card]
 
-    say_hi
-    
+dic: dict = {"creature": []}
+
+hi(dic, "creature")
+hi(dic, "creature")
+hi(dic, "creature")
+hi(dic, "creature")
+hi(dic, "spell")
+hi(dic, "spell")
+hi(dic, "spell")
+hi(dic, "spell")
+
+print(dic)
