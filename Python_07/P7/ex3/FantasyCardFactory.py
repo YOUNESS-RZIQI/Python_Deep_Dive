@@ -58,7 +58,6 @@ class FantasyCardFactory(CardFactory):
         elif isinstance(name_or_power, int):
             creature.cost = name_or_power
 
-        self.extensible_card_type_registration(creature)
         return creature
 
     def create_spell(
@@ -102,7 +101,6 @@ class FantasyCardFactory(CardFactory):
         elif isinstance(name_or_power, int):
             spell.cost = name_or_power
 
-        self.extensible_card_type_registration(spell)
         return spell
 
     def create_artifact(
@@ -162,7 +160,6 @@ class FantasyCardFactory(CardFactory):
         elif isinstance(name_or_power, int):
             artifact.durability = max(1, name_or_power)
 
-        self.extensible_card_type_registration(artifact)
         return artifact
 
     def create_themed_deck(self, size: int) -> Dict:
@@ -205,3 +202,26 @@ class FantasyCardFactory(CardFactory):
             "spells": ["Fireball"],
             "artifacts": ["mana_ring"]
         }
+
+    def register_data_of_card_to_creat(self, card_id: str,
+                                       class_reference: Card,
+                                       constructor_data: tuple[str, ...]):
+        if not isinstance(card_id, str):
+            raise TypeError("card_id must be of type (str)")
+        if not isinstance(class_reference, Card):
+            raise TypeError("Class_reference must be of type (Card)")
+        if not isinstance(constructor_data, tuple):
+            raise TypeError("Card_type must be of type (tuple)")
+
+        self.data.update({card_id: {"data": constructor_data,
+                                    "clas": class_reference}})
+
+    def creat_card(self, card_id: str):
+        if not isinstance(card_id, str):
+            raise TypeError("card_to_creat must be (str)")
+
+        data = (item for item in self.data[card_id]["data"])
+        clas = self.data[card_id]["clas"]
+        obj = clas(data)
+        return obj
+
