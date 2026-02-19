@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Dict, Optional, Union
+from typing import Dict
 from ex0.Card import Card
 
 
@@ -9,10 +9,7 @@ class CardFactory(ABC):
     Defines methods for creating different card types and themed decks.
     """
 
-    def create_creature(
-        self,
-        name_or_power: Optional[Union[str, int]] = None
-    ) -> Card:
+    def create_creature(self, name_or_power: str | int | None = None) -> Card:
         """
         Create a creature card.
 
@@ -26,10 +23,7 @@ class CardFactory(ABC):
 
     create_creature = abstractmethod(create_creature)
 
-    def create_spell(
-        self,
-        name_or_power: Optional[Union[str, int]] = None
-    ) -> Card:
+    def create_spell(self, name_or_power: str | int | None = None) -> Card:
         """
         Create a spell card.
 
@@ -43,10 +37,7 @@ class CardFactory(ABC):
 
     create_spell = abstractmethod(create_spell)
 
-    def create_artifact(
-        self,
-        name_or_power: Optional[Union[str, int]] = None
-    ) -> Card:
+    def create_artifact(self, name_or_power: str | int | None = None) -> Card:
         """
         Create an artifact card.
 
