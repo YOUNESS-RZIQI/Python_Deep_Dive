@@ -3,9 +3,6 @@ from ex3.AggressiveStrategy import AggressiveStrategy
 from ex3.GameEngine import GameEngine
 import sys
 import traceback
-from ex0.CreatureCard import CreatureCard
-from ex1.ArtifactCard import ArtifactCard
-from ex0.Card import Rarity
 
 
 def main():
