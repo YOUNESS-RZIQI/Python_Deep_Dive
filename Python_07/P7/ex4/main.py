@@ -40,13 +40,13 @@ def main():
 
         print(f"{fire_dragon.name} (ID: {dragon_id}):")
         print("- Interfaces: "
-              f"{platform.generate_tournament_report()['Interfaces']}")
+              f"{platform.get_intrfaces()}")
         print(f"- Rating: {fire_dragon.calculate_rating()}")
         print(f"- Record: {fire_dragon.wins}-{fire_dragon.losses}\n")
 
         print(f"{ice_wizard.name} (ID: {wizard_id}):")
         print("- Interfaces: "
-              f"{platform.generate_tournament_report()['Interfaces']}")
+              f"{platform.get_intrfaces()}")
         print(f"- Rating: {ice_wizard.calculate_rating()}")
         print(f"- Record: {ice_wizard.wins}-{ice_wizard.losses}\n")
 

@@ -133,7 +133,6 @@ class TournamentPlatform:
                 "matches_played": 0,
                 "avg_rating": 0,
                 "platform_status": "inactive",
-                "Interfaces": "[Card, Combatable, Rankable]"
             }
 
         total_rating = sum(
@@ -148,7 +147,6 @@ class TournamentPlatform:
             "avg_rating": avg_rating,
             "platform_status": "active" if
             self.matches_played > 0 else "ready",
-            "Interfaces": "[Card, Combatable, Rankable]"
         }
 
     def get_card_by_id(self, card_id: str) -> Optional[TournamentCard]:
@@ -164,3 +162,6 @@ class TournamentPlatform:
         if not isinstance(card_id, str):
             raise TypeError("Card_id must be of type (str)")
         return self.registered_cards.get(card_id)
+
+    def get_intrfaces(self):
+        return "[Card, Combatable, Rankable]"
