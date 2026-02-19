@@ -54,15 +54,12 @@ class TournamentPlatform:
         card1 = self.registered_cards[card1_id]
         card2 = self.registered_cards[card2_id]
 
-        # Simulate match - simple combat based on attack/defense
         card1_score = card1.attack_power + card1.defense_power
         card2_score = card2.attack_power + card2.defense_power
 
-        # Add some randomness to the match
         card1_score += random.randint(-2, 2)
         card2_score += random.randint(-2, 2)
 
-        # Determine winner
         if card1_score > card2_score:
             winner_id = card1_id
             loser_id = card2_id
@@ -74,19 +71,15 @@ class TournamentPlatform:
             winner = card2
             loser = card1
 
-        # Calculate rating changes (simplified ELO)
         winner_old_rating = winner.calculate_rating()
         loser_old_rating = loser.calculate_rating()
 
-        # Update wins/losses
         winner.update_wins(1)
         loser.update_losses(1)
 
-        # Calculate new ratings
         winner_new_rating = winner.calculate_rating()
         loser_new_rating = loser.calculate_rating()
 
-        # Record match
         match_result = {
             "winner": winner_id,
             "loser": loser_id,
@@ -112,7 +105,7 @@ class TournamentPlatform:
 
         for card_id, card in self.registered_cards.items():
             leaderboard.append({
-                "rank": 0,  # Will be set after sorting
+                "rank": 0,
                 "card_id": card_id,
                 "name": card.name,
                 "rating": card.calculate_rating(),
@@ -121,10 +114,8 @@ class TournamentPlatform:
                 "losses": card.losses
             })
 
-        # Sort by rating (highest first)
         leaderboard.sort(key=lambda x: x["rating"], reverse=True)
 
-        # Assign ranks
         for i, entry in enumerate(leaderboard):
             entry["rank"] = i + 1
 

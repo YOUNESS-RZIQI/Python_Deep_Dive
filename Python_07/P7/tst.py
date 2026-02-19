@@ -1,18 +1,10 @@
-def hi(dic: dict, card):
-    if card in dic.keys():
-        dic[card] += [card]
-    else:
-        dic[card] = [card]
-
-dic: dict = {"creature": []}
-
-hi(dic, "creature")
-hi(dic, "creature")
-hi(dic, "creature")
-hi(dic, "creature")
-hi(dic, "spell")
-hi(dic, "spell")
-hi(dic, "spell")
-hi(dic, "spell")
-
-print(dic)
+        # Simulate match - simple combat based on attack/defense
+        # Add some randomness to the match
+        # Determine winner
+        # Calculate rating changes (simplified ELO)
+        # Update wins/losses
+        # Calculate new ratings
+        # Record match
+  # Will be set after sorting
+        # Sort by rating (highest first)
+        # Assign ranks
