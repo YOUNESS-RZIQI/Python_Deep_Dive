@@ -6,6 +6,7 @@ from ex4.TournamentCard import TournamentCard
 from ex4.TournamentPlatform import TournamentPlatform
 import sys
 import traceback
+import random
 
 
 def main():
@@ -23,16 +24,16 @@ def main():
             "Fire Dragon",
             5,
             Rarity.LEGENDARY.value,
-            7,
-            5
+            random.randint(1, 7),
+            random.randint(1, 7)
         )
 
         ice_wizard = TournamentCard(
             "Ice Wizard",
             4,
             Rarity.EPIC.value,
-            5,
-            6
+            random.randint(1, 7),
+            random.randint(1, 7)
         )
 
         dragon_id = platform.register_card(fire_dragon)

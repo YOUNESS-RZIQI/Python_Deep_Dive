@@ -1,5 +1,4 @@
 from typing import Dict, List, Optional
-import random
 from ex4.TournamentCard import TournamentCard
 
 
@@ -60,9 +59,6 @@ class TournamentPlatform:
 
         card1_score = card1.attack_power + card1.defense_power
         card2_score = card2.attack_power + card2.defense_power
-
-        card1_score += random.randint(-2, 2)
-        card2_score += random.randint(-2, 2)
 
         if card1_score > card2_score:
             winner_id = card1_id
