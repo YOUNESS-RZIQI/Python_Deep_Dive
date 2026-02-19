@@ -47,9 +47,9 @@ class CreatureCard(Card):
         if self.name in game_state["battlefield"]:
             raise ValueError(f"{self.name} is alredy in battlefield")
         if not isinstance(game_state, Dict):
-            raise TypeError("gama_state must be Dict type.")
+            raise TypeError("gama_state must be (Dict) type.")
         if not self.is_playable(game_state["mana"]):
-            return {"error": "No Enough Mana"}
+            raise ValueError("Error:  No Enough Mana")
         game_state["mana"] -= self.cost
         game_state["battlefield"] += [self.name]
         self.is_in_battelfield = True
@@ -72,10 +72,10 @@ class CreatureCard(Card):
         if self == target:
             raise ValueError("! you Can Not Attack Your Self ? !")
         if not isinstance(target, CreatureCard):
-            raise TypeError("gama_state must be CreatureCard type.")
+            raise TypeError("target must be of type (CreatureCard).")
         if not self.is_in_battelfield or not target.is_in_battelfield:
-            raise ValueError("You can not attack wiht no Creature "
-                             "in the battelfield")
+            raise ValueError("if you want to attack you need to be"
+                             "in the battelfield.")
         if target.health <= 0:
             return {"error": "The target has No Health (alredy death)"}
         combat_resolved = self.attack >= target.health

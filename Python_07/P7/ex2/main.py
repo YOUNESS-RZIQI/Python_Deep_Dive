@@ -9,7 +9,7 @@ def main():
     """
     Demonstrate the ability system with multiple interfaces.
     """
-    print("=== DataDeck Ability System ===\n")
+    print("\n=== DataDeck Ability System ===\n")
 
     try:
         arcane_warrior = EliteCard(
@@ -61,7 +61,6 @@ def main():
 
         arcane_warrior.play(game_state)
         enemy.play(game_state)
-        print(f"\n{game_state['battlefield']}\n")
         print("Combat phase:")
         attack_result = arcane_warrior.attack(enemy)
         print(f"Attack result: {attack_result}")

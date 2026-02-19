@@ -1,6 +1,3 @@
-"""
-main.py - Demonstration of the Card Foundation
-"""
 from ex0.Card import Rarity
 from ex0.CreatureCard import CreatureCard
 import sys
@@ -11,7 +8,7 @@ def main():
     """
     Demonstrate the abstract base class design and concrete implementation.
     """
-    print("=== DataDeck Card Foundation ===\n")
+    print("\n=== DataDeck Card Foundation ===\n")
     print("Testing Abstract Base Class Design:\n")
 
     try:

@@ -36,8 +36,7 @@ class SpellCard(Card):
         """
         super().__init__(name, cost, rarity)
         if not isinstance(effect_type, str):
-            raise TypeError("in SpellCard __init__ : "
-                            "effect_type must be (str)")
+            raise TypeError("effect_type must be of type (str)")
         self.effect_type = effect_type
         self.is_in_battelfield = False
 
@@ -57,7 +56,8 @@ class SpellCard(Card):
             raise TypeError("gama_state must be Dict type.")
 
         if not self.is_playable(game_state["mana"]):
-            return {"error": "No Enough Mana"}
+            raise ValueError("Error:  No Enough Mana")
+
         game_state["mana"] -= self.cost
         game_state["battlefield"] += [self.name]
         self.is_in_battelfield = True
@@ -92,21 +92,21 @@ class SpellCard(Card):
         for target in targets:
             if not target.is_in_battelfield:
                 raise ValueError("you can not do resolve_effect "
-                                 "the card of target not in battelfield ??")
+                                 "on target not in battelfield ??")
             if self == target:
-                raise ValueError("! you Can Not Attack Your Self ? !")
+                raise ValueError("! you Can Not Attack Your Self  !")
 
         if self.effect_type == "":
-            return {"Error": "! Effect alredy Consumed !"}
+            raise ValueError("Error: ! Effect alredy Consumed !")
 
-        ressult = {
+        result = {
             "spell": self.name,
             "effect_type": self.effect_type,
             "targets": [target for target in targets],
             "consumed": True
         }
         self.effect_type = ""
-        return ressult
+        return result
 
     def get_card_info(self) -> Dict:
         """

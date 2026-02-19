@@ -41,7 +41,7 @@ class Card(ABC):
         if not isinstance(cost, int) or cost <= 0:
             raise Exception("Error: cost must be positive integer (int)")
         if not isinstance(rarity, str):
-            raise TypeError("Error: cost should be of type('str')")
+            raise TypeError("Error: rarity should be of type('str')")
 
         self.name = name
         self.cost = cost

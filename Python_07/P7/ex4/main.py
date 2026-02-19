@@ -39,7 +39,7 @@ def main():
         wizard_id = platform.register_card(ice_wizard)
 
         print(f"{fire_dragon.name} (ID: {dragon_id}):")
-        print("- Interfaces: [Card, Combatable, Rankable]")
+        print(f"- Interfaces: {platform.generate_tournament_report()}")
         print(f"- Rating: {fire_dragon.calculate_rating()}")
         print(f"- Record: {fire_dragon.wins}-{fire_dragon.losses}\n")
 

@@ -213,7 +213,7 @@ class FantasyCardFactory(CardFactory):
         if not isinstance(constructor_data, tuple):
             raise TypeError("Card_type must be of type (tuple)")
 
-        self.data[card_id] = {"data": constructor_data,
+        self.data[card_id] = {"constructor_data": constructor_data,
                               "class": class_reference}
 
     def creat_card(self, card_id: str):
@@ -224,5 +224,8 @@ class FantasyCardFactory(CardFactory):
             raise KeyError(f"No card registered with id '{card_id}'")
 
         class_ref = self.data[card_id]["class"]
-        constructor_data = self.data[card_id]["data"]
+        constructor_data = self.data[card_id]["constructor_data"]
         return class_ref(*constructor_data)
+
+    def get_factory_name(self):
+        return "FantasyCardFactory"

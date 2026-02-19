@@ -137,7 +137,8 @@ class TournamentPlatform:
                 "total_cards": 0,
                 "matches_played": 0,
                 "avg_rating": 0,
-                "platform_status": "inactive"
+                "platform_status": "inactive",
+                "Interfaces": "[Card, Combatable, Rankable]"
             }
 
         total_rating = sum(
@@ -150,7 +151,9 @@ class TournamentPlatform:
             "total_cards": len(self.registered_cards),
             "matches_played": self.matches_played,
             "avg_rating": avg_rating,
-            "platform_status": "active" if self.matches_played > 0 else "ready"
+            "platform_status": "active" if
+            self.matches_played > 0 else "ready",
+            "Interfaces": "[Card, Combatable, Rankable]"
         }
 
     def get_card_by_id(self, card_id: str) -> Optional[TournamentCard]:

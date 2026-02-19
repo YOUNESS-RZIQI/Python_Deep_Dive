@@ -11,13 +11,13 @@ def main():
     """
     Demonstrate the deck builder system with polymorphism.
     """
-    print("=== DataDeck Deck Builder ===\n")
-    print("Building deck with different card types...\n")
+    print("\n=== DataDeck Deck Builder ===\n")
+    print("Building deck with different card types...")
 
     deck = Deck()
 
     try:
-        fire_dragon = CreatureCard("Fire Dragon", -5, Rarity.LEGENDARY.value,
+        fire_dragon = CreatureCard("Fire Dragon", 5, Rarity.LEGENDARY.value,
                                    7, 5)
         lightning_bolt = SpellCard("Lightning Bolt", 3, Rarity.COMMON.value,
                                    EffectType.DAMAGE.value)
@@ -44,14 +44,14 @@ def main():
                 play_result = card.play(game_state)
                 print(f"Play result: {play_result}\n")
 
+        print("Polymorphism in action: Same interface, different card "
+              "behaviors!")
+
     except Exception:
         print()
         sys.stderr.write("\033[31m")
         traceback.print_exc()
         print()
-
-    print("Polymorphism in action: Same interface, different card "
-          "behaviors!")
 
 
 if __name__ == "__main__":

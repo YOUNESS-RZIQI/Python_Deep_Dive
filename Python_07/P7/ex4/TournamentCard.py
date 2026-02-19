@@ -52,7 +52,7 @@ class TournamentCard(Card, Combatable, Rankable):
             raise ValueError(f"{self.name} is alredy in battlefield")
 
         if not self.is_playable(game_state["mana"]):
-            return {"error": "No Enough Mana"}
+            raise ValueError("Error:  No Enough Mana")
 
         game_state["mana"] -= self.cost
         game_state["battlefield"] += [self.name]

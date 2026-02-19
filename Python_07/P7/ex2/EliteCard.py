@@ -61,7 +61,8 @@ class EliteCard(Card, Combatable, Magical):
         if not isinstance(game_state, Dict):
             raise TypeError("gama_state must be Dict type.")
         if not self.is_playable(game_state["mana"]):
-            return {"Error:": "No enoughf mana"}
+            raise ValueError("Error:  No Enough Mana")
+
         game_state["mana"] -= self.cost
         self.mana -= self.cost
         game_state["battlefield"] += [self.name]
@@ -84,8 +85,8 @@ class EliteCard(Card, Combatable, Magical):
             A dictionary containing the attack result
         """
         if not self.is_in_battelfield or not target.is_in_battelfield:
-            raise ValueError("You can not attack wiht no Card "
-                             "in the battelfield")
+            raise ValueError("You can not attack wiht a Card "
+                             "not in the battelfield")
         if self == target:
             raise ValueError("! you Can Not Attack Your Self ? !")
 
@@ -108,7 +109,7 @@ class EliteCard(Card, Combatable, Magical):
             A dictionary containing the defense result
         """
         if not self.is_in_battelfield:
-            raise ValueError("You can not defend wiht no Creature "
+            raise ValueError("You can not defend wiht be "
                              "in the battelfield")
         if incoming_damage < 0:
             raise ValueError("Damage Invalid , Damage must be Positive.")
@@ -147,19 +148,20 @@ class EliteCard(Card, Combatable, Magical):
             A dictionary containing the spell cast result
         """
         if not self.is_in_battelfield:
-            raise ValueError("You can not cast_spell wiht no Creature "
+            raise ValueError("You can not cast_spell wihtout be "
                              "in the battelfield")
         for tar in targets:
             if not tar.is_in_battelfield:
-                raise ValueError("You can not cast_spell wiht no Creature "
+                raise ValueError("You can not cast_spell wihtout be "
                                  "in the battelfield")
 
             if self == tar:
                 raise ValueError("! you Can Not Attack Your Self ? !")
 
-        if not isinstance(spell_name, str) or not isinstance(targets, List):
-            raise TypeError("spell_name must be (str) and "
-                            "targets must be (List)")
+        if not isinstance(spell_name, str):
+            raise TypeError("spell_name must be of type (str)")
+        if not isinstance(targets, List):
+            raise TypeError("targets must be of type (List)")
         base_mana = len(targets) * 2
         self.num_of_speles_used += 1
         return {
@@ -193,7 +195,7 @@ class EliteCard(Card, Combatable, Magical):
         Returns:
             A dictionary containing magic-related statistics
         """
-        return {"How many Spells Used": self.num_of_speles_used}
+        return {"Spells Used": self.num_of_speles_used}
 
     def get_card_info(self) -> Dict:
         """

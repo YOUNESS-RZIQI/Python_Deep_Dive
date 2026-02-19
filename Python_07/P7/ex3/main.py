@@ -11,12 +11,12 @@ def main():
     """
 
     try:
-        print("=== DataDeck Game Engine ===\n")
+        print("\n=== DataDeck Game Engine ===\n")
         factory = FantasyCardFactory()
         strategy = AggressiveStrategy()
 
         print("Configuring Fantasy Card Game...")
-        print(f"Factory: {factory.__class__.__name__}")
+        print(f"Factory: {factory.get_factory_name()}")
         print(f"Strategy: {strategy.get_strategy_name()}")
 
         supported_types = factory.get_supported_types()
