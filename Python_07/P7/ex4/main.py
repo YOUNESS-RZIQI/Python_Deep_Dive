@@ -39,12 +39,14 @@ def main():
         wizard_id = platform.register_card(ice_wizard)
 
         print(f"{fire_dragon.name} (ID: {dragon_id}):")
-        print(f"- Interfaces: {platform.generate_tournament_report()}")
+        print("- Interfaces: "
+              f"{platform.generate_tournament_report()['Interfaces']}")
         print(f"- Rating: {fire_dragon.calculate_rating()}")
         print(f"- Record: {fire_dragon.wins}-{fire_dragon.losses}\n")
 
         print(f"{ice_wizard.name} (ID: {wizard_id}):")
-        print("- Interfaces: [Card, Combatable, Rankable]")
+        print("- Interfaces: "
+              f"{platform.generate_tournament_report()['Interfaces']}")
         print(f"- Rating: {ice_wizard.calculate_rating()}")
         print(f"- Record: {ice_wizard.wins}-{ice_wizard.losses}\n")
 
@@ -54,9 +56,9 @@ def main():
 
         print("Tournament Leaderboard:")
         leaderboard = platform.get_leaderboard()
-        for entry in leaderboard:
-            print(f"{entry['rank']}. {entry['name']} - "
-                  f"Rating: {entry['rating']} ({entry['record']})")
+        for dc in leaderboard:
+            print(f"{dc['rank']}. {dc['name']} - "
+                  f"Rating: {dc['rating']} ({dc['record']})")
 
         print()
 

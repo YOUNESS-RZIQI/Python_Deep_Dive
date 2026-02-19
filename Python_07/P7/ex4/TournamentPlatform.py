@@ -25,8 +25,8 @@ class TournamentPlatform:
         Returns:
             A unique ID for the registered card
         """
-        card_id = f"{card.name.lower().replace(' ', '_')}_"
-        f"{len(self.registered_cards) + 1:03d}"
+        card_id = (f"{card.name.lower().replace(' ', '_')}_"
+                   f"{len(self.registered_cards) + 1:03d}")
 
         self.registered_cards[card_id] = card
 
@@ -75,22 +75,17 @@ class TournamentPlatform:
             winner = card2
             loser = card1
 
-        winner_old_rating = winner.calculate_rating()
-        loser_old_rating = loser.calculate_rating()
+        winner_new_rating = winner.calculate_rating()
+        loser_new_rating = loser.calculate_rating()
 
         winner.update_wins(1)
         loser.update_losses(1)
-
-        winner_new_rating = winner.calculate_rating()
-        loser_new_rating = loser.calculate_rating()
 
         match_result = {
             "winner": winner_id,
             "loser": loser_id,
             "winner_rating": winner_new_rating,
             "loser_rating": loser_new_rating,
-            "rating_change_winner": winner_new_rating - winner_old_rating,
-            "rating_change_loser": loser_new_rating - loser_old_rating
         }
 
         self.matches_played += 1

@@ -34,6 +34,8 @@ class TournamentCard(Card, Combatable, Rankable):
         self.wins = 0
         self.losses = 0
         self.base_rating = 1200
+        self.winner_new_rating = 0
+        self.loser_new_rating = 0
 
     def play(self, game_state: Dict) -> Dict:
         """
