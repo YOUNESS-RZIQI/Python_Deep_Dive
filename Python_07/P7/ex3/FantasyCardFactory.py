@@ -15,7 +15,7 @@ class FantasyCardFactory(CardFactory):
 
     def __init__(self) -> None:
         """Initialize the fantasy card factory with card templates."""
-        self.cards = {}
+        self.data = {}
 
     def create_creature(
         self,
@@ -205,11 +205,3 @@ class FantasyCardFactory(CardFactory):
             "spells": ["Fireball"],
             "artifacts": ["mana_ring"]
         }
-
-    def extensible_card_type_registration(self, card_obj: Card) -> None:
-        if not isinstance(card_obj, Card):
-            raise TypeError("card_obj must be of type Card")
-        if card_obj.get_card_info()["type"] in self.cards.keys():
-            self.cards[card_obj.get_card_info()["type"]] += [card_obj.name]
-        else:
-            self.cards[card_obj.get_card_info()["type"]] = [card_obj.name]
