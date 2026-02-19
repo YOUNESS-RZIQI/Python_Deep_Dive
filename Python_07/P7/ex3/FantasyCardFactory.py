@@ -204,24 +204,25 @@ class FantasyCardFactory(CardFactory):
         }
 
     def register_data_of_card_to_creat(self, card_id: str,
-                                       class_reference: Card,
+                                       class_reference: type,
                                        constructor_data: tuple[str, ...]):
         if not isinstance(card_id, str):
             raise TypeError("card_id must be of type (str)")
-        if not isinstance(class_reference, Card):
+        if not isinstance(class_reference, type):
             raise TypeError("Class_reference must be of type (Card)")
         if not isinstance(constructor_data, tuple):
             raise TypeError("Card_type must be of type (tuple)")
 
-        self.data.update({card_id: {"data": constructor_data,
-                                    "clas": class_reference}})
+        self.data[card_id] = {"data": constructor_data,
+                              "class": class_reference}
 
     def creat_card(self, card_id: str):
         if not isinstance(card_id, str):
             raise TypeError("card_to_creat must be (str)")
 
-        data = (item for item in self.data[card_id]["data"])
-        clas = self.data[card_id]["clas"]
-        obj = clas(data)
-        return obj
+        if card_id not in self.data:
+            raise KeyError(f"No card registered with id '{card_id}'")
 
+        class_ref = self.data[card_id]["class"]
+        constructor_data = self.data[card_id]["data"]
+        return class_ref(*constructor_data)
