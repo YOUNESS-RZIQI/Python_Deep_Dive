@@ -45,7 +45,7 @@ def main():
     print(f"- Record: {fire_dragon.wins}-{fire_dragon.losses}\n")
 
     print(f"{ice_wizard.name} (ID: {wizard_id}):")
-    print(f"- Interfaces: [Card, Combatable, Rankable]")
+    print("- Interfaces: [Card, Combatable, Rankable]")
     print(f"- Rating: {ice_wizard.calculate_rating()}")
     print(f"- Record: {ice_wizard.wins}-{ice_wizard.losses}\n")
 

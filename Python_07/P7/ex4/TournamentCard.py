@@ -5,10 +5,6 @@ from ex4.Rankable import Rankable
 
 
 class TournamentCard(Card, Combatable, Rankable):
-    """Rankable
-    Tournament card that combines Card, Combatable, and Rankable interfaces.
-    These cards can participate in ranked tournaments and track their performance.
-    """
 
     def __init__(
         self,
@@ -20,13 +16,6 @@ class TournamentCard(Card, Combatable, Rankable):
     ) -> None:
         """
         Initialize a tournament card.
-
-        Args:
-            name: The name of the card
-            cost: The mana cost to play this card
-            rarity: The rarity tier of the card (Rarity enum)
-            attack_power: Attack power for combat
-            defense_power: Defense capability
 
         Raises:
             ValueError: If attack_power or defense_power are not positive
@@ -103,9 +92,6 @@ class TournamentCard(Card, Combatable, Rankable):
 
     def calculate_rating(self) -> int:
         """
-        Calculate tournament rating based on wins, losses, and base stats.
-        Uses a simplified ELO-style calculation.
-
         Returns:
             The calculated rating
         """

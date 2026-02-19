@@ -46,10 +46,14 @@ class TournamentPlatform:
         Raises:
             ValueError: If either card ID is not found
         """
+        if not isinstance(card1_id, str) or not isinstance(card2_id, str):
+            raise TypeError("card_id must be (str)")
         if card1_id not in self.registered_cards:
             raise ValueError(f"Card ID {card1_id} not found")
         if card2_id not in self.registered_cards:
             raise ValueError(f"Card ID {card2_id} not found")
+        if card1_id == card2_id:
+            raise ValueError("you can not do match against your self")
 
         card1 = self.registered_cards[card1_id]
         card2 = self.registered_cards[card2_id]
@@ -159,4 +163,6 @@ class TournamentPlatform:
         Returns:
             The tournament card, or None if not found
         """
+        if not isinstance(card_id, str):
+            raise TypeError("Card_id must be of type (str)")
         return self.registered_cards.get(card_id)
