@@ -1,0 +1,20 @@
+To Learn : 
+
+1) how to know is it a real env or ven ? Detection.
+2) env info (venv)
+3) instractions when not in venv
+4) show package paths difference (env, venv)
+5) The constuct.
+
+
+Project Requirments:
+
+   •  Create a program called construct.py that:
+
+    1)•  Detects whether it is running inside a virtual environment
+
+    2)• Displays information about the current Python environment
+
+    3)• Provides instructions for creating and activating a virtual environment if none is detected
+
+    4)• Shows the difference between global and virtual environment package locations

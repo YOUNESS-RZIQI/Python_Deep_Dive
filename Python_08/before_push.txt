@@ -1,0 +1,5 @@
+1) check General Instuctions :  Include clear comments, test (with/without virtual env, with/without dependencies)...
+
+2) got to peaple tha they alredy done with this module, and tell them to ask you (per learing ).
+
+3) check correction sheet .
