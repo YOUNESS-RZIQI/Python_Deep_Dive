@@ -1,28 +1,29 @@
-#!/usr/bin/env python3
-
 import sys
 import os
 import site
 
 
 def is_virtual_environment() -> bool:
-    """
-    Detect if the program is running inside a virtual environment.
-    """
+
+    # Detect if the program is running inside a virtual environment.
+
     return sys.prefix != sys.base_prefix
 
 
 def get_venv_name() -> str:
-    """
-    Return the virtual environment folder name.
-    """
-    return os.path.basename(sys.prefix)
+
+    # Return the virtual environment name.
+
+    venv_path = os.environ.get("VIRTUAL_ENV")
+    if venv_path:
+        return os.path.basename(venv_path)
+    return "Unknown"
 
 
 def show_environment_info() -> None:
-    """
-    Display information about the current Python environment.
-    """
+
+    # Display information about the current Python environment.
+
     try:
         print(f"Current Python: {sys.executable}")
 
@@ -35,35 +36,33 @@ def show_environment_info() -> None:
             print("the global system.\n")
 
             print("Package installation path:")
-            for path in site.getsitepackages():
-                print(path)
+            print(site.getsitepackages()[0])
 
         else:
             print("Virtual Environment: None detected\n")
             print("WARNING: You're in the global environment!")
             print("The machines can see everything you install.\n")
 
-            print("Global package installation path:")
-            for path in site.getsitepackages():
-                print(path)
-
             print("\nTo enter the construct, run:")
-            print("python -m venv matrix_env")
-            print("source matrix_env/bin/activate  # On Unix")
-            print("matrix_env\\Scripts\\activate   # On Windows")
+            print("python3 -m venv matrix_env")
+            print("source matrix_env/bin/activate # On Unix")
+            print("matrix_env")
+            print("Scripts")
+            print("activate # On Windows")
+            print("\nThen run this program again.")
 
     except Exception as error:
-        print(f"Error detecting environment: {error}")
+        print(f"Error detecting in show_environment_info(): {error}")
 
 
 def main() -> None:
-    """
-    Main program entry.
-    """
+
+    # Main program entry.
+
     if is_virtual_environment():
-        print("MATRIX STATUS: Welcome to the construct\n")
+        print("\nMATRIX STATUS: Welcome to the construct\n")
     else:
-        print("MATRIX STATUS: You're still plugged in\n")
+        print("\nMATRIX STATUS: You're still plugged in\n")
 
     show_environment_info()
 

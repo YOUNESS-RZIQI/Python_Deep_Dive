@@ -1,0 +1,5 @@
+1) for checking if venv or env : sys.prifex ==? sys.base_prefix
+
+2) the current Python environment : sys.excutable
+
+3) the prifex is the path ( the location .)
