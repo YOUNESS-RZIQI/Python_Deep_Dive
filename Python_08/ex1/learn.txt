@@ -6,3 +6,10 @@
     * write in c, py, c++, Meson, Fortan | Prove : ofissial github : https://github.com/numpy/numpy
     * normal array [1, 2, 4] , np.array [1 2 4]
     * insted of ls2[0][0] we can do ls2[0,0]
+    * for the np.random.rnadint is not like the random . it is more fas the normal random generate one number each time but the np.random can generate alot at once and it is developed in c so it is more fast.
+
+4) Pandas : 
+
+    * 
+
+5) how does poetry work .
