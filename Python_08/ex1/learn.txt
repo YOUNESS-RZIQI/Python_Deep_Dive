@@ -4,3 +4,5 @@
 
 3) Numpy : 
     * write in c, py, c++, Meson, Fortan | Prove : ofissial github : https://github.com/numpy/numpy
+    * normal array [1, 2, 4] , np.array [1 2 4]
+    * insted of ls2[0][0] we can do ls2[0,0]

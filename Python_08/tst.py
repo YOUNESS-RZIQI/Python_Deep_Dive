@@ -1,5 +1,7 @@
-import importlib
+import numpy
 
-a = importlib.import_module("sys")
+ls = [[1, 2, 3]]
+ls2 = numpy.array(ls)
 
-print(getattr(a, "__version__", "unknown"))
+print(ls)
+print(ls2[0,0])
