@@ -2,4 +2,5 @@
 
 2) pip install -r (read from a file) requirments.txt
 
-3) 
+3) Numpy : 
+    * write in c, py, c++, Meson, Fortan | Prove : ofissial github : https://github.com/numpy/numpy

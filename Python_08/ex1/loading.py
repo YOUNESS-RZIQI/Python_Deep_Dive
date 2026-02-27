@@ -66,7 +66,7 @@ def main() -> None:
         print("pip install -r requirements.txt")
         print("or")
         print("poetry install")
-        sys.exit(1)
+        return
 
     analyze_data()
 

@@ -12,15 +12,17 @@ DEFAULTS = {
     "ZION_ENDPOINT":  None,
 }
 
+
 def get_config():
     missing = []
-    config  = {}
+    config = {}
     for key, default in DEFAULTS.items():
         value = os.getenv(key, default)
         if value is None:
             missing.append(key)
         config[key] = value
     return config, missing
+
 
 def main():
     print("ORACLE STATUS:")
@@ -50,6 +52,7 @@ def main():
     print(f"  [OK] Production overrides {'active' if mode == 'production' else 'available'}")
 
     print("\nThe Oracle sees all configurations.")
+
 
 if __name__ == "__main__":
     main()
