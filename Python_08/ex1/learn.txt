@@ -1,0 +1,5 @@
+1) pip freeze > requirments.txt
+
+2) pip install -r (read from a file) requirments.txt
+
+3) 

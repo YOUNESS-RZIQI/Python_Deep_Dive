@@ -1,8 +1,5 @@
-import sys
-import os
+import importlib
 
+a = importlib.import_module("sys")
 
-# print(sys.prefix)
-# print(sys.base_prefix)
-# print(os.path.basename(sys.prefix))
-print(os.environ.get("VIRTUAL_ENV"))
+print(getattr(a, "__version__", "unknown"))
