@@ -23,26 +23,26 @@ def check_dependency(name: str) -> bool:
 
 
 def analyze_data() -> None:
-    # import numpy as numpy
-    # import pandas as pandas
-    # import matplotlib.pyplot as matplotlib.pyplot
+    import numpy as np
+    import pandas as pd
+    import matplotlib.pyplot as plt
 
     print("\nAnalyzing Matrix data...")
 
     # Generate sample data
-    data = numpy.random.randint(1, 100, size=1000)
-    df = pandas.DataFrame({"values": data})
+    data = np.random.randint(1, 100, size=1000)
+    df = pd.DataFrame({"values": data})
 
     print(f"Processing {len(df)} data points...")
 
     # Simple matplotlib plot (no styling)
-    matplotlib.pyplot.plot(df["values"])
-    matplotlib.pyplot.title("Matrix Data")
-    matplotlib.pyplot.xlabel("Index")
-    matplotlib.pyplot.ylabel("Value")
+    plt.plot(df["values"])
+    plt.title("Matrix Data")
+    plt.xlabel("Index")
+    plt.ylabel("Value")
 
-    matplotlib.pyplot.savefig("matrix_analysis.png")
-    matplotlib.pyplot.close()
+    plt.savefig("matrix_analysis.png")
+    plt.close()
 
     print("Generating visualization...")
     print("\nAnalysis complete!")
