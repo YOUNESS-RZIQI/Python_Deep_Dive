@@ -50,6 +50,9 @@ def analyze_data() -> None:
 
 
 def main() -> None:
+
+    # the mean program that runs the program.
+
     print("LOADING STATUS: Loading programs...\n")
     print("Checking dependencies:\n")
 
